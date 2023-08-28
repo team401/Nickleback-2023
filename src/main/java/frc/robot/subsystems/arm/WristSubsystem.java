@@ -24,8 +24,8 @@ public class WristSubsystem {
         return wristMotor.getEncoder().getPosition();
     }
 
-    public void setMotorPower(double speed) {
-        wristMotor.set(speed);
+    public void setMotorPower(double percent) {
+        wristMotor.set(percent);
     }
 
 }
