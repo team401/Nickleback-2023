@@ -10,7 +10,4 @@ public class WristMove {
         this.wrist = wrist;
     }
 
-
-
-    $ git config --global user.name "Minh Nguyen"
 }
