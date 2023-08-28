@@ -1,6 +1,7 @@
 package frc.robot;
 
 public class Constants {
+<<<<<<< HEAD
 
     public static final class DriveConstants {
 
@@ -12,3 +13,8 @@ public class Constants {
         public static final int pigeonID = 20;
     }   
 }
+=======
+    
+    
+}
+>>>>>>> 64ff558 (started wrist code!)
