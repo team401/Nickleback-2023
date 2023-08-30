@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.drive.ArcadeDrive;
 import frc.robot.commands.drive.TankDrive;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.arm.ArmSubsystem;
 
 public class RobotContainer extends SubsystemBase{
     private final DriveSubsystem drive = new DriveSubsystem();
@@ -23,6 +24,7 @@ public class RobotContainer extends SubsystemBase{
     private final Joystick rightStick = new Joystick(1);
     private final XboxController gamepad = new XboxController(2);
 
+    private ArmSubsystem wrist = new ArmSubsystem();
 
     public RobotContainer(){
 
