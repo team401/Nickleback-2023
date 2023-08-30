@@ -53,6 +53,10 @@ public class DriveSubsystem extends SubsystemBase{
         rightTank = right;
 	}
 
+    public void tankDrive(){
+        drive.tankDrive(leftTank, rightTank);
+    }
+
     @Override
     public void periodic(){
         if (mode == DriveMode.TANKDRIVE){
