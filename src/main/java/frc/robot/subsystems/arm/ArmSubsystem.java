@@ -17,6 +17,7 @@ public class ArmSubsystem extends SubsystemBase{
     private double wristTolerance = 0.01;
     private PIDController wristController = new PIDController(wristkp, wristki, wristkd);
     private static double wristGoalRad = 0;
+    private final double softStop = 80.0, hardStop = 100.0;
 
     private CANSparkMax leftMotor, rightMotor;
     private double shooterGoalPower;
@@ -44,10 +45,10 @@ public class ArmSubsystem extends SubsystemBase{
     }
 
     private void checkWristAmps() {
-        if (getWristMotorAmps() > 80.0) {
+        if (getWristMotorAmps() > softStop) {
             wristGoalRad = getWristPositionRad();
         } 
-        if (getWristMotorAmps() > 100.0) {
+        if (getWristMotorAmps() > hardStop) {
             setWristMotorPower(0);
         }
     }
@@ -56,7 +57,7 @@ public class ArmSubsystem extends SubsystemBase{
         wristGoalRad = rad;
     }
 
-    private void control() {
+    private void wristControl() {
         // add TrapezoidProfile + feedforward later?
         double start = getWristPositionRad();
         double x = wristController.calculate(wristGoalRad, start);
@@ -65,7 +66,7 @@ public class ArmSubsystem extends SubsystemBase{
     }
 
     public boolean wristFinished() {
-        return getWristPositionRad() > wristGoalRad - wristTolerance && getWristPositionRad() < wristGoalRad + wristTolerance;
+        return Math.abs(getWristPositionRad()-wristGoalRad) < wristTolerance;
     }
     
 
@@ -78,7 +79,7 @@ public class ArmSubsystem extends SubsystemBase{
     } 
 
     private void checkShooterAmps() {
-        if (getShooterMotorAmps() > 100.0) {
+        if (getShooterMotorAmps() > hardStop) {
             shooterGoalPower = 0;
             setShooterMotorPower(0);
         }
@@ -91,7 +92,7 @@ public class ArmSubsystem extends SubsystemBase{
 
     @Override
     public void periodic() {
-        control();   
+        wristControl();   
 
         SmartDashboard.putNumber("wrist position radians", getWristPositionRad());
         SmartDashboard.putNumber("wrist amps", getWristMotorAmps());
