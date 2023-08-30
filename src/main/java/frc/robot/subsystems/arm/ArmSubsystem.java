@@ -89,6 +89,10 @@ public class ArmSubsystem extends SubsystemBase{
         shooterGoalPower = power;
     }
 
+    public void shooterControl() {
+        setShooterMotorPower(shooterGoalPower);
+        checkShooterAmps();
+    }
 
     @Override
     public void periodic() {
@@ -102,8 +106,7 @@ public class ArmSubsystem extends SubsystemBase{
         wristkd = SmartDashboard.getNumber("wrist kd", 0);
 
         if(wristFinished()) {
-            setShooterMotorPower(shooterGoalPower);
-            checkShooterAmps();
+            shooterControl();
         }
     }
 
