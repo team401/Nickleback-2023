@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 
-public class DriveSubsystem {
+public class DriveSubsystem extends SubsystemBase{
 
     private final WPI_TalonFX driveMotorFrontLeft;
     private final WPI_TalonFX driveMotorFrontRight;
@@ -35,6 +35,10 @@ public class DriveSubsystem {
 	private final PigeonIMU pigeon;
     private final double angleOffset;
 
+    private enum driveMode{
+        TANKDRIVE,
+        ARCADEDRIVE
+    }
 
     
     public DriveSubsystem(){
