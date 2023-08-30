@@ -1,7 +1,6 @@
 package frc.robot.commands.drive;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -24,7 +23,7 @@ public class TankDrive extends CommandBase{
     }
     @Override
     public void execute() {
-        drivesub.tankDrive(l_Joystick.getX(), r_Joystick.getY());
+        drivesub.setTankDriveControls(l_Joystick.getX(), r_Joystick.getY());
     }
     @Override
     public void end(boolean interrupted) {
