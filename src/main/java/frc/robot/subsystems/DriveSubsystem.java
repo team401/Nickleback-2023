@@ -35,10 +35,11 @@ public class DriveSubsystem extends SubsystemBase{
 	private final PigeonIMU pigeon;
     private final double angleOffset;
 
-    private enum driveMode{
+    private enum DriveMode{
         TANKDRIVE,
         ARCADEDRIVE
     }
+    private DriveMode mode;
 
     
     public DriveSubsystem(){
@@ -81,5 +82,9 @@ public class DriveSubsystem extends SubsystemBase{
 		drive.tankDrive(left, right);
 	}
 
+    @Override
+    public void periodic(){
+
+    } 
 
 }
