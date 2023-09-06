@@ -19,23 +19,25 @@ public class ArmSubsystem extends SubsystemBase{
     private static double wristGoalRad = 0;
     private final double softStop = 80.0, hardStop = 100.0;
 
-    private CANSparkMax leftMotor, rightMotor;
+    private CANSparkMax leftMotor, rightMotor, intakeMotor;
     private double shooterGoalPower;
+    private double intakeGoalPower;
 
 
     public static enum ArmPositions {
 
-        Intake(0,0),
-        ShootHigh(0,0),
-        ShootMid(0,0),
-        ShootLow(0,0),
-        Idle(0,0);
+        Intake(0,0,0),
+        ShootHigh(0,0,0),
+        ShootMid(0,0,0),
+        ShootLow(0,0,0),
+        Idle(0,0,0);
 
-        public final int wristPos, shooterPower;
+        public final int wristPos, shooterPower, intakePower;
 
-        private ArmPositions(int wristPos, int shooterPower) {
+        private ArmPositions(int wristPos, int shooterPower, int intakePower) {
             this.wristPos = wristPos;
             this.shooterPower = shooterPower;
+            this.intakePower = intakePower;
         }
     }
 
@@ -43,22 +45,26 @@ public class ArmSubsystem extends SubsystemBase{
 
     public ArmSubsystem() {
         wristMotor = new CANSparkMax(Constants.ArmConstants.wristMotorID, MotorType.kBrushless);
-
+        intakeMotor = new CANSparkMax(Constants.ArmConstants.intakeMotorID, MotorType.kBrushless);
         leftMotor = new CANSparkMax(Constants.ArmConstants.leftMotorID, MotorType.kBrushless);
         rightMotor = new CANSparkMax(Constants.ArmConstants.rightMotorID, MotorType.kBrushless);
         leftMotor.follow(rightMotor, true);
 
     }
+
     
     public void setMode(ArmPositions armPos) {
         currentArmPos = armPos;
         wristGoalRad = armPos.wristPos;
         shooterGoalPower = armPos.shooterPower;
+        intakeGoalPower = armPos.intakePower;
     }
 
     public ArmPositions getArmPos() {
         return currentArmPos;
     }
+  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public double getWristPositionRad() {
         return wristMotor.getEncoder().getPosition() * 2 * Math.PI;
@@ -93,6 +99,8 @@ public class ArmSubsystem extends SubsystemBase{
     public boolean wristFinished() {
         return Math.abs(getWristPositionRad()-wristGoalRad) < wristTolerance;
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
     
 
     private void setShooterMotorPower(double percent) {
@@ -116,6 +124,34 @@ public class ArmSubsystem extends SubsystemBase{
         setShooterMotorPower(shooterGoalPower);
         checkShooterAmps();
     }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
+   
+    private void setIntakeMotorPower(double percent) {
+        intakeMotor.set(percent);
+    }
+
+    public double getIntakeMotorAmps() {
+        return intakeMotor.getOutputCurrent();
+    } 
+
+    private void checkIntakeAmps() {
+        if (getIntakeMotorAmps() > hardStop) {
+            intakeGoalPower = 0;
+            setIntakeMotorPower(0);
+ 
+        }
+    }
+
+    public void setIntakeGoalPower(double power) {
+        intakeGoalPower = power;
+    }
+
+    public void intakeControl() {
+        setShooterMotorPower(intakeGoalPower);
+        checkShooterAmps();
+    }
+
 
 
     @Override
