@@ -22,7 +22,7 @@ public class ArcadeDrive extends CommandBase{
 
     @Override
     public void execute() {
-    drivesub.setArcadeDriveControls(l_Joystick.getX(), r_Joystick.getY());
+        drivesub.setArcadeDriveControls(l_Joystick.getX(), r_Joystick.getY());
     }
 
     @Override

@@ -35,7 +35,7 @@ public class DriveSubsystem extends SubsystemBase{
         ARCADEDRIVE
     }
 
-    private DriveMode mode;
+    private DriveMode mode = DriveMode.TANKDRIVE;
     private double leftTank = 0;
     private double rightTank = 0;
     private double arcadeForward = 0;
@@ -60,7 +60,6 @@ public class DriveSubsystem extends SubsystemBase{
 	{
 		return pigeon.getYaw()-angleOffset;
 	}
-
 
     public void setArcadeDriveControls(double forward, double rotation) {
 		arcadeForward = forward;
