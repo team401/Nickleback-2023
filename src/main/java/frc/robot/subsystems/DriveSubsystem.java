@@ -35,11 +35,17 @@ public class DriveSubsystem extends SubsystemBase{
 	private final PigeonIMU pigeon;
     private final double angleOffset;
 
-    private enum driveMode{
+    private enum DriveMode{
         TANKDRIVE,
         ARCADEDRIVE
     }
+    private DriveMode mode;
 
+    private double leftTank = 0;
+    private double rightTank = 0;
+
+    private double arcadeForward = 0;
+    private double arcadeRotation = 0;
     
     public DriveSubsystem(){
 
@@ -72,14 +78,32 @@ public class DriveSubsystem extends SubsystemBase{
 	}
 
 
-    public void arcadeDrive(double forward, double rotation) {
-		drive.arcadeDrive(forward, -rotation);
+    public void setArcadeDriveControls(double forward, double rotation) {
+		arcadeForward = forward;
+        arcadeRotation = rotation;
 	}
 
+    public void arcadeDrive(){
+        drive.arcadeDrive(arcadeForward, -arcadeRotation);
+    }
 
-	public void tankDrive(double left, double right) {
-		drive.tankDrive(left, right);
+	public void setTankDriveControls(double left, double right) {
+        leftTank = left;
+        rightTank = right;
 	}
 
+    public void tankDrive(){
+        drive.tankDrive(leftTank, rightTank);
+    }
+
+    @Override
+    public void periodic(){
+        if(mode == DriveMode.TANKDRIVE){
+            tankDrive();
+        }
+        else{
+            arcadeDrive();
+        }
+    } 
 
 }
