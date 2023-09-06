@@ -10,10 +10,5 @@ public class Constants {
         public static final int backRightDriveMotorID = 4;
 
         public static final int pigeonID = 20;
-
-    }
-
-    
+    }   
 }
-
-
