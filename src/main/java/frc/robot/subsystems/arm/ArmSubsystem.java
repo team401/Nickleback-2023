@@ -24,6 +24,25 @@ public class ArmSubsystem extends SubsystemBase{
     private double intakeGoalPower;
 
 
+    public static enum ArmPositions {
+
+        Intake(0,0,0),
+        ShootHigh(0,0,0),
+        ShootMid(0,0,0),
+        ShootLow(0,0,0),
+        Idle(0,0,0);
+
+        public final int wristPos, shooterPower, intakePower;
+
+        private ArmPositions(int wristPos, int shooterPower, int intakePower) {
+            this.wristPos = wristPos;
+            this.shooterPower = shooterPower;
+            this.intakePower = intakePower;
+        }
+    }
+
+    private ArmPositions currentArmPos = ArmPositions.Idle;
+
     public ArmSubsystem() {
         wristMotor = new CANSparkMax(Constants.ArmConstants.wristMotorID, MotorType.kBrushless);
         intakeMotor = new CANSparkMax(Constants.ArmConstants.intakeMotorID, MotorType.kBrushless);
@@ -33,6 +52,18 @@ public class ArmSubsystem extends SubsystemBase{
 
     }
 
+    
+    public void setMode(ArmPositions armPos) {
+        currentArmPos = armPos;
+        wristGoalRad = armPos.wristPos;
+        shooterGoalPower = armPos.shooterPower;
+        intakeGoalPower = armPos.intakePower;
+    }
+
+    public ArmPositions getArmPos() {
+        return currentArmPos;
+    }
+  
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public double getWristPositionRad() {
@@ -56,9 +87,6 @@ public class ArmSubsystem extends SubsystemBase{
         }
     }
 
-    public void setWristGoalRads(double rad) {
-        wristGoalRad = rad;
-    }
 
     private void wristControl() {
         // add TrapezoidProfile + feedforward later?
@@ -91,9 +119,6 @@ public class ArmSubsystem extends SubsystemBase{
         }
     }
 
-    public void setShooterGoalPower(double power) {
-        shooterGoalPower = power;
-    }
 
     public void shooterControl() {
         setShooterMotorPower(shooterGoalPower);
