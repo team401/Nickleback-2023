@@ -10,7 +10,6 @@ public class TankDrive extends CommandBase{
     private final Joystick l_Joystick;
     private final Joystick r_Joystick;
 
-
     public TankDrive(DriveSubsystem d, Joystick l, Joystick r){
         drivesub = d;
         l_Joystick = l;

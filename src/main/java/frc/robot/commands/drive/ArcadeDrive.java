@@ -14,18 +14,18 @@ public class ArcadeDrive extends CommandBase{
         l_Joystick = l;
         r_Joystick = r;
         addRequirements(drivesub);
-}
+    }
 
-@Override
-public void initialize() {
-}
+    @Override
+    public void initialize() {
+    }
 
-@Override
-public void execute() {
+    @Override
+    public void execute() {
     drivesub.setArcadeDriveControls(l_Joystick.getX(), r_Joystick.getY());
-}
+    }
 
-@Override
-public void end(boolean interrupted){
-}
+    @Override
+    public void end(boolean interrupted){
+    }
 }
