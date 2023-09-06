@@ -12,7 +12,6 @@ public class DriveSubsystem extends SubsystemBase{
         TANKDRIVE,
         ARCADEDRIVE
     }
-    private DriveMode mode;
 
     private DriveHardware driveHardware;
 
