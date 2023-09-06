@@ -22,7 +22,7 @@ public void initialize() {
 }
 @Override
 public void execute() {
-    drivesub.arcadeDrive(l_Joystick.getX(), r_Joystick.getY());
+    drivesub.setArcadeDriveControls(l_Joystick.getX(), r_Joystick.getY());
 }
 @Override
 public void end(boolean interrupted){
