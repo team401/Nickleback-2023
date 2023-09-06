@@ -4,9 +4,9 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 
 
@@ -24,13 +24,15 @@ public class ArmSubsystem extends SubsystemBase{
 
 
     public ArmSubsystem() {
-        wristMotor = new CANSparkMax(0, MotorType.kBrushless);
+        wristMotor = new CANSparkMax(Constants.ArmConstants.wristMotorID, MotorType.kBrushless);
 
-        leftMotor = new CANSparkMax(1, MotorType.kBrushless);
-        rightMotor = new CANSparkMax(2, MotorType.kBrushless);
+        leftMotor = new CANSparkMax(Constants.ArmConstants.leftMotorID, MotorType.kBrushless);
+        rightMotor = new CANSparkMax(Constants.ArmConstants.rightMotorID, MotorType.kBrushless);
         leftMotor.follow(rightMotor, true);
 
     }
+
+    
 
     public double getWristPositionRad() {
         return wristMotor.getEncoder().getPosition() * 2 * Math.PI;
@@ -82,6 +84,7 @@ public class ArmSubsystem extends SubsystemBase{
         if (getShooterMotorAmps() > hardStop) {
             shooterGoalPower = 0;
             setShooterMotorPower(0);
+ 
         }
     }
 
@@ -93,6 +96,7 @@ public class ArmSubsystem extends SubsystemBase{
         setShooterMotorPower(shooterGoalPower);
         checkShooterAmps();
     }
+
 
     @Override
     public void periodic() {
