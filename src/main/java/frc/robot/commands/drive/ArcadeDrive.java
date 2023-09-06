@@ -20,10 +20,12 @@ public class ArcadeDrive extends CommandBase{
 @Override
 public void initialize() {
 }
+
 @Override
 public void execute() {
     drivesub.setArcadeDriveControls(l_Joystick.getX(), r_Joystick.getY());
 }
+
 @Override
 public void end(boolean interrupted){
 }
