@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 
-public class DriveSubsystem {
+public class DriveSubsystem extends SubsystemBase{
 
     private final WPI_TalonFX driveMotorFrontLeft;
     private final WPI_TalonFX driveMotorFrontRight;
@@ -34,6 +34,11 @@ public class DriveSubsystem {
 
 	private final PigeonIMU pigeon;
     private final double angleOffset;
+
+    private double left;
+    private double right;
+    private double forward;
+    private double rotation;
 
 
     
@@ -68,14 +73,28 @@ public class DriveSubsystem {
 	}
 
 
-    public void arcadeDrive(double forward, double rotation) {
+    public void arcadeDrive(double fward, double rot) {
+        forward = fward;
+        rotation = rot;
+
 		drive.arcadeDrive(forward, -rotation);
 	}
 
 
-	public void tankDrive(double left, double right) {
+	public void tankDrive(double lft, double rght) {
+        left = lft;
+        right = rght;
+
 		drive.tankDrive(left, right);
 	}
+
+    @Override
+    public void periodic(){
+        
+        
+        
+    }
+
 
 
 }

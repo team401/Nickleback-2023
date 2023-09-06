@@ -11,6 +11,8 @@ public class Constants {
 
         public static final int pigeonID = 20;
 
+        public static final double autoDrivePercent = 0.6;
+
     }
 
     
