@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.drive.ArcadeDrive;
+import frc.robot.commands.drive.TankDrive;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class RobotContainer extends SubsystemBase{
@@ -25,12 +26,9 @@ public class RobotContainer extends SubsystemBase{
 
     public RobotContainer(){
 
-        if(drive.getMode() == DriveMode.TANKDRIVE){
-            drive.setDefaultCommand(new ArcadeDrive(drive, leftStick, rightStick));
-
-        } else {
-
-        }
+        drive.setDefaultCommand(new TankDrive(drive, 
+        () -> leftStick.getRawAxis(1),
+        () -> rightStick.getRawAxis(0)));
 
     }
 
