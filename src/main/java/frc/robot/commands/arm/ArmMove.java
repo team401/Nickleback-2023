@@ -20,10 +20,10 @@ public class ArmMove extends CommandBase {
         arm.setMode(armPos);
     }
 
+   
     @Override
-    public boolean isFinished() {
-        // TODO Auto-generated method stub
-        return arm.getArmPos() == ArmPositions.Idle;
+    public void end(boolean interrupted) {
+        arm.setMode(ArmPositions.Idle);
     }
 
 
