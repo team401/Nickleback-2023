@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.Constants.DriveConstants;
 
 public class DriveSubsystem extends SubsystemBase{
 
@@ -21,12 +23,11 @@ public class DriveSubsystem extends SubsystemBase{
     private double arcadeForward = 0;
     private double arcadeRotation = 0;
 
-
     public DriveSubsystem(ChassisMode chassisMode, DriveMode driveMode) {
         if (chassisMode == ChassisMode.B_TEAM) {
-            driveHardware = new DriveSparkMAX(1, 2, 3, 4);
+            driveHardware = new DriveSparkMAX(DriveConstants.frontLeftDriveMotorID, DriveConstants.frontRightDriveMotorID, DriveConstants.backLeftDriveMotorID, DriveConstants.backRightDriveMotorID);
         } else {
-            driveHardware = new DriveTalon(1, 2, 3, 4);
+            driveHardware = new DriveTalon(DriveConstants.frontLeftDriveMotorID, DriveConstants.frontRightDriveMotorID, DriveConstants.backLeftDriveMotorID, DriveConstants.backRightDriveMotorID);
         }
         mode = driveMode;
     }
@@ -51,10 +52,6 @@ public class DriveSubsystem extends SubsystemBase{
         leftTank = left;
         rightTank = right;
 	}
-
-    public void tankDrive(){
-        drive.tankDrive(leftTank, rightTank);
-    }
 
     public DriveMode getMode(){
         return mode;
