@@ -8,12 +8,29 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
+import frc.robot.commands.drive.ArcadeDrive;
+import frc.robot.commands.drive.TankDrive;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class RobotContainer {
+public class RobotContainer extends SubsystemBase{
+    private final DriveSubsystem drive = new DriveSubsystem();
+
+    private final Joystick leftStick = new Joystick(0);
+    private final Joystick rightStick = new Joystick(1);
+    private final XboxController gamepad = new XboxController(2);
+
+
+    public RobotContainer(){
+
+        drive.setDefaultCommand(new TankDrive(drive, 
+        () -> leftStick.getRawAxis(1),
+        () -> rightStick.getRawAxis(0)));
+
+    }
+
 
 }
