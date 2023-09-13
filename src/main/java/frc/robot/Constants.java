@@ -1,6 +1,7 @@
 package frc.robot;
 
 public class Constants {
+<<<<<<< HEAD
 
     public static final class DriveConstants {
 
@@ -11,6 +12,8 @@ public class Constants {
 
         public static final int pigeonID = 20;
     }   
+=======
+>>>>>>> bdf12edc78c066acb30a39774eed056a6b83cfb1
     
     public final class ArmConstants {
 

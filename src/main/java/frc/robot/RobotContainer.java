@@ -24,9 +24,9 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.ArmMove;
 import frc.robot.commands.Intake;
+import frc.robot.subsystems.ArmSubsystem;
 
-public class RobotContainer extends SubsystemBase{
-    private final DriveSubsystem drive = new DriveSubsystem();
+public class RobotContainer {
 
     private final Joystick leftStick = new Joystick(0);
     private final Joystick rightStick = new Joystick(1);
@@ -34,19 +34,19 @@ public class RobotContainer extends SubsystemBase{
     private ArmSubsystem wrist = new ArmSubsystem();
     private Intake intake = new Intake();
 
-    public RobotContainer(){
-
-        drive.setDefaultCommand(new TankDrive(drive, 
-        () -> leftStick.getRawAxis(1),
-        () -> rightStick.getRawAxis(0)));
-
-    }
-
     //private XboxController gamepad = new XboxController(0);
 
     SendableChooser<String> autoChooser = new SendableChooser<String>();
     private Command activeAutoCommand = null;
     private String activeAutoName = null;
+    }
+
+    public RobotContainer() {
+        drive.setDefaultCommand(new TankDrive(drive,
+                () -> leftStick.getRawAxis(1),
+                () -> rightStick.getRawAxis(0)));
+        configureButtonBindings();
+        
     }
 
     private void configureButtonBindings() {
