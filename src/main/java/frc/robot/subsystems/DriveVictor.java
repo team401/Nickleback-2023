@@ -1,24 +1,24 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
-public class DriveTalon extends DriveHardware {
+public class DriveVictor extends DriveHardware {
 
-    private final WPI_TalonFX driveMotorFrontLeft;
-    private final WPI_TalonFX driveMotorFrontRight;
-    private final WPI_TalonFX driveMotorBackLeft;
-    private final WPI_TalonFX driveMotorBackRight;
+    private final WPI_VictorSPX driveMotorFrontLeft;
+    private final WPI_VictorSPX driveMotorFrontRight;
+    private final WPI_VictorSPX driveMotorBackLeft;
+    private final WPI_VictorSPX driveMotorBackRight;
 
     
-    public DriveTalon(int frontLeftDriveMotorID, int frontRightDriveMotorID, int backLeftDriveMotorID, int backRightDriveMotorID) {
+    public DriveVictor(int frontLeftDriveMotorID, int frontRightDriveMotorID, int backLeftDriveMotorID, int backRightDriveMotorID) {
         
-        driveMotorFrontLeft = new WPI_TalonFX(frontLeftDriveMotorID);
-        driveMotorFrontRight = new WPI_TalonFX(frontRightDriveMotorID);
-        driveMotorBackLeft = new WPI_TalonFX(backLeftDriveMotorID);
-        driveMotorBackRight = new WPI_TalonFX(backRightDriveMotorID);
+        driveMotorFrontLeft = new WPI_VictorSPX(frontLeftDriveMotorID);
+        driveMotorFrontRight = new WPI_VictorSPX(frontRightDriveMotorID);
+        driveMotorBackLeft = new WPI_VictorSPX(backLeftDriveMotorID);
+        driveMotorBackRight = new WPI_VictorSPX(backRightDriveMotorID);
 
         driveMotorFrontLeft.setNeutralMode(NeutralMode.Coast);
         driveMotorFrontRight.setNeutralMode(NeutralMode.Coast);

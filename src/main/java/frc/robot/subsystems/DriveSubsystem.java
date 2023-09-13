@@ -27,7 +27,7 @@ public class DriveSubsystem extends SubsystemBase{
         if (chassisMode == ChassisMode.B_TEAM) {
             driveHardware = new DriveSparkMAX(DriveConstants.frontLeftDriveMotorID, DriveConstants.frontRightDriveMotorID, DriveConstants.backLeftDriveMotorID, DriveConstants.backRightDriveMotorID);
         } else {
-            driveHardware = new DriveTalon(DriveConstants.frontLeftDriveMotorID, DriveConstants.frontRightDriveMotorID, DriveConstants.backLeftDriveMotorID, DriveConstants.backRightDriveMotorID);
+            driveHardware = new DriveVictor(DriveConstants.frontLeftDriveMotorID, DriveConstants.frontRightDriveMotorID, DriveConstants.backLeftDriveMotorID, DriveConstants.backRightDriveMotorID);
         }
         mode = driveMode;
     }
