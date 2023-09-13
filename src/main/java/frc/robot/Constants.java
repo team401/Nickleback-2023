@@ -19,11 +19,6 @@ public class Constants {
         public static final int backLeftDriveMotorID = 3;
         public static final int backRightDriveMotorID = 4;
 
-<<<<<<< HEAD
-        public static final int pigeonID = 20;
-    }   
-}
-=======
 
     
     }
@@ -42,4 +37,3 @@ public class Constants {
     public static final int pigeonID = 20;
 
 }
->>>>>>> fa186ac (working on it)

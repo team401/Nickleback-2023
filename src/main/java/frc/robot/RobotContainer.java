@@ -1,29 +1,19 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-<<<<<<< HEAD
+import frc.robot.Constants.ChassisMode;
+import frc.robot.Constants.DriveMode;
 import frc.robot.commands.drive.ArcadeDrive;
 import frc.robot.commands.drive.TankDrive;
-import frc.robot.subsystems.DriveSubsystem;
-=======
 import frc.robot.subsystems.drive.DriveSubsystem;
->>>>>>> fa186ac (working on it)
 
-public class RobotContainer extends SubsystemBase{
-    private final DriveSubsystem drive = new DriveSubsystem();
+public class RobotContainer {
 
-<<<<<<< HEAD
+    private final RobotConfiguration robot = new RobotConfiguration(ChassisMode.B_TEAM, DriveMode.ARCADEDRIVE);
+
+    private final DriveSubsystem drive;
+
     private final Joystick leftStick = new Joystick(0);
     private final Joystick rightStick = new Joystick(1);
     private final XboxController gamepad = new XboxController(2);
@@ -31,16 +21,14 @@ public class RobotContainer extends SubsystemBase{
 
     public RobotContainer(){
 
+        drive = new DriveSubsystem(robot.chassisConfig(), robot.driveConfig());
+        //fix 
+
         drive.setDefaultCommand(new TankDrive(drive, 
-        () -> leftStick.getRawAxis(1),
-        () -> rightStick.getRawAxis(0)));
+                () -> leftStick.getRawAxis(1),
+                () -> rightStick.getRawAxis(0)));
 
     }
 
 
 }
-=======
-    
-
-}
->>>>>>> fa186ac (working on it)

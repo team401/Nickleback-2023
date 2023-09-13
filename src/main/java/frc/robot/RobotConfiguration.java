@@ -2,29 +2,33 @@ package frc.robot;
 
 import frc.robot.Constants.ChassisMode;
 import frc.robot.Constants.DriveMode;
-import frc.robot.subsystems.drive.DriveSubsystem;
 
 public class RobotConfiguration {
 
-    private static DriveSubsystem driveSubsystem;
-    private static boolean armEnabled;
+    private DriveMode driveMode; 
+    private ChassisMode chassisMode;
+    private boolean armEnabled;
 
-    public RobotConfiguration(DriveMode driveConfig, ChassisMode chassisConfig) {
+    public RobotConfiguration(ChassisMode chassisConfig, DriveMode driveConfig) {
+        this.driveMode = driveConfig; 
+        this.chassisMode = chassisConfig;
 
-        driveSubsystem = new DriveSubsystem(chassisConfig, driveConfig);
-
-        if (chassisConfig == ChassisMode.B_TEAM) {
-            armEnabled = true;
-        } else {
-            armEnabled = false;
-        }
+        armEnabled = (chassisConfig == ChassisMode.B_TEAM);
 
     }
 
-    public DriveSubsystem driveSubsystem() {
-        return driveSubsystem;
+    public DriveMode driveConfig() {
+        return driveMode;
     }
-    
-    public 
+
+    public ChassisMode chassisConfig() {
+        return chassisMode;
+    }
+
+
+    public boolean armEnabled() {
+        return armEnabled;
+    }
+
     
 }
