@@ -12,13 +12,18 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+<<<<<<< HEAD
 import frc.robot.commands.drive.ArcadeDrive;
 import frc.robot.commands.drive.TankDrive;
 import frc.robot.subsystems.DriveSubsystem;
+=======
+import frc.robot.subsystems.drive.DriveSubsystem;
+>>>>>>> fa186ac (working on it)
 
 public class RobotContainer extends SubsystemBase{
     private final DriveSubsystem drive = new DriveSubsystem();
 
+<<<<<<< HEAD
     private final Joystick leftStick = new Joystick(0);
     private final Joystick rightStick = new Joystick(1);
     private final XboxController gamepad = new XboxController(2);
@@ -34,3 +39,8 @@ public class RobotContainer extends SubsystemBase{
 
 
 }
+=======
+    
+
+}
+>>>>>>> fa186ac (working on it)

@@ -1,10 +1,11 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.drive;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+
 public class DriveSparkMAX extends DriveHardware {
 
     private final CANSparkMax driveMotorFrontLeft;

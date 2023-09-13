@@ -1,19 +1,17 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.drive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+<<<<<<< HEAD:src/main/java/frc/robot/subsystems/DriveSubsystem.java
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
+=======
+import frc.robot.Constants.B_Configs;
+import frc.robot.Constants.C_Configs;
+import frc.robot.Constants.DriveMode;
+import frc.robot.Constants.ChassisMode;;
+>>>>>>> fa186ac (working on it):src/main/java/frc/robot/subsystems/drive/DriveSubsystem.java
 
 public class DriveSubsystem extends SubsystemBase{
 
-    public enum ChassisMode {
-        B_TEAM,
-        C_TEAM
-    }
-
-    public enum DriveMode {
-        TANKDRIVE,
-        ARCADEDRIVE
-    }
 
     private DriveHardware driveHardware;
 
@@ -25,9 +23,15 @@ public class DriveSubsystem extends SubsystemBase{
 
     public DriveSubsystem(ChassisMode chassisMode, DriveMode driveMode) {
         if (chassisMode == ChassisMode.B_TEAM) {
+<<<<<<< HEAD:src/main/java/frc/robot/subsystems/DriveSubsystem.java
             driveHardware = new DriveSparkMAX(DriveConstants.frontLeftDriveMotorID, DriveConstants.frontRightDriveMotorID, DriveConstants.backLeftDriveMotorID, DriveConstants.backRightDriveMotorID);
         } else {
             driveHardware = new DriveTalon(DriveConstants.frontLeftDriveMotorID, DriveConstants.frontRightDriveMotorID, DriveConstants.backLeftDriveMotorID, DriveConstants.backRightDriveMotorID);
+=======
+            driveHardware = new DriveSparkMAX(B_Configs.frontLeftDriveMotorID, B_Configs.frontRightDriveMotorID, B_Configs.backLeftDriveMotorID, B_Configs.backRightDriveMotorID);
+        } else {
+            driveHardware = new DriveTalon(C_Configs.frontLeftDriveMotorID, C_Configs.frontRightDriveMotorID, C_Configs.backLeftDriveMotorID, C_Configs.backRightDriveMotorID);
+>>>>>>> fa186ac (working on it):src/main/java/frc/robot/subsystems/drive/DriveSubsystem.java
         }
         mode = driveMode;
     }
