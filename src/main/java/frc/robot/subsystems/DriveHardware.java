@@ -11,14 +11,14 @@ public class DriveHardware {
     protected MotorControllerGroup rightMotorControllerGroup;
     protected MotorControllerGroup leftMotorControllerGroup;
     protected DifferentialDrive drive;
-	protected final PigeonIMU pigeon = new PigeonIMU(DriveConstants.pigeonID);
+	// protected final PigeonIMU pigeon = new PigeonIMU(DriveConstants.pigeonID);
     protected final double angleOffset = 0;
 
     public DriveHardware() {}
     
-    public double GetDriveAngle() {
-		return pigeon.getYaw()-angleOffset;
-	}
+    // public double GetDriveAngle() {
+	// 	return pigeon.getYaw()-angleOffset;
+	// }
 
     public void tankDrive(double leftTank, double rightTank) {
         drive.tankDrive(leftTank, rightTank);

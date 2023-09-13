@@ -27,8 +27,8 @@ public class RobotContainer extends SubsystemBase{
     public RobotContainer(){
 
         drive.setDefaultCommand(new TankDrive(drive, 
-        () -> leftStick.getRawAxis(1),
-        () -> rightStick.getRawAxis(0)));
+        () -> -leftStick.getRawAxis(1),
+        () -> rightStick.getRawAxis(1)));
 
     }
 
