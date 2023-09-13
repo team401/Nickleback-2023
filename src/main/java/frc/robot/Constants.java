@@ -67,6 +67,13 @@ public class Constants {
         public static final double poseMoveRotationMaxVel = Math.PI;
         public static final double poseMoveRotationMaxAccel = Math.PI;
 
+
+        public static final int frontLeftID = 4;
+		public static final int backLeftID = 5;
+		public static final int frontRightID = 6;
+		public static final int backRightID = 7;
+
+		public static final double autoDrivePercent = 0.6;
     }
 
 
