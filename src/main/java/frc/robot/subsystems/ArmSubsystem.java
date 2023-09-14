@@ -1,4 +1,4 @@
-package frc.robot.subsystems.arm;
+package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -24,16 +24,21 @@ public class ArmSubsystem extends SubsystemBase{
     private double intakeGoalPower;
 
 
-    private double wristIntake, wristShootHigh, wristShootMid, wristShootLow, wristIdle;
-    private double shooterIntake, shooterShootHigh, shooterShootMid, shooterShootLow, shooterIdle = 0;
-    private double intakeOn, intakeOff = 0;
-
     public static enum ArmPositions {
-        Intake,
-        ShootHigh,
-        ShootMid,
-        ShootLow,
-        Idle;
+
+        Intake(0,0,0),
+        ShootHigh(0,0,0),
+        ShootMid(0,0,0),
+        ShootLow(0,0,0),
+        Idle(0,0,0);
+
+        public final int wristPos, shooterPower, intakePower;
+
+        private ArmPositions(int wristPos, int shooterPower, int intakePower) {
+            this.wristPos = wristPos;
+            this.shooterPower = shooterPower;
+            this.intakePower = intakePower;
+        }
     }
 
     private ArmPositions currentArmPos = ArmPositions.Idle;
@@ -46,32 +51,13 @@ public class ArmSubsystem extends SubsystemBase{
         leftMotor.follow(rightMotor, true);
 
     }
+
     
     public void setMode(ArmPositions armPos) {
         currentArmPos = armPos;
-
-        if (armPos == ArmPositions.Intake) {
-            wristGoalRad = wristIntake;
-            shooterGoalPower = shooterIntake;
-            intakeGoalPower = intakeOn;
-        } else if (armPos == ArmPositions.ShootHigh) {
-            wristGoalRad = wristShootHigh;
-            shooterGoalPower = shooterShootHigh;
-            intakeGoalPower = intakeOff;
-        } else if (armPos == ArmPositions.ShootMid) {
-            wristGoalRad = wristShootMid;
-            shooterGoalPower = shooterShootMid;
-            intakeGoalPower = intakeOff;
-        } else if (armPos == ArmPositions.ShootLow) {
-            wristGoalRad = wristShootLow;
-            shooterGoalPower = shooterShootLow;
-            intakeGoalPower = intakeOff;
-        } else if (armPos == ArmPositions.Idle) {
-            wristGoalRad = wristIdle;
-            shooterGoalPower = shooterIdle;
-            intakeGoalPower = intakeOff;
-        }
-        
+        wristGoalRad = armPos.wristPos;
+        shooterGoalPower = armPos.shooterPower;
+        intakeGoalPower = armPos.intakePower;
     }
 
     public ArmPositions getArmPos() {
@@ -102,7 +88,7 @@ public class ArmSubsystem extends SubsystemBase{
     }
 
 
-    private void wristControl() {
+    public void wristControl() {
         // add TrapezoidProfile + feedforward later?
         double start = getWristPositionRad();
         double x = wristController.calculate(wristGoalRad, start);
@@ -117,7 +103,7 @@ public class ArmSubsystem extends SubsystemBase{
     ///////////////////////////////////////////////////////////////////////////////////////////
     
 
-    private void setShooterMotorPower(double percent) {
+    public void setShooterMotorPower(double percent) {
         rightMotor.set(percent);
     }
 
@@ -125,14 +111,13 @@ public class ArmSubsystem extends SubsystemBase{
         return rightMotor.getOutputCurrent();
     } 
 
-    private void checkShooterAmps() {
+    public void checkShooterAmps() {
         if (getShooterMotorAmps() > hardStop) {
             shooterGoalPower = 0;
             setShooterMotorPower(0);
  
         }
     }
-
 
     public void shooterControl() {
         setShooterMotorPower(shooterGoalPower);
@@ -141,7 +126,7 @@ public class ArmSubsystem extends SubsystemBase{
 
     //////////////////////////////////////////////////////////////////////////////////////////////
    
-    private void setIntakeMotorPower(double percent) {
+    public void setIntakeMotorPower(double percent) {
         intakeMotor.set(percent);
     }
 
@@ -149,7 +134,7 @@ public class ArmSubsystem extends SubsystemBase{
         return intakeMotor.getOutputCurrent();
     } 
 
-    private void checkIntakeAmps() {
+    public void checkIntakeAmps() {
         if (getIntakeMotorAmps() > hardStop) {
             intakeGoalPower = 0;
             setIntakeMotorPower(0);
@@ -162,14 +147,15 @@ public class ArmSubsystem extends SubsystemBase{
     }
 
     public void intakeControl() {
-        setIntakeGoalPower(intakeGoalPower);
-        checkIntakeAmps();
+        setShooterMotorPower(intakeGoalPower);
+        checkShooterAmps();
     }
 
 
 
     @Override
     public void periodic() {
+        wristControl();   
 
         SmartDashboard.putNumber("wrist position radians", getWristPositionRad());
         SmartDashboard.putNumber("wrist amps", getWristMotorAmps());
@@ -178,26 +164,8 @@ public class ArmSubsystem extends SubsystemBase{
         wristki = SmartDashboard.getNumber("wrist ki", 0);
         wristkd = SmartDashboard.getNumber("wrist kd", 0);
 
-        wristIntake = SmartDashboard.getNumber("wrist intake rad", 0);
-        wristShootHigh = SmartDashboard.getNumber("wrist shoot high rad", 0);
-        wristShootMid = SmartDashboard.getNumber("wrist shoot mid rad", 0);
-        wristShootLow = SmartDashboard.getNumber("wrist shoot low rad", 0);
-        wristIdle = SmartDashboard.getNumber("wrist shoot idle rad", 0);
-
-        shooterIntake = SmartDashboard.getNumber("shooter intake power", 0);
-        shooterShootHigh = SmartDashboard.getNumber("shooter shoot high power", 0);
-        shooterShootMid = SmartDashboard.getNumber("shooter shoot mid power", 0);
-        shooterShootLow = SmartDashboard.getNumber("shooter shoot low power", 0);
-        shooterIdle = SmartDashboard.getNumber("shooter idle power", 0);
-
-        intakeOn = SmartDashboard.getNumber("intake power", 0);
-
-
-        wristControl();   
-        
         if(wristFinished()) {
             shooterControl();
-            intakeControl();
         }
     }
 
