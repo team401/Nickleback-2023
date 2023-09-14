@@ -4,11 +4,16 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -17,11 +22,15 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
  * directory.
  */
 public class Robot extends TimedRobot {
-  private final PWMSparkMax m_leftDrive = new PWMSparkMax(0);
-  private final PWMSparkMax m_rightDrive = new PWMSparkMax(1);
-  private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_leftDrive, m_rightDrive);
-  private final XboxController m_controller = new XboxController(0);
+
   private final Timer m_timer = new Timer();
+
+  private RobotContainer m_robotContainer;
+  
+  private final Timer loopTimer = new Timer();
+
+  private PowerDistribution pdh;
+
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -32,7 +41,13 @@ public class Robot extends TimedRobot {
     // We need to invert one side of the drivetrain so that positive voltages
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
-    m_rightDrive.setInverted(true);
+
+    m_robotContainer = new RobotContainer();
+    
+    pdh = new PowerDistribution(1, ModuleType.kRev);
+    pdh.setSwitchableChannel(false);
+
+    LiveWindow.disableAllTelemetry();
   }
 
   /** This function is run once each time the robot enters autonomous mode. */
@@ -40,6 +55,16 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_timer.reset();
     m_timer.start();
+  }
+
+  @Override
+  public void robotPeriodic() {
+
+    CommandScheduler.getInstance().run();
+
+    SmartDashboard.putNumber("Loop Time", loopTimer.get() * 1000);
+    loopTimer.reset();
+    loopTimer.start();
   }
 
   /** This function is called periodically during autonomous. */
