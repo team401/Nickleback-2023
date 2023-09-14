@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -11,9 +12,11 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.Intake;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.ArmSubsystem;
 
 public class RobotContainer {
-
     private final DriveSubsystem drive = new DriveSubsystem();
     private final Joystick leftStick = new Joystick(0);
     private final Joystick rightStick = new Joystick(1);

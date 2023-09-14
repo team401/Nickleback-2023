@@ -66,5 +66,4 @@ public class Constants {
 		public static final double autoDrivePercent = 0.6;
     }
 
-
 }
