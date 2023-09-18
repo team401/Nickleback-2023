@@ -14,10 +14,10 @@ public class DriveSubsystem extends SubsystemBase{
         TANKDRIVE,
         ARCADEDRIVE
     }
+    private DriveMode mode;
 
     private DriveHardware driveHardware;
 
-    private DriveMode mode;
     private double leftTank = 0;
     private double rightTank = 0;
     private double arcadeForward = 0;
