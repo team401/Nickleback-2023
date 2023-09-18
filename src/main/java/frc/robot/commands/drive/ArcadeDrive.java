@@ -1,18 +1,20 @@
 package frc.robot.commands.drive;
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class ArcadeDrive extends CommandBase{
-
     private final DriveSubsystem drivesub;
-    private final Joystick l_Joystick;
-    private final Joystick r_Joystick;
+    private final DoubleSupplier xPercent;
+    private final DoubleSupplier yPercent;
 
-    public ArcadeDrive(DriveSubsystem d, Joystick l, Joystick r) {
+    public ArcadeDrive(DriveSubsystem d, DoubleSupplier xPcent, DoubleSupplier yPcent) {
         drivesub = d;
-        l_Joystick = l;
-        r_Joystick = r;
+        xPercent = xPcent;
+        yPercent = yPcent;
+  
         addRequirements(drivesub);
     }
 
@@ -22,7 +24,7 @@ public class ArcadeDrive extends CommandBase{
 
     @Override
     public void execute() {
-        drivesub.setArcadeDriveControls(l_Joystick.getX(), r_Joystick.getY());
+        drivesub.setArcadeDriveControls(xPercent.getAsDouble(), yPercent.getAsDouble());
     }
 
     @Override
