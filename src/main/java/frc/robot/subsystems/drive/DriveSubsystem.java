@@ -18,9 +18,9 @@ public class DriveSubsystem extends SubsystemBase{
 
     public DriveSubsystem(ChassisMode chassisMode, DriveMode driveMode) {
         if (chassisMode == ChassisMode.B_TEAM) {
-            driveHardware = new DriveSparkMAX(B_Configs.frontLeftDriveMotorID, B_Configs.frontRightDriveMotorID, B_Configs.backLeftDriveMotorID, B_Configs.backRightDriveMotorID);
+            driveHardware = new DriveSparkMAX(B_Configs.frontLeftID, B_Configs.frontRightID, B_Configs.backLeftID, B_Configs.backRightID);
         } else {
-            driveHardware = new DriveTalon(C_Configs.frontLeftDriveMotorID, C_Configs.frontRightDriveMotorID, C_Configs.backLeftDriveMotorID, C_Configs.backRightDriveMotorID);
+            driveHardware = new DriveTalon(C_Configs.frontLeftID, C_Configs.frontRightID, C_Configs.backLeftID, C_Configs.backRightID);
         }
         mode = driveMode;
     }
