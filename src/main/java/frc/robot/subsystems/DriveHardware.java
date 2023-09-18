@@ -1,10 +1,7 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.PigeonIMU;
-
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import frc.robot.Constants.DriveConstants;
 
 public class DriveHardware {
 
@@ -27,6 +24,4 @@ public class DriveHardware {
     public void arcadeDrive(double forward, double rotation) {
         drive.arcadeDrive(forward, -rotation);
     }
-   
-
 }
