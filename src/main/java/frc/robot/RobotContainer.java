@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drive.TankDrive;
@@ -35,17 +36,28 @@ public class RobotContainer {
 
     public RobotContainer(){
 
-        drive = new DriveSubsystem(robot.chassisConfig(), robot.driveConfig());
-        //fix 
 
-        drive.setDefaultCommand(new TankDrive(drive, 
+        drive = new DriveSubsystem(robot.chassisConfig(), robot.driveConfig());
+
+
+
+
+        //fix 
+        if (robot.driveConfig() == DriveMode.TANKDRIVE) {
+            drive.setDefaultCommand(new TankDrive(drive, 
                 () -> leftStick.getRawAxis(1),
                 () -> rightStick.getRawAxis(0)));
+        } else {
+            drive.setDefaultCommand(new ArcadeDrive(drive, 
+                () -> leftStick.getRawAxis(1), 
+                () -> rightStick.getRawAxis(0)));
+        }
+        
         SendableChooser<String> autoChooser = new SendableChooser<String>();
         //private Command activeAutoCommand = null;
         //private String activeAutoName = null;
         configureButtonBindings();
-        
+   
     }
 
     private void configureButtonBindings() {

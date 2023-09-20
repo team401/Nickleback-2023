@@ -65,6 +65,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Loop Time", loopTimer.get() * 1000);
     loopTimer.reset();
     loopTimer.start();
+
+    
   }
 
   /** This function is called periodically during autonomous. */

@@ -5,9 +5,9 @@ import frc.robot.Constants.DriveMode;
 
 public class RobotConfiguration {
 
-    private DriveMode driveMode; 
-    private ChassisMode chassisMode;
-    private boolean armEnabled;
+    public static DriveMode driveMode; 
+    public ChassisMode chassisMode;
+    public static boolean armEnabled;
 
     public RobotConfiguration(ChassisMode chassisConfig, DriveMode driveConfig) {
         this.driveMode = driveConfig; 
