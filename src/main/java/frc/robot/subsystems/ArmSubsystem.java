@@ -23,6 +23,8 @@ public class ArmSubsystem extends SubsystemBase{
     private double shooterGoalPower;
     private double intakeGoalPower;
 
+    private double wristOffset;
+
 
     private double wristIntake, wristShootHigh, wristShootMid, wristShootLow, wristIdle;
     private double shooterIntake, shooterShootHigh, shooterShootMid, shooterShootLow, shooterIdle = 0;
@@ -33,7 +35,8 @@ public class ArmSubsystem extends SubsystemBase{
         ShootHigh,
         ShootMid,
         ShootLow,
-        Idle;
+        Idle,
+        Home;
     }
 
     private ArmPositions currentArmPos = ArmPositions.Idle;
@@ -44,6 +47,7 @@ public class ArmSubsystem extends SubsystemBase{
         leftMotor = new CANSparkMax(Constants.ArmConstants.leftMotorID, MotorType.kBrushless);
         rightMotor = new CANSparkMax(Constants.ArmConstants.rightMotorID, MotorType.kBrushless);
         leftMotor.follow(rightMotor, true);
+        wristOffset = 0.0;
 
     }
     
@@ -70,8 +74,15 @@ public class ArmSubsystem extends SubsystemBase{
             wristGoalRad = wristIdle;
             shooterGoalPower = shooterIdle;
             intakeGoalPower = intakeOff;
+        } else if(armPos == ArmPositions.Home){
+            shooterGoalPower = shooterIdle;
+            intakeGoalPower = intakeOff;
+            wristGoalRad = wristShootLow;
+            if(getWristMotorAmps() > 10.0){
+                wristGoalRad = getWristPositionRad();
+                wristOffset = getWristPositionRad(); 
+            }
         }
-        
     }
 
     public ArmPositions getArmPos() {
@@ -81,7 +92,7 @@ public class ArmSubsystem extends SubsystemBase{
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public double getWristPositionRad() {
-        return wristMotor.getEncoder().getPosition() * 2 * Math.PI;
+        return wristMotor.getEncoder().getPosition() * 2 * Math.PI - wristOffset;
     }
 
     public void setWristMotorPower(double percent) {
@@ -192,6 +203,9 @@ public class ArmSubsystem extends SubsystemBase{
 
         intakeOn = SmartDashboard.getNumber("intake power", 0);
 
+        if(getArmPos() == ArmPositions.Home){
+
+        }
 
         wristControl();   
         
