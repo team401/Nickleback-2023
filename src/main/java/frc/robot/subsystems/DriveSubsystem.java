@@ -53,6 +53,16 @@ public class DriveSubsystem extends SubsystemBase{
         rightTank = right;
 	}
 
+    public void swapMode() {
+        if(mode == DriveMode.TANKDRIVE) {
+            mode = DriveMode.ARCADEDRIVE;
+            setArcadeDriveControls(arcadeForward, arcadeRotation);
+        } else {
+            mode = DriveMode.TANKDRIVE;
+            setTankDriveControls(leftTank, rightTank);
+        }
+    }
+
     public DriveMode getMode(){
         return mode;
     }
