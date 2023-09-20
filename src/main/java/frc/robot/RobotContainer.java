@@ -45,7 +45,8 @@ public class RobotContainer {
         new JoystickButton(gamepad, Button.kX.value)
             .onTrue(new InstantCommand(intake::spit))
             .onFalse(new InstantCommand(intake::stop));
-            
+        new JoystickButton(gamepad, Button.kA.value)
+            .onTrue(new InstantCommand(wrist::setArmPos(Home)))
     }
 
     private void configureSubsystems() {
