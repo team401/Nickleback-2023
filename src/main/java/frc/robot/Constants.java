@@ -68,28 +68,18 @@ public class Constants {
         public static final double poseMoveRotationMaxAccel = Math.PI;
 
 
-        public static final int cfrontLeftDriveMotorID = 1;
-        public static final int cfrontRightDriveMotorID = 2;
-        public static final int cbackLeftDriveMotorID = 3;
-        public static final int cbackRightDriveMotorID = 4;
+        public static final int cFrontLeftID = 1;
+        public static final int cFrontRightID = 2;
+        public static final int cBackLeftID = 3;
+        public static final int cBackRightID = 4;
 
         public static final int bFrontLeftID = 4;
-		public static final int bbackLeftID = 5;
-		public static final int bfrontRightID = 6;
-		public static final int bbackRightID = 7;
+		public static final int bFrontRightID = 5;
+		public static final int bBackLeftID = 6;
+		public static final int bBackRightID = 7;
 
     }
 
-
-    public static final class C_Configs {
-        
-        public static final int frontLeftID = 1;
-        public static final int frontRightID = 2;
-        public static final int backLeftID = 3;
-        public static final int backRightID = 4;
-
-    
-    }
 
 
 }
