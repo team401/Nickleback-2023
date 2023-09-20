@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ArmSubsystem.ArmPositions;
 
 public class Intake extends CommandBase {
 
@@ -31,6 +32,10 @@ public class Intake extends CommandBase {
     public void stop(){
         arm.setIntakeMotorPower(0.0);
         arm.setShooterMotorPower(0.0);
+    }
+
+    public void home(){
+        arm.setMode(ArmPositions.Home);
     }
 
 }

@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drive.TankDrive;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ArmSubsystem.ArmPositions;
 import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.Intake;
@@ -46,7 +47,7 @@ public class RobotContainer {
             .onTrue(new InstantCommand(intake::spit))
             .onFalse(new InstantCommand(intake::stop));
         new JoystickButton(gamepad, Button.kA.value)
-            .onTrue(new InstantCommand(wrist::setArmPos(Home)))
+            .onTrue(new InstantCommand(intake::home));
     }
 
     private void configureSubsystems() {
