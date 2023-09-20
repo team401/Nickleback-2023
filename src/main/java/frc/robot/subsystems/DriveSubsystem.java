@@ -14,10 +14,10 @@ public class DriveSubsystem extends SubsystemBase{
         TANKDRIVE,
         ARCADEDRIVE
     }
+    private DriveMode mode;
 
     private DriveHardware driveHardware;
 
-    private DriveMode mode;
     private double leftTank = 0;
     private double rightTank = 0;
     private double arcadeForward = 0;
@@ -25,9 +25,10 @@ public class DriveSubsystem extends SubsystemBase{
 
     public DriveSubsystem(ChassisMode chassisMode, DriveMode driveMode) {
         if (chassisMode == ChassisMode.B_TEAM) {
-            driveHardware = new DriveSparkMAX(DriveConstants.frontLeftID, DriveConstants.frontRightID, DriveConstants.backLeftID, DriveConstants.backRightID);
+            driveHardware = new DriveSparkMAX(DriveConstants.bFrontLeftID, DriveConstants.bbackLeftID, DriveConstants.bbackLeftID, DriveConstants.bbackRightID);
         } else {
-            driveHardware = new DriveTalon(DriveConstants.frontLeftID, DriveConstants.frontRightID, DriveConstants.backLeftID, DriveConstants.backRightID);
+            driveHardware = new DriveVictor(DriveConstants.cfrontLeftDriveMotorID, DriveConstants.cfrontRightDriveMotorID, DriveConstants.cbackLeftDriveMotorID, DriveConstants.cbackRightDriveMotorID);
+
         }
         mode = driveMode;
     }
