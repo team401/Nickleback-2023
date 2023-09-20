@@ -23,7 +23,9 @@ public class ArmSubsystem extends SubsystemBase{
     private PIDController wristController = new PIDController(wristkp, wristki, wristkd);
     private ArmFeedforward feedforward = new ArmFeedforward(wristks, wristkg, wristkv);
     private static double wristGoalRad = 0;
+
     private final double softStop = 30.0, hardStop = 40.0;
+    private final double voltageLimit = 12;
 
     private CANSparkMax leftMotor, rightMotor, intakeMotor;
     private double shooterGoalPower;
@@ -98,7 +100,8 @@ public class ArmSubsystem extends SubsystemBase{
     }
 
     public void setWristMotorPower(double percent) {
-        wristMotor.set(percent);
+        if (12 * Math.abs(percent) < voltageLimit) wristMotor.set(percent);
+        else wristMotor.set(voltageLimit/12 * Math.abs(percent)/percent);
     }
 
     public double getWristMotorAmps() {
@@ -136,7 +139,9 @@ public class ArmSubsystem extends SubsystemBase{
     
 
     public void setShooterMotorPower(double percent) {
-        rightMotor.set(percent);
+        if (12 * Math.abs(percent) < voltageLimit) rightMotor.set(percent);
+        else rightMotor.set(voltageLimit/12 * Math.abs(percent)/percent);
+
     }
 
     public double getShooterMotorAmps() {
@@ -163,7 +168,8 @@ public class ArmSubsystem extends SubsystemBase{
     //////////////////////////////////////////////////////////////////////////////////////////////
    
     public void setIntakeMotorPower(double percent) {
-        intakeMotor.set(percent);
+        if (12 * Math.abs(percent) < voltageLimit) intakeMotor.set(percent);
+        else intakeMotor.set(voltageLimit/12 * Math.abs(percent)/percent);
     }
 
     public double getIntakeMotorAmps() {
@@ -222,7 +228,6 @@ public class ArmSubsystem extends SubsystemBase{
         shooterWarmup = SmartDashboard.getNumber("shooter idle power", 0);
 
         intakeOn = SmartDashboard.getNumber("intake power", 0);
-
 
         
         wristControl();   
