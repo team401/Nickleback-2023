@@ -23,8 +23,9 @@ public class ArmMove extends CommandBase {
     @Override
     public boolean isFinished() {
         // TODO Auto-generated method stub
-        return arm.getArmPos() == ArmPositions.Idle;
+        return arm.getArmPos() == ArmPositions.Warmup || arm.getArmPos() == ArmPositions.Idle;
     }
+
 
 
     

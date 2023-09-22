@@ -1,23 +1,15 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.drive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.Constants.DriveMode;
+import frc.robot.Constants.ChassisMode;
 import frc.robot.Constants.DriveConstants;
 
 public class DriveSubsystem extends SubsystemBase{
 
-    public enum ChassisMode {
-        B_TEAM,
-        C_TEAM
-    }
-
-    public enum DriveMode {
-        TANKDRIVE,
-        ARCADEDRIVE
-    }
+    private DriveMode mode;
 
     private DriveHardware driveHardware;
 
-    private DriveMode mode;
     private double leftTank = 0;
     private double rightTank = 0;
     private double arcadeForward = 0;
@@ -25,9 +17,10 @@ public class DriveSubsystem extends SubsystemBase{
 
     public DriveSubsystem(ChassisMode chassisMode, DriveMode driveMode) {
         if (chassisMode == ChassisMode.B_TEAM) {
-            driveHardware = new DriveSparkMAX(DriveConstants.frontLeftID, DriveConstants.frontRightID, DriveConstants.backLeftID, DriveConstants.backRightID);
+            driveHardware = new DriveSparkMAX(DriveConstants.bFrontLeftID, DriveConstants.bFrontRightID, DriveConstants.bBackLeftID, DriveConstants.bBackRightID);
         } else {
-            driveHardware = new DriveTalon(DriveConstants.frontLeftID, DriveConstants.frontRightID, DriveConstants.backLeftID, DriveConstants.backRightID);
+            driveHardware = new DriveVictor(DriveConstants.cFrontLeftID, DriveConstants.cFrontRightID, DriveConstants.cBackLeftID, DriveConstants.cBackRightID);
+
         }
         mode = driveMode;
     }

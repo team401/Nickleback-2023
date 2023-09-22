@@ -31,6 +31,16 @@ public class Constants {
         public static final int backRightRotationEncoderID = 11;
     }
 
+    public enum ChassisMode {
+        B_TEAM,
+        C_TEAM
+    }
+
+    public enum DriveMode {
+        TANKDRIVE,
+        ARCADEDRIVE
+    }
+
     public static final class DriveConstants {
 
         public static final double[] driveKps = {0.7, 0.4, 0.7, 0.7};
@@ -58,12 +68,18 @@ public class Constants {
         public static final double poseMoveRotationMaxAccel = Math.PI;
 
 
-        public static final int frontLeftID = 4;
-		public static final int backLeftID = 5;
-		public static final int frontRightID = 6;
-		public static final int backRightID = 7;
+        public static final int cFrontLeftID = 1;
+        public static final int cFrontRightID = 2;
+        public static final int cBackLeftID = 3;
+        public static final int cBackRightID = 4;
 
-		public static final double autoDrivePercent = 0.6;
+        public static final int bFrontLeftID = 4;
+		public static final int bFrontRightID = 5;
+		public static final int bBackLeftID = 6;
+		public static final int bBackRightID = 7;
+
     }
+
+
 
 }
