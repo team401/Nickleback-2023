@@ -4,9 +4,11 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.ArmConstants;
 
 
 
@@ -19,7 +21,9 @@ public class ArmSubsystem extends SubsystemBase{
     private static double wristGoalRad = 0;
     private final double softStop = 80.0, hardStop = 100.0;
 
-    private CANSparkMax leftMotor, rightMotor, intakeMotor;
+    private CANSparkMax leftIntakeMotor;
+    private CANSparkMax rightIntakeMotor;
+
     private double shooterGoalPower;
     private double intakeGoalPower;
 
@@ -45,11 +49,11 @@ public class ArmSubsystem extends SubsystemBase{
 
     public ArmSubsystem() {
         wristMotor = new CANSparkMax(Constants.ArmConstants.wristMotorID, MotorType.kBrushless);
-        intakeMotor = new CANSparkMax(Constants.ArmConstants.intakeMotorID, MotorType.kBrushless);
-        leftMotor = new CANSparkMax(Constants.ArmConstants.leftMotorID, MotorType.kBrushless);
-        rightMotor = new CANSparkMax(Constants.ArmConstants.rightMotorID, MotorType.kBrushless);
-        leftMotor.follow(rightMotor, true);
+    
+        leftIntakeMotor = new CANSparkMax(ArmConstants.leftIntakeMotorID, MotorType.kBrushless);
+        rightIntakeMotor = new CANSparkMax(ArmConstants.rightIntakeMotorID, MotorType.kBrushless);
 
+        rightIntakeMotor.follow(leftIntakeMotor, true);
     }
 
     
@@ -104,11 +108,11 @@ public class ArmSubsystem extends SubsystemBase{
     
 
     public void setShooterMotorPower(double percent) {
-        rightMotor.set(percent);
+        leftIntakeMotor.set(percent);
     }
 
     public double getShooterMotorAmps() {
-        return rightMotor.getOutputCurrent();
+        return leftIntakeMotor.getOutputCurrent();
     } 
 
     public void checkShooterAmps() {
@@ -127,11 +131,11 @@ public class ArmSubsystem extends SubsystemBase{
     //////////////////////////////////////////////////////////////////////////////////////////////
    
     public void setIntakeMotorPower(double percent) {
-        intakeMotor.set(percent);
+        leftIntakeMotor.set(percent);
     }
 
     public double getIntakeMotorAmps() {
-        return intakeMotor.getOutputCurrent();
+        return leftIntakeMotor.getOutputCurrent();
     } 
 
     public void checkIntakeAmps() {
@@ -155,7 +159,7 @@ public class ArmSubsystem extends SubsystemBase{
 
     @Override
     public void periodic() {
-        wristControl();   
+        // wristControl();
 
         SmartDashboard.putNumber("wrist position radians", getWristPositionRad());
         SmartDashboard.putNumber("wrist amps", getWristMotorAmps());
@@ -165,7 +169,7 @@ public class ArmSubsystem extends SubsystemBase{
         wristkd = SmartDashboard.getNumber("wrist kd", 0);
 
         if(wristFinished()) {
-            shooterControl();
+            // shooterControl();
         }
     }
 

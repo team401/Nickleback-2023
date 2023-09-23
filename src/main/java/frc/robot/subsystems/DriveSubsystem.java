@@ -23,6 +23,10 @@ public class DriveSubsystem extends SubsystemBase{
     private double arcadeForward = 0;
     private double arcadeRotation = 0;
 
+    /**
+     * @param chassisMode
+     * @param driveMode
+     */
     public DriveSubsystem(ChassisMode chassisMode, DriveMode driveMode) {
         if (chassisMode == ChassisMode.B_TEAM) {
             driveHardware = new DriveSparkMAX(DriveConstants.frontLeftID, DriveConstants.frontRightID, DriveConstants.backLeftID, DriveConstants.backRightID);
