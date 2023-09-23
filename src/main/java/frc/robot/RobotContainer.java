@@ -11,14 +11,15 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.DriveSubsystem.ChassisMode;
 import frc.robot.subsystems.DriveSubsystem.DriveMode;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.BasicDriveSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class RobotContainer {
-
-    private final DriveSubsystem drive = new DriveSubsystem(ChassisMode.B_TEAM, DriveMode.TANKDRIVE);
     private final Joystick leftStick = new Joystick(0);
     private final Joystick rightStick = new Joystick(1);
     private final XboxController gamepad = new XboxController(2);
+
+    private final BasicDriveSubsystem drive = new BasicDriveSubsystem();
     private ArmSubsystem arm = new ArmSubsystem();
 
     //private XboxController gamepad = new XboxController(0);
@@ -28,9 +29,13 @@ public class RobotContainer {
     private String activeAutoName = null;
 
     public RobotContainer() {
-        drive.setDefaultCommand(new TankDrive(drive,
-                () -> leftStick.getRawAxis(1),
-                () -> rightStick.getRawAxis(0)));
+        drive.setDefaultCommand(
+            new InstantCommand(
+                () -> drive.arcadeDrive(
+                        leftStick.getY(),
+                        rightStick.getX()),
+                drive)
+        );
         configureButtonBindings();
         
     }
