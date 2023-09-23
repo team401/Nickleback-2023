@@ -15,9 +15,8 @@ import frc.robot.Constants.ArmConstants;
 public class ArmSubsystem extends SubsystemBase{
     
     private CANSparkMax wristMotor;
-    private double wristkp = 0, wristki = 0, wristkd = 0;
     private double wristTolerance = 0.01;
-    private PIDController wristController = new PIDController(wristkp, wristki, wristkd);
+    private PIDController wristController = new PIDController(ArmConstants.wristkP, 0, ArmConstants.wristkD);
     private static double wristGoalRad = 0;
     private final double softStop = 80.0, hardStop = 100.0;
 
@@ -103,59 +102,33 @@ public class ArmSubsystem extends SubsystemBase{
     public boolean wristFinished() {
         return Math.abs(getWristPositionRad()-wristGoalRad) < wristTolerance;
     }
-
-    ///////////////////////////////////////////////////////////////////////////////////////////
-    
-
-    public void setShooterMotorPower(double percent) {
-        leftIntakeMotor.set(percent);
-    }
-
-    public double getShooterMotorAmps() {
-        return leftIntakeMotor.getOutputCurrent();
-    } 
-
-    public void checkShooterAmps() {
-        if (getShooterMotorAmps() > hardStop) {
-            shooterGoalPower = 0;
-            setShooterMotorPower(0);
- 
-        }
-    }
-
-    public void shooterControl() {
-        setShooterMotorPower(shooterGoalPower);
-        checkShooterAmps();
-    }
-
-    //////////////////////////////////////////////////////////////////////////////////////////////
    
     public void setIntakeMotorPower(double percent) {
         leftIntakeMotor.set(percent);
+    }
+
+    public void intake() {
+        leftIntakeMotor.set(0.2);
+    }
+
+    public void shoot() {
+        leftIntakeMotor.set(-0.6);
+    }
+
+    public void stopIntake() {
+        leftIntakeMotor.set(0.0);
     }
 
     public double getIntakeMotorAmps() {
         return leftIntakeMotor.getOutputCurrent();
     } 
 
-    public void checkIntakeAmps() {
+    private void checkIntakeAmps() {
         if (getIntakeMotorAmps() > hardStop) {
             intakeGoalPower = 0;
             setIntakeMotorPower(0);
- 
         }
     }
-
-    public void setIntakeGoalPower(double power) {
-        intakeGoalPower = power;
-    }
-
-    public void intakeControl() {
-        setShooterMotorPower(intakeGoalPower);
-        checkShooterAmps();
-    }
-
-
 
     @Override
     public void periodic() {
@@ -164,13 +137,11 @@ public class ArmSubsystem extends SubsystemBase{
         SmartDashboard.putNumber("wrist position radians", getWristPositionRad());
         SmartDashboard.putNumber("wrist amps", getWristMotorAmps());
         SmartDashboard.putBoolean("wrist finished", wristFinished());
-        wristkp = SmartDashboard.getNumber("wrist kp", 0);
-        wristki = SmartDashboard.getNumber("wrist ki", 0);
-        wristkd = SmartDashboard.getNumber("wrist kd", 0);
+        // wristkp = SmartDashboard.getNumber("wrist kp", 0);
+        // wristki = SmartDashboard.getNumber("wrist ki", 0);
+        // wristkd = SmartDashboard.getNumber("wrist kd", 0);
 
-        if(wristFinished()) {
-            // shooterControl();
-        }
+        checkIntakeAmps();
     }
 
 

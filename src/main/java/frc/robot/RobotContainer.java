@@ -12,7 +12,6 @@ import frc.robot.subsystems.DriveSubsystem.ChassisMode;
 import frc.robot.subsystems.DriveSubsystem.DriveMode;
 import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.commands.Intake;
 
 public class RobotContainer {
 
@@ -21,7 +20,6 @@ public class RobotContainer {
     private final Joystick rightStick = new Joystick(1);
     private final XboxController gamepad = new XboxController(2);
     private ArmSubsystem arm = new ArmSubsystem();
-    private Intake intake = new Intake();
 
     //private XboxController gamepad = new XboxController(0);
 
@@ -39,11 +37,11 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         new JoystickButton(gamepad, Button.kY.value)
-            .onTrue(new InstantCommand(() -> arm.setIntakeMotorPower(0.2)))
-            .onFalse(new InstantCommand(() -> arm.setIntakeMotorPower(0)));
+            .onTrue(new InstantCommand(arm::intake))
+            .onFalse(new InstantCommand(arm::stopIntake));
         new JoystickButton(gamepad, Button.kX.value)
-            .onTrue(new InstantCommand(() -> arm.setIntakeMotorPower(-1)))
-            .onFalse(new InstantCommand(() -> arm.setIntakeMotorPower(0)));
+            .onTrue(new InstantCommand(arm::shoot))
+            .onFalse(new InstantCommand(arm::stopIntake));
             
     }
 

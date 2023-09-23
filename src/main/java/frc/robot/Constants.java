@@ -8,6 +8,9 @@ public class Constants {
         public static final int leftIntakeMotorID = 29;
         public static final int rightIntakeMotorID = 50;
 
+        public static final double wristkP = 0.1;
+        public static final double wristkD = 0.0;
+
     }
 
     public class CANDevices{
