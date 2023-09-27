@@ -17,34 +17,29 @@ public class ArmSubsystem extends SubsystemBase{
     private CANSparkMax wristMotor;
     private double wristTolerance = 0.01;
     private PIDController wristController = new PIDController(ArmConstants.wristkP, 0, ArmConstants.wristkD);
-    private static double wristGoalRad = 0;
-    private final double softStop = 80.0, hardStop = 100.0;
+    private static double wristGoalPower = 0;
+    private final double softStop = 20.0, hardStop = 25.0;
 
     private CANSparkMax leftIntakeMotor;
     private CANSparkMax rightIntakeMotor;
 
     private double shooterGoalPower;
-    private double intakeGoalPower;
+    //private double intakeGoalPower;
+
+    private double wristIntake, wristShoot, wristWarmup;
+    private double shooterIntake, shooterShoot, shooterWarmup = 0;
+    //private double intakeOn, intakeOff = 0;
+    public double wristPos, shooterPower, intakePower;
 
 
-    public static enum ArmPositions {
-
-        Intake(0,0,0),
-        ShootHigh(0,0,0),
-        ShootMid(0,0,0),
-        ShootLow(0,0,0),
-        Idle(0,0,0);
-
-        public final int wristPos, shooterPower, intakePower;
-
-        private ArmPositions(int wristPos, int shooterPower, int intakePower) {
-            this.wristPos = wristPos;
-            this.shooterPower = shooterPower;
-            this.intakePower = intakePower;
-        }
+    public static enum Modes {
+        IDLE,
+        INTAKE,
+        WARMUP,
+        SHOOT;
     }
 
-    private ArmPositions currentArmPos = ArmPositions.Idle;
+    private Modes currentMode = Modes.IDLE;
 
     public ArmSubsystem() {
         wristMotor = new CANSparkMax(Constants.ArmConstants.wristMotorID, MotorType.kBrushless);
@@ -54,17 +49,31 @@ public class ArmSubsystem extends SubsystemBase{
 
         rightIntakeMotor.follow(leftIntakeMotor, true);
     }
-
     
-    public void setMode(ArmPositions armPos) {
-        currentArmPos = armPos;
-        wristGoalRad = armPos.wristPos;
-        shooterGoalPower = armPos.shooterPower;
-        intakeGoalPower = armPos.intakePower;
+    public void setMode(Modes mode) {
+        currentMode = mode;
     }
 
-    public ArmPositions getArmPos() {
-        return currentArmPos;
+    public void getSetPointFromMode (){
+        if (this.currentMode == Modes.INTAKE) {
+            wristGoalPower = wristIntake;
+            shooterGoalPower = shooterIntake;
+            //intakeGoalPower = intakeOn;
+        } 
+        else if (this.currentMode == Modes.SHOOT) {
+            wristGoalPower = wristShoot;
+            shooterGoalPower = shooterShoot;
+            //intakeGoalPower = intakeOff;
+        } 
+        else if (this.currentMode == Modes.WARMUP) {
+            wristGoalPower = wristWarmup;
+            shooterGoalPower = shooterWarmup;
+            //intakeGoalPower = intakeOff;
+        }
+        else {
+            //IDLE MODE
+            wristGoalPower = 0;
+        }
     }
   
     ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,40 +92,29 @@ public class ArmSubsystem extends SubsystemBase{
 
     private void checkWristAmps() {
         if (getWristMotorAmps() > softStop) {
-            wristGoalRad = getWristPositionRad();
+            wristGoalPower = getWristPositionRad();
         } 
         if (getWristMotorAmps() > hardStop) {
             setWristMotorPower(0);
+            setMode(Modes.IDLE);
         }
     }
 
 
     public void wristControl() {
         // add TrapezoidProfile + feedforward later?
-        double start = getWristPositionRad();
-        double x = wristController.calculate(wristGoalRad, start);
-        setWristMotorPower(x);
+        //double start = getWristPositionRad();
+        //double x = wristController.calculate(wristGoalPower, start);
+        setWristMotorPower(wristGoalPower);
         checkWristAmps();
     }
 
     public boolean wristFinished() {
-        return Math.abs(getWristPositionRad()-wristGoalRad) < wristTolerance;
+        return Math.abs(getWristPositionRad()-wristGoalPower) < wristTolerance;
     }
    
     public void setIntakeMotorPower(double percent) {
         leftIntakeMotor.set(percent);
-    }
-
-    public void intake() {
-        leftIntakeMotor.set(0.2);
-    }
-
-    public void shoot() {
-        leftIntakeMotor.set(-0.6);
-    }
-
-    public void stopIntake() {
-        leftIntakeMotor.set(0.0);
     }
 
     public double getIntakeMotorAmps() {
@@ -125,13 +123,15 @@ public class ArmSubsystem extends SubsystemBase{
 
     private void checkIntakeAmps() {
         if (getIntakeMotorAmps() > hardStop) {
-            intakeGoalPower = 0;
             setIntakeMotorPower(0);
         }
     }
 
     @Override
     public void periodic() {
+        getSetPointFromMode();
+        wristControl();
+        setIntakeMotorPower(shooterGoalPower);
         // wristControl();
 
         SmartDashboard.putNumber("wrist position radians", getWristPositionRad());
