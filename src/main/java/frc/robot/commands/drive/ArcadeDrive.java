@@ -29,5 +29,12 @@ public class ArcadeDrive extends CommandBase{
 
     @Override
     public void end(boolean interrupted){
+        // Stop motors
+    }
+
+    @Override
+    public boolean isFinished() {
+        // Timer 5 seconds
+        return false;
     }
 }
