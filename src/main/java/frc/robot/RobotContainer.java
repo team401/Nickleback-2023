@@ -15,6 +15,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.Intake;
+import frc.robot.commands.Auto.DriveForward;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.ArmSubsystem;
@@ -32,8 +33,8 @@ public class RobotContainer {
 
     //private final Joystick leftStick = new Joystick(0);
     //private final Joystick rightStick = new Joystick(1);
-    private ArmSubsystem wrist = new ArmSubsystem();
-    private Intake intake = new Intake();
+    // private ArmSubsystem wrist = new ArmSubsystem();
+    // private Intake intake = new Intake();
 
     private CommandXboxController gamepad = new CommandXboxController(0);
 
@@ -68,28 +69,32 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        gamepad.x()
-            .onTrue(new InstantCommand(intake::shoot))
-            .onFalse(new InstantCommand(intake::stop));
-        gamepad.y()
-            .onTrue(new InstantCommand(intake::spit))
-            .onFalse(new InstantCommand(intake::stop));
+        // gamepad.x()
+        //     .onTrue(new InstantCommand(intake::shoot))
+        //     .onFalse(new InstantCommand(intake::stop));
+        // gamepad.y()
+        //     .onTrue(new InstantCommand(intake::spit))
+        //     .onFalse(new InstantCommand(intake::stop));
         
-        gamepad.a()
-            .onTrue(new InstantCommand(() -> swapDrive()));
+        // gamepad.a()
+        //     .onTrue(new InstantCommand(() -> swapDrive()));
     }
 
-    private void swapDrive() {
-        drive.swapMode();
-        if (drive.getMode() == DriveMode.TANKDRIVE) {
-            drive.setDefaultCommand(new TankDrive(drive,
-                () -> gamepad.getLeftY(),
-                () -> gamepad.getRightY()));
-        }
-        else {
-            drive.setDefaultCommand(new ArcadeDrive(drive, 
-                () -> gamepad.getLeftY(), 
-                () -> gamepad.getRightX()));
-        }
+    // private void swapDrive() {
+    //     drive.swapMode();
+    //     if (drive.getMode() == DriveMode.TANKDRIVE) {
+    //         drive.setDefaultCommand(new TankDrive(drive,
+    //             () -> gamepad.getLeftY(),
+    //             () -> gamepad.getRightY()));
+    //     }
+    //     else {
+    //         drive.setDefaultCommand(new ArcadeDrive(drive, 
+    //             () -> gamepad.getLeftY(), 
+    //             () -> gamepad.getRightX()));
+    //     }
+    // }
+
+    public Command getAutoCommand() {
+        return new DriveForward(drive);
     }
 }
