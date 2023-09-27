@@ -15,12 +15,15 @@ public class DriveSubsystem extends SubsystemBase{
     private double arcadeForward = 0;
     private double arcadeRotation = 0;
 
+    /**
+     * @param chassisMode
+     * @param driveMode
+     */
     public DriveSubsystem(ChassisMode chassisMode, DriveMode driveMode) {
         if (chassisMode == ChassisMode.B_TEAM) {
-            driveHardware = new DriveSparkMAX(DriveConstants.bFrontLeftID, DriveConstants.bFrontRightID, DriveConstants.bBackLeftID, DriveConstants.bBackRightID);
+            driveHardware = new DriveSparkMAX(DriveConstants.frontLeftID, DriveConstants.frontRightID, DriveConstants.backLeftID, DriveConstants.backRightID);
         } else {
-            driveHardware = new DriveVictor(DriveConstants.cFrontLeftID, DriveConstants.cFrontRightID, DriveConstants.cBackLeftID, DriveConstants.cBackRightID);
-
+            driveHardware = new DriveVictor(DriveConstants.frontLeftID, DriveConstants.frontRightID, DriveConstants.backLeftID, DriveConstants.backRightID);
         }
         mode = driveMode;
     }

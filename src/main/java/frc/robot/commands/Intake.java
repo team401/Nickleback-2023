@@ -15,22 +15,22 @@ public class Intake extends CommandBase {
     @Override
     public void initialize() {
         arm.setIntakeMotorPower(0.0);
-        arm.setShooterMotorPower(0.0);
+        arm.setIntakeMotorPower(0.0);
     }
 
     public void shoot(){
         arm.setIntakeMotorPower(0.5);
-        arm.setShooterMotorPower(0.5);
+        arm.setIntakeMotorPower(0.5);
     }
 
     public void spit(){
         arm.setIntakeMotorPower(-0.5);
-        arm.setShooterMotorPower(-0.5);
+        arm.setIntakeMotorPower(-0.5);
     }
 
     public void stop(){
         arm.setIntakeMotorPower(0.0);
-        arm.setShooterMotorPower(0.0);
+        arm.setIntakeMotorPower(0.0);
     }
 
 }
