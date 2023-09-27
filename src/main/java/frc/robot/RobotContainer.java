@@ -22,10 +22,6 @@ public class RobotContainer {
 
     private CommandXboxController gamepad = new CommandXboxController(2);
 
-    SendableChooser<String> autoChooser = new SendableChooser<String>();
-    private Command activeAutoCommand = null;
-    private String activeAutoName = null;
-
     public RobotContainer() {
         drive.setDefaultCommand(
             new InstantCommand(
@@ -48,6 +44,5 @@ public class RobotContainer {
             
     }
 
-    private void configureSubsystems() {
-    }
+
 }
