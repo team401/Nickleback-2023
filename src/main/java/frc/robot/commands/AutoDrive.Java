@@ -17,7 +17,7 @@ public class AutoDrive extends CommandBase{
     public void initialize(){
         timer.reset();
         timer.start();
-        drivesub.setArcadeDriveControls(0.5, 0);
+        drivesub.setArcadeDriveControls(0, 0.5);
     }
 
     @Override
