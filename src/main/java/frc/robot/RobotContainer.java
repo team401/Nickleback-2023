@@ -30,32 +30,35 @@ public class RobotContainer {
 
     private final DriveSubsystem drive;
 
-    private final Joystick leftStick = new Joystick(0);
-    private final Joystick rightStick = new Joystick(1);
-    private final CommandXboxController gamepad = new CommandXboxController(2);
+    //private final Joystick leftStick = new Joystick(0);
+    //private final Joystick rightStick = new Joystick(1);
     private ArmSubsystem wrist = new ArmSubsystem();
     private Intake intake = new Intake();
 
-    //private XboxController gamepad = new XboxController(0);
+    private CommandXboxController gamepad = new CommandXboxController(0);
 
     public RobotContainer(){
 
 
-        drive = new DriveSubsystem(robot.chassisConfig(), robot.driveConfig());
+        drive = new DriveSubsystem(ChassisMode.C_TEAM, DriveMode.ARCADEDRIVE);
 
 
 
 
         //fix 
-        if (robot.driveConfig() == DriveMode.TANKDRIVE) {
-            drive.setDefaultCommand(new TankDrive(drive, 
-                () -> leftStick.getRawAxis(1),
-                () -> rightStick.getRawAxis(0)));
-        } else {
-            drive.setDefaultCommand(new ArcadeDrive(drive, 
-                () -> leftStick.getRawAxis(1), 
-                () -> rightStick.getRawAxis(0)));
-        }
+        // if (robot.driveConfig() == DriveMode.TANKDRIVE) {
+        //     drive.setDefaultCommand(new TankDrive(drive, 
+        //         () -> gamepad.getLeftY(),
+        //         () -> gamepad.getRightY()));
+        // } else {
+        //     drive.setDefaultCommand(new ArcadeDrive(drive, 
+        //         () -> gamepad.getLeftY(), 
+        //         () -> gamepad.getRightX()));
+        // }
+
+        drive.setDefaultCommand(new ArcadeDrive(drive,
+                () -> 0.7*gamepad.getRightX(), 
+                () -> -gamepad.getLeftY()));
         
         SendableChooser<String> autoChooser = new SendableChooser<String>();
         //private Command activeAutoCommand = null;
