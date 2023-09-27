@@ -92,7 +92,7 @@ public class RobotContainer {
     }
 
     public Command getAutoCommand() {
-        AutoDrive autoDrive = new AutoDrive(new DriveSubsystem(ChassisMode.C_TEAM, DriveMode.ARCADEDRIVE))
+        AutoDrive autoDrive = new AutoDrive(new DriveSubsystem(ChassisMode.C_TEAM, DriveMode.ARCADEDRIVE));
         return autoDrive;
     }
 }
