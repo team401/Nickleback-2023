@@ -17,7 +17,7 @@ public class AutoDrive extends CommandBase{
     public void initialize(){
         timer.reset();
         timer.start();
-        drivesub.setArcadeDriveControls(0, 0.5);
+        drivesub.setArcadeDriveControls(0, 0.75);
     }
 
     @Override
@@ -31,8 +31,6 @@ public class AutoDrive extends CommandBase{
 
     @Override
     public boolean isFinished(){
-        if (timer.get() == 5)
-            return true;
-        return false;
+        return timer.get() > 1;
     }
 }
