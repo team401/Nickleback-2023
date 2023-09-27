@@ -23,6 +23,7 @@ import frc.robot.Constants.DriveMode;
 import frc.robot.commands.drive.ArcadeDrive;
 import frc.robot.commands.drive.TankDrive;
 import frc.robot.subsystems.drive.DriveSubsystem;
+import frc.robot.commands.AutoDrive;
 
 public class RobotContainer {
 
@@ -88,5 +89,10 @@ public class RobotContainer {
                 () -> gamepad.getLeftY(), 
                 () -> gamepad.getRightX()));
         }
+    }
+
+    public Command getAutoCommand() {
+        AutoDrive autoDrive = new AutoDrive(new DriveSubsystem(ChassisMode.C_TEAM, DriveMode.ARCADEDRIVE))
+        return autoDrive;
     }
 }
