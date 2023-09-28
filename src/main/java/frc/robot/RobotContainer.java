@@ -11,7 +11,7 @@ import frc.robot.commands.ArmMove;
 import frc.robot.commands.drive.TankDrive;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.BasicDriveSubsystem;
-import frc.robot.subsystems.ArmSubsystem.Modes;
+import frc.robot.subsystems.ArmSubsystem.Mode;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class RobotContainer {
@@ -24,8 +24,8 @@ public class RobotContainer {
 
     private CommandXboxController gamepad = new CommandXboxController(2);
 
-    private ArmMove armIntake = new ArmMove(arm, Modes.INTAKE);
-    private ArmMove armShoot = new ArmMove(arm, Modes.SHOOT);
+    private ArmMove armIntake = new ArmMove(arm, Mode.INTAKE);
+    private ArmMove armShoot = new ArmMove(arm, Mode.SHOOT);
 
     SendableChooser<String> autoChooser = new SendableChooser<String>();
     private Command activeAutoCommand = null;
