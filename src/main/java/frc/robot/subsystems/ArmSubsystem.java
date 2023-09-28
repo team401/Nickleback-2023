@@ -64,6 +64,9 @@ public class ArmSubsystem extends SubsystemBase{
         wristMotor.getEncoder().setPosition(0);
 
         wristMotor.setInverted(false);
+
+        // I know, this looks bad
+        wristMotor.setSmartCurrentLimit(30);
     }
     
     public void setMode(Mode mode) {
@@ -120,10 +123,9 @@ public class ArmSubsystem extends SubsystemBase{
 
 
     public void wristControl() {
-        double start = getWristPosition();
-        double x = wristController.calculate(start, wristGoalPosition);
-        setWristMotorPower(x);
-        checkWristAmps();
+        double output = wristController.calculate(getWristPosition(), wristGoalPosition);
+        setWristMotorPower(output);
+        // checkWristAmps();
     }
 
     public boolean wristFinished() {
