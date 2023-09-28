@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmMove;
 import frc.robot.commands.drive.TankDrive;
 import frc.robot.subsystems.ArmSubsystem;
@@ -25,7 +26,10 @@ public class RobotContainer {
     private CommandXboxController gamepad = new CommandXboxController(2);
 
     private ArmMove armIntake = new ArmMove(arm, Mode.INTAKE);
-    private ArmMove armShoot = new ArmMove(arm, Mode.SHOOT);
+    private ArmMove armShootHigh = new ArmMove(arm, Mode.SHOOT_HIGH);
+    private ArmMove armShootMid = new ArmMove(arm, Mode.SHOOT_MID);
+    private ArmMove armShootLow = new ArmMove(arm, Mode.SHOOT_LOW);
+    private ArmMove armSpit = new ArmMove(arm, Mode.SPIT);
 
     SendableChooser<String> autoChooser = new SendableChooser<String>();
     private Command activeAutoCommand = null;
@@ -36,7 +40,7 @@ public class RobotContainer {
             new InstantCommand(
                 () -> drive.arcadeDrive(
                         leftJoystick.getY(),
-                        rightJoystick.getX()),
+                        rightJoystick.getX() / 2),
                 drive)
         );
         configureButtonBindings();
@@ -47,7 +51,13 @@ public class RobotContainer {
         gamepad.a()
             .whileTrue(armIntake);
         gamepad.y()
-            .whileTrue(armShoot);
+            .whileTrue(armShootHigh);
+        gamepad.b()
+            .whileTrue(armShootMid);
+        gamepad.x()
+            .whileTrue(armShootLow);
+        new Trigger(() -> gamepad.getLeftY() < -0.7)
+            .whileTrue(armSpit);
             
     }
 

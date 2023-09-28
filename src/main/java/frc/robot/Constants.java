@@ -21,6 +21,15 @@ public class Constants {
         public static final double wristkP = 0.1;
         public static final double wristkD = 0.0;
 
+        public static final double intakePosition = -35;
+        public static final double upperShootPosition = -3;
+        public static final double stowShootPosition = 0;
+        public static final double lowShootVoltage = -0.1;
+        public static final double midShootVoltage = -0.2;
+        public static final double highShootVoltage = -0.5;
+        public static final double intakeVoltage = 0.2;
+        public static final double spitVoltage = 0.5;
+
     }
 
     public static final class DriveConstants {

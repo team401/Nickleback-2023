@@ -22,12 +22,6 @@ public class ArmMove extends CommandBase {
 
     @Override
     public void end (boolean interupted){
-        arm.setMode(Mode.WARMUP);
+        arm.setMode(Mode.STOW);
     }
-
-
-    
-    
-    
-
 }
