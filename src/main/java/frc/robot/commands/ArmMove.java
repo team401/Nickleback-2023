@@ -3,32 +3,25 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.ArmSubsystem.ArmPositions;
+import frc.robot.subsystems.ArmSubsystem.Mode;
 
 public class ArmMove extends CommandBase {
 
     private ArmSubsystem arm;
-    private ArmPositions armPos;
+    private Mode mode;
 
-    public ArmMove (ArmSubsystem arm, ArmPositions armPos) {
+    public ArmMove (ArmSubsystem arm, Mode mode) {
         this.arm = arm;
-        this.armPos = armPos;
+        this.mode = mode;
     }
 
     @Override
     public void initialize() {
-        arm.setMode(armPos);
+        arm.setMode(this.mode);
     }
 
     @Override
-    public boolean isFinished() {
-        // TODO Auto-generated method stub
-        return arm.getArmPos() == ArmPositions.Idle;
+    public void end (boolean interupted){
+        arm.setMode(Mode.STOW);
     }
-
-
-    
-    
-    
-
 }
