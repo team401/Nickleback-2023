@@ -66,7 +66,7 @@ public class RobotContainer {
         // }
 
         drive.setDefaultCommand(new ArcadeDrive(drive,
-                () -> 0.7*gamepad.getRightX(), 
+                () -> 0.5*gamepad.getRightX(), 
                 () -> -gamepad.getLeftY()));
         
         SendableChooser<String> autoChooser = new SendableChooser<String>();
@@ -88,8 +88,8 @@ public class RobotContainer {
         //     .onTrue(new InstantCommand(() -> swapDrive()));
         gamepad.leftBumper().whileTrue(closeClaw);
         gamepad.rightBumper().whileTrue(openClaw);
-        // gamepad2.leftBumper().whileTrue(closeClaw);
-        // gamepad2.rightBumper().whileTrue(openClaw);
+        gamepad2.leftBumper().whileTrue(closeClaw);
+        gamepad2.rightBumper().whileTrue(openClaw);
     }
 
     // private void swapDrive() {
