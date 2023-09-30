@@ -14,6 +14,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.BasicDriveSubsystem;
 import frc.robot.subsystems.ArmSubsystem.Mode;
 import frc.robot.subsystems.drive.DriveSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Auto extends SequentialCommandGroup {
 
@@ -23,7 +24,12 @@ public class Auto extends SequentialCommandGroup {
         addRequirements(drive);
         addCommands(
             new ArmMove(arm, Mode.SHOOT_HIGH).raceWith(new WaitCommand(1.0)),
-            new RunCommand(() -> drive.arcadeDrive(-0.5, 0)).raceWith(new WaitCommand(driveTime)),
+            new ParallelRaceGroup (
+                new ArmMove(arm, Mode.INTAKE),
+                new RunCommand(() -> drive.arcadeDrive(-1, 0)),
+                new WaitCommand(driveTime)
+            ),
+            new InstantCommand(() -> SmartDashboard.putBoolean("drive finished", true)),
             new InstantCommand(() -> drive.arcadeDrive(0, 0))
         );
 
