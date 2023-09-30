@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
     m_timer.reset();
     m_timer.start();
 
-    
+    m_robotContainer.getAutoCommand().schedule();
   }
 
   @Override

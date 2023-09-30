@@ -9,15 +9,18 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmMove;
+import frc.robot.commands.auto.Auto;
 import frc.robot.commands.drive.TankDrive;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.BasicDriveSubsystem;
 import frc.robot.subsystems.ArmSubsystem.Mode;
+import frc.robot.subsystems.drive.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class RobotContainer {
 
-    private final BasicDriveSubsystem drive = new BasicDriveSubsystem();
+    // private final BasicDriveSubsystem drive = new BasicDriveSubsystem();
+    private final DriveSubsystem drive = new DriveSubsystem();
     private ArmSubsystem arm = new ArmSubsystem();
 
     private Joystick leftJoystick = new Joystick(0);
@@ -32,13 +35,13 @@ public class RobotContainer {
     private ArmMove armSpit = new ArmMove(arm, Mode.SPIT);
 
     SendableChooser<String> autoChooser = new SendableChooser<String>();
-    private Command activeAutoCommand = null;
+    private Command activeAutoCommand = new Auto(arm, drive, 2.0);
     private String activeAutoName = null;
 
     public RobotContainer() {
         drive.setDefaultCommand(
             new InstantCommand(
-                () -> drive.arcadeDrive(
+                () -> drive.setArcadeDriveControls(
                         leftJoystick.getY(),
                         rightJoystick.getX() / 2),
                 drive)
@@ -59,6 +62,11 @@ public class RobotContainer {
         new Trigger(() -> gamepad.getLeftY() < -0.7)
             .whileTrue(armSpit);
             
+    }
+
+
+    public Command getAutoCommand() {
+        return activeAutoCommand;
     }
 
 

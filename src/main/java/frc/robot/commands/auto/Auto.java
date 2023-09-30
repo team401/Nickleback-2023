@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ArmMove;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.BasicDriveSubsystem;
 import frc.robot.subsystems.ArmSubsystem.Mode;
 import frc.robot.subsystems.drive.DriveSubsystem;
 
@@ -19,14 +20,10 @@ public class Auto extends SequentialCommandGroup {
     public Auto(ArmSubsystem arm, DriveSubsystem drive, double driveTime) {
 
         addCommands(
-            new InstantCommand(() -> arm.setMode(Mode.SHOOT_HIGH)),
-            new WaitCommand(1),
-            new InstantCommand(() -> arm.setMode(Mode.IDLE)),
-            new ParallelRaceGroup(
-                new WaitCommand(driveTime),
-                new InstantCommand(() -> drive.setTankDriveControls(1,1))
-            ),
-            new InstantCommand(() -> drive.setTankDriveControls(0, 0))
+            new ArmMove(arm, Mode.SHOOT_HIGH).raceWith(new WaitCommand(1.0)),
+            new InstantCommand(() -> drive.setArcadeDriveControls(1,0)),
+            new WaitCommand(driveTime),
+            new InstantCommand(() -> drive.setArcadeDriveControls(0, 0))
         );
 
     }
