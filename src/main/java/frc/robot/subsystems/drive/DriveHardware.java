@@ -21,6 +21,6 @@ public class DriveHardware {
     }
 
     public void arcadeDrive(double forward, double rotation) {
-        drive.arcadeDrive(forward, -rotation);
+        drive.arcadeDrive(forward, rotation);
     }
 }

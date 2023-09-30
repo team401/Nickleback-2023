@@ -78,7 +78,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters teleoperated mode. */
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+    m_robotContainer.getAutoCommand().end(true);
+  }
 
   /** This function is called periodically during teleoperated mode. */
   @Override

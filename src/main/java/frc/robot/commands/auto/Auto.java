@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ArmMove;
@@ -17,13 +18,13 @@ import frc.robot.subsystems.drive.DriveSubsystem;
 public class Auto extends SequentialCommandGroup {
 
 
-    public Auto(ArmSubsystem arm, DriveSubsystem drive, double driveTime) {
-
+    public Auto(ArmSubsystem arm, BasicDriveSubsystem drive, double driveTime) {
+        addRequirements(arm);
+        addRequirements(drive);
         addCommands(
             new ArmMove(arm, Mode.SHOOT_HIGH).raceWith(new WaitCommand(1.0)),
-            new InstantCommand(() -> drive.setArcadeDriveControls(1,0)),
-            new WaitCommand(driveTime),
-            new InstantCommand(() -> drive.setArcadeDriveControls(0, 0))
+            new RunCommand(() -> drive.arcadeDrive(-0.5, 0)).raceWith(new WaitCommand(driveTime)),
+            new InstantCommand(() -> drive.arcadeDrive(0, 0))
         );
 
     }
