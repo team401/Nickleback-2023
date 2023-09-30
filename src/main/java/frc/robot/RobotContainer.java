@@ -12,14 +12,17 @@ import frc.robot.commands.drive.ArcadeDrive;
 import frc.robot.commands.drive.TankDrive;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ClawSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.commands.ClawMove;
 import frc.robot.commands.Intake;
 import frc.robot.commands.Auto.DriveForward;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.Constants.ChassisMode;
+import frc.robot.Constants.ClawMode;
 import frc.robot.Constants.DriveMode;
 import frc.robot.commands.drive.ArcadeDrive;
 import frc.robot.commands.drive.TankDrive;
@@ -37,6 +40,11 @@ public class RobotContainer {
     // private Intake intake = new Intake();
 
     private CommandXboxController gamepad = new CommandXboxController(0);
+    private CommandXboxController gamepad2 = new CommandXboxController(1);
+    private ClawSubsystem clawSubsystem = new ClawSubsystem();
+    private ClawMove openClaw = new ClawMove(clawSubsystem, ClawMode.Opening);
+    private ClawMove closeClaw = new ClawMove(clawSubsystem, ClawMode.Closing);
+
 
     public RobotContainer(){
 
@@ -78,6 +86,10 @@ public class RobotContainer {
         
         // gamepad.a()
         //     .onTrue(new InstantCommand(() -> swapDrive()));
+        gamepad.leftBumper().whileTrue(closeClaw);
+        gamepad.rightBumper().whileTrue(openClaw);
+        // gamepad2.leftBumper().whileTrue(closeClaw);
+        // gamepad2.rightBumper().whileTrue(openClaw);
     }
 
     // private void swapDrive() {

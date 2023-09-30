@@ -80,6 +80,13 @@ public class Constants {
 
     }
 
+    public static enum ClawMode {
+        Opening,
+        Closing,
+        Idle;
+    }
+
+    public static final double clawPower = 0.5;
 
 
 }
