@@ -23,10 +23,68 @@ import frc.robot.subsystems.drive.DriveSubsystem;
 
 public class AutoRoutines extends SequentialCommandGroup {
 
+    private ArmSubsystem arm;
+    private DriveSubsystem drive;
 
-    
+    private String pathName;
+
+    private double driveTime;
+
+    List<PathPlannerTrajectory> pathGroup;
+
+    public AutoRoutines (String pathName, ArmSubsystem arm, DriveSubsystem drive, double driveTime) {
+
+        this.arm = arm;
+        this.drive = drive;
+        this.pathName = pathName;
+        this.driveTime = driveTime;
+
+        PathConstraints constraints = new PathConstraints(5, 5);
+        pathGroup = PathPlanner.loadPathGroup(pathName, constraints);
+
+        addRequirements(arm);
+        addRequirements(drive);
+
+        addCommands(
+            homeAutoOdometry(),
+            placeCube()
+        );
+
+        if (pathName.equals("1-1")) {
+            addCommands(
+                drive(0),
+                drive(1),
+                balance()
+            );
+        }
+
+    }
 
 
+    private Command homeAutoOdometry() {
+        return new InstantCommand(() -> {
+            Trajectory.State start = pathGroup.get(0).sample(0);
+            //set odometry to start
+        });
+    }
 
+    private Command placeCube() {
+        return new ParallelRaceGroup(
+            new ArmMove(arm, Mode.SHOOT_HIGH),
+            new WaitCommand(1)
+        );
+    }
+
+    private Command drive(int pathNum) {
+        return new InstantCommand(() -> {
+            new AutoDrive(drive, pathGroup.get(pathNum));
+        });
+    }
+
+    private Command balance() {
+        return new InstantCommand(() -> {
+            new Balance(drive);
+        });
+    }
 
 }
