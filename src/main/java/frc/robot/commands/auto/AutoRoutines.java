@@ -42,6 +42,7 @@ public class AutoRoutines extends SequentialCommandGroup {
         PathConstraints constraints = new PathConstraints(5, 5);
         pathGroup = PathPlanner.loadPathGroup(pathName, constraints);
 
+
         addRequirements(arm);
         addRequirements(drive);
 
@@ -55,6 +56,14 @@ public class AutoRoutines extends SequentialCommandGroup {
                 drive(0),
                 drive(1),
                 balance()
+            );
+        } else if (pathName.equals("1-2")) {
+            addCommands(
+                drive(0),
+                pickUpCube(),
+                drive(1),
+                drive(2),
+                placeCube()
             );
         }
 
@@ -71,7 +80,16 @@ public class AutoRoutines extends SequentialCommandGroup {
     private Command placeCube() {
         return new ParallelRaceGroup(
             new ArmMove(arm, Mode.SHOOT_HIGH),
-            new WaitCommand(1)
+            new WaitCommand(1),
+            new ArmMove(arm, Mode.IDLE)
+        );
+    }
+
+    private Command pickUpCube() {
+        return new ParallelRaceGroup(
+            new ArmMove(arm, Mode.INTAKE),
+            new WaitCommand(1),
+            new ArmMove(arm, Mode.IDLE)
         );
     }
 
