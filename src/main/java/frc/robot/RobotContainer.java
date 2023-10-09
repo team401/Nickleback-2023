@@ -38,9 +38,6 @@ public class RobotContainer {
 
     SendableChooser<String> autoChooser = new SendableChooser<String>();
 
-    Command activeAutoCommand;
-    String activeAutoName;
-
     public RobotContainer() {
         
         drive.setDefaultCommand(new DriveWithJoysticks(

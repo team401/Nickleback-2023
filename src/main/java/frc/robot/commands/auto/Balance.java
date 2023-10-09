@@ -1,6 +1,5 @@
 package frc.robot.commands.auto;
 
-<<<<<<< HEAD
 import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
@@ -13,15 +12,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotState;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.PigeonInterface;
-=======
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.drive.DriveSubsystem;
->>>>>>> f0fe880 (in progress, currently working on balance)
 
 public class Balance extends CommandBase {
 
     private DriveSubsystem drive;
-<<<<<<< HEAD
     private PigeonInterface pigeon = new PigeonInterface();
 
     private PIDController driveController, balanceController;
@@ -103,10 +97,3 @@ public class Balance extends CommandBase {
 
 }
 
-=======
-
-    public Balance(DriveSubsystem drive) {
-        this.drive = drive;
-    }
-}
->>>>>>> f0fe880 (in progress, currently working on balance)
