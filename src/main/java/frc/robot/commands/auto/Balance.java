@@ -24,6 +24,7 @@ public class Balance extends CommandBase {
 
     private boolean balanceFound;
 
+    //TODO: get pid values
     private double kPDrive = 0, kIDrive = 0, kDDrive = 0, kPBalance = 0, kIBalance = 0, kDBalance = 0;
 
     public Balance(DriveSubsystem drive) {

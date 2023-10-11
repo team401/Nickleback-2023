@@ -21,6 +21,7 @@ public class AutoDrive extends CommandBase {
     private PIDController xController, yController;
     private PIDController thetaController;
 
+    //TODO: get pid values
     private double kPX = 0, kIX = 0, kDX = 0, kPY = 0, kIY = 0, kDY = 0, kPTheta = 0, kITheta = 0, kDTheta = 0;
 
     private PPHolonomicDriveController controller;
