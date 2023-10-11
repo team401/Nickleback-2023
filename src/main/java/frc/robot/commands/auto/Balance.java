@@ -90,10 +90,17 @@ public class Balance extends CommandBase {
         return (searchTimer.get() > 10 && balanceTimer.get() > 10);
     }
 
+<<<<<<< HEAD
     @Override
     public void end(boolean interupted) {
         drive.setGoalChassisSpeeds(new ChassisSpeeds(0, 0, 0));
     }
+=======
+    /*@Override
+    public void end() {
+        //TODO: stop drivetrain
+    }*/
+>>>>>>> 7d738b7 (waiting on swerve and odometry :D)
 
 }
 

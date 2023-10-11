@@ -51,13 +51,13 @@ public class AutoRoutines extends SequentialCommandGroup {
             placeCube()
         );
 
-        if (pathName.equals("1-1")) {
+        if (pathName.indexOf("1-1_Cube") != -1 && pathName.indexOf("3-1_Cube") != -1) {
             addCommands(
                 drive(0),
                 drive(1),
                 balance()
             );
-        } else if (pathName.equals("1-2")) {
+        } else if (pathName.indexOf("1-2_Cube") != -1) {
             addCommands(
                 drive(0),
                 pickUpCube(),
@@ -67,12 +67,18 @@ public class AutoRoutines extends SequentialCommandGroup {
             );
         }
 
+        if (pathName.indexOf("Balance") != -1) {
+            addCommands(
+                balance()
+            );
+        }
+
     }
 
     private Command homeAutoOdometry() {
         return new InstantCommand(() -> {
             Trajectory.State start = pathGroup.get(0).sample(0);
-            //set odometry to start
+            //TODO: set odometry to start
         });
     }
     private Command placeCube() {
