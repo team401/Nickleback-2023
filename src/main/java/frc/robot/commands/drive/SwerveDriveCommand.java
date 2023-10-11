@@ -8,15 +8,14 @@ import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.drive.DriveSubsystem;
 
-public class SwerveDrive extends CommandBase{
+public class SwerveDriveCommand extends CommandBase{
     private final DriveSubsystem drive;
     private final DoubleSupplier xPercent;
     private final DoubleSupplier yPercent;
     private final DoubleSupplier omegaPercent;
     private final boolean fieldRelative;
 
-    /** Creates a new DriveWithJoysticks. */
-    public SwerveDrive(DriveSubsystem drive, DoubleSupplier xPercent, DoubleSupplier yPercent, DoubleSupplier omegaPercent, boolean fieldRelative) {
+    public SwerveDriveCommand(DriveSubsystem drive, DoubleSupplier xPercent, DoubleSupplier yPercent, DoubleSupplier omegaPercent, boolean fieldRelative) {
         this.drive = drive;
         this.xPercent = xPercent;
         this.yPercent = yPercent;

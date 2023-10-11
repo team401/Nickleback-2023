@@ -69,8 +69,8 @@ public class DriveSubsystem extends SubsystemBase{
             modulePositions[i].angle = new Rotation2d(driveModules[i].getRotationPosition());
         }
 
+        //TODO: add swerve drive odometry
         setGoalChassisSpeeds(new ChassisSpeeds(0, 0, 0));
-
         RobotState.getInstance();//.initializePoseEstimator(getRotation(), modulePositions);
     }
 
@@ -121,24 +121,15 @@ public class DriveSubsystem extends SubsystemBase{
         }
 
         for (int i = 0; i < 4; i++) {
-
-            //SmartDashboard.putBoolean("Drive/modules/"+i+"/status", driveModules[i].getDeadBoolean());
-
+            //Get encoder value
             Rotation2d moduleRotation = new Rotation2d(driveModules[i].getRotationPosition());
 
+            //Optimize each module state
             SwerveModuleState optimizedState = SwerveModuleState.optimize(goalModuleStates[i], moduleRotation);
-            double rotationSetpointRadians = optimizedState.angle.getRadians();
-            double speedSetpointMPerS = optimizedState.speedMetersPerSecond;
-
-            double speedRadPerS = speedSetpointMPerS / DriveConstants.wheelRadiusM;
-            double ffVolts = DriveConstants.driveFF.calculate(speedRadPerS);
-            driveModules[i].setDriveVelocity(speedRadPerS, ffVolts);
-
-            double rotationVoltage = rotationPIDs[i].calculate(moduleRotation.getRadians(), rotationSetpointRadians);
-            driveModules[i].setRotationVoltage(rotationVoltage);
-
+            driveModules[i].moduleControl(optimizedState, moduleRotation);
         }
 
+        //estimation of position
         for (int i = 0; i < 4; i++) {
             modulePositions[i].distanceMeters = driveModules[i].getDrivePosition() * DriveConstants.wheelRadiusM;
             modulePositions[i].angle = new Rotation2d(driveModules[i].getRotationPosition());
@@ -147,6 +138,8 @@ public class DriveSubsystem extends SubsystemBase{
             SmartDashboard.putNumber("Drive/modules/"+i+"/drive stator current", driveModules[i].getDriveStatorCurrent());
             SmartDashboard.putNumber("Drive/modules/"+i+"/rotation stator current", driveModules[i].getRotationStatorCurrent());
         }
+
+        //TODO: add swerve odometry
         RobotState.getInstance().recordDriveObservations(/*getRotation(), modulePositions*/);
 
         SmartDashboard.putNumber("Drive/velocity magnitude", getChassisSpeeds().vxMetersPerSecond);
@@ -159,6 +152,10 @@ public class DriveSubsystem extends SubsystemBase{
         }
     }
 
+    /**
+     * Set the desired velocities of the robot drive (xVelocity, yVelocity, omegaVelocity)
+     * @param speeds the desired speed of the robot
+     */
     public void setGoalChassisSpeeds(ChassisSpeeds speeds) {
         speeds = new ChassisSpeeds(speeds.vxMetersPerSecond * (babyMode ? 0.2 : 1), speeds.vyMetersPerSecond * (babyMode ? 0.2 : 1), speeds.omegaRadiansPerSecond * (babyMode ? 0.1 : 1));
         SwerveModuleState[] goalModuleStates = DriveConstants.kinematics.toSwerveModuleStates(speeds);
@@ -194,6 +191,7 @@ public class DriveSubsystem extends SubsystemBase{
         babyMode = baby;
     }
 
+    //TODO: odometry
     public void setFieldToVehicle(Pose2d fieldToVehicle) {
         RobotState.getInstance().setFieldToVehicle(/*getRotation(), modulePositions, fieldToVehicle*/);
     }
@@ -222,7 +220,6 @@ public class DriveSubsystem extends SubsystemBase{
             driveModules[i].setBrake(braked);
         }
     }
-
 } 
 
 

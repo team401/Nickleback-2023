@@ -5,9 +5,9 @@ import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.SparkMaxPIDController;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
@@ -15,12 +15,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
 
-public class SwerveModules  extends SubsystemBase{
+public class SwerveModules extends SubsystemBase{
 
     private final CANSparkMax driveMotor;
     private final CANSparkMax rotationMotor;
 
-    private final SparkMaxPIDController drivePidController;
+    private final PIDController drivePID = new PIDController(0, 0, 0);
+    private PIDController rotationPID = new PIDController(0,0,0);
 
     //private final CANCoder driveEncoder;  it is built in
     private final CANCoder rotationEncoder;
@@ -49,18 +50,18 @@ public class SwerveModules  extends SubsystemBase{
 
         initialOffsetRadians = measuredOffsetsRadians;
 
-        drivePidController = driveMotor.getPIDController();
-        drivePidController.setFeedbackDevice(driveMotor.getEncoder());
+        // drivePidController = driveMotor.getPIDController();
+        // drivePidController.setFeedbackDevice(driveMotor.getEncoder());
 
-        drivePidController.setP(DriveConstants.driveKps[1]);
-        drivePidController.setD(DriveConstants.driveKds[1]);
+        drivePID.setP(DriveConstants.driveKps[1]); 
+        drivePID.setD(DriveConstants.driveKds[1]);
 
-        drivePidController.setOutputRange(0, 100);
+        //drivePidController.setOutputRange(0, 100);
     
     }
 
     public double getDrivePosition() {
-        return driveMotor.getEncoder().getPosition() / 2048.0 * 2.0 * Math.PI / DriveConstants.driveWheelGearReduction;
+        return driveMotor.getEncoder().getPosition() * 2.0 * Math.PI / DriveConstants.driveWheelGearReduction;
     }       //number of rotations to radians per second
 
     public double getRotationPosition() {
@@ -71,9 +72,16 @@ public class SwerveModules  extends SubsystemBase{
         return Units.degreesToRadians(rotationEncoder.getVelocity());
     }
 
+    /* Velocity gives Rotations per minute, need to go to radians per seconds
+     * 
+    */
     public double getDriveVelocityMPerS() {
-        return driveMotor.getEncoder().getVelocity() / 2048.0 * 10.0 * 2 * Math.PI * DriveConstants.wheelRadiusM / DriveConstants.driveWheelGearReduction;
-    }       //veclocity gives Rotations per minute, need to go to radians per second
+        return driveMotor.getEncoder().getVelocity() * 2 * Math.PI * DriveConstants.wheelRadiusM / DriveConstants.driveWheelGearReduction;
+    }       
+
+    public double getDriveVelocityRadPerS() {
+        return driveMotor.getEncoder().getVelocity() * 2 * Math.PI; 
+    }
 
     public void setRotationVoltage(double volts) {
         rotationMotor.set(volts/12);
@@ -83,11 +91,14 @@ public class SwerveModules  extends SubsystemBase{
         driveMotor.set(volts/12);
     }
 
-    public void setDriveVelocity(double velocityRadPerS, double ffVolts) {
-        //double velocityTicksPer100ms = velocityRadPerS * 2048.0 / 10.0 / 2.0 / Math.PI * DriveConstants.driveWheelGearReduction;
-        driveMotor.set(ffVolts / 12.0);
-    }
+    public void setDriveVelocity(double velocityRadPerS) {
+        /*double velocityTicksPer100ms = velocityRadPerS * 2048.0 / 10.0 / 2.0 / Math.PI * DriveConstants.driveWheelGearReduction;
+        driveMotor.set(ffVolts / 12.0);*/
 
+        double volt = drivePID.calculate(getDriveVelocityRadPerS(), velocityRadPerS);
+        driveMotor.set(volt);
+
+    }
 
     public void zeroEncoders() {
         rotationEncoder.setPositionToAbsolute(1000);
@@ -99,8 +110,8 @@ public class SwerveModules  extends SubsystemBase{
     }
 
     public void setDrivePD(double p, double d) {
-        drivePidController.setP(p);
-        drivePidController.setD(d);
+        drivePID.setP(p);
+        drivePID.setD(d);
     }
 
     public double getDriveStatorCurrent() {
@@ -116,7 +127,19 @@ public class SwerveModules  extends SubsystemBase{
         rotationMotor.setIdleMode(braked ? IdleMode.kBrake : IdleMode.kCoast);
     }
 
+    public void moduleControl(SwerveModuleState optimizedState,Rotation2d moduleRotation){
+        double rotationSetpointRadians = optimizedState.angle.getRadians();
+        double speedSetpointMPerS = optimizedState.speedMetersPerSecond;
 
+        //Set module speed
+        double speedRadPerS = speedSetpointMPerS / DriveConstants.wheelRadiusM;
 
-    
+        this.setDriveVelocity(speedRadPerS);
+
+        //Set module rotation
+        double rotationVoltage = rotationPID.calculate(moduleRotation.getRadians(), rotationSetpointRadians);
+        this.setRotationVoltage(rotationVoltage);
+
+    }
 }
+

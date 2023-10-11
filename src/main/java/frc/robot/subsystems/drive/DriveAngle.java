@@ -3,10 +3,9 @@ package frc.robot.subsystems.drive;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
-public class DriveAngle extends SubsystemBase{
+public class DriveAngle{
 
     private final PigeonIMU pigeon;
 
