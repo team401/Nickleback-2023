@@ -53,7 +53,7 @@ public class IntakeSubsystem {
   }
   @Override
   public void periodic() {
-    setIntakeMotorPower(intakeGoalPower);
+    setIntakeMotorPower(intakePower);
     intakeOn = SmartDashboard.getNumber("intake power", 0);
     checkIntakeAmps();
   }
