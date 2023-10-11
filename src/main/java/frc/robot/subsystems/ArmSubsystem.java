@@ -40,7 +40,8 @@ public class ArmSubsystem extends SubsystemBase{
     private double shooterShootPower = -1;
     private double shooterWarmup = 0;
 
-    private double intakeOn, intakeOff = 0;
+    private double intakeOff = 0;
+    private double intakeOn = ArmConstants.intakeVoltage;
 
 
     public static enum Mode {
