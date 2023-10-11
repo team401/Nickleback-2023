@@ -4,7 +4,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants.ArmConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class IntakeSubsystem {
+public class IntakeSubsystem extends SubsystemBase{
   private CANSparkMax leftIntakeMotor, rightIntakeMotor, topIntakeMotor;
   private double intakePower;
   private double intakeOff = 0;
