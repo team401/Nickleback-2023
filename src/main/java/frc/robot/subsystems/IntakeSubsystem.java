@@ -20,14 +20,27 @@ public class IntakeSubsystem {
     rightIntakeMotor.setSmartCurrentLimit(80);
     topIntakeMotor.setSmartCurrentLimit(80);
   }
-  public void intakeOn () {
+  public void intake () {
     intakePower = intakeOn;
   }
-  public void intakeOff () {
+  public void shootLow () {
+    intakePower = ArmConstants.lowShootVoltage;
+  }
+  public void shootMid () {
+    intakePower = ArmConstants.midShootVoltage;
+  }
+  public void shootHigh () {
+    intakePower = ArmConstants.highShootVoltage;
+  }
+  public void spit () {
+    intakePower = -ArmConstants.spitVoltage;
+  }
+  public void off () {
     intakePower = intakeOff;
   }
   public void setIntakeMotorPower(double percent) {
     rightIntakeMotor.set(percent); // left motor follows?
+    // leftIntakeMotor.set(percent);
     topIntakeMotor.set(percent);
   }
   public double getIntakeMotorAmps() {

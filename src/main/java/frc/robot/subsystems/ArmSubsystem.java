@@ -80,37 +80,37 @@ public class ArmSubsystem extends SubsystemBase{
 
         if (this.currentMode == Mode.INTAKE) {
             wristGoalPosition = ArmConstants.intakePosition;
-            shooterGoalPower = shooterIntakePower;
-            intake.intakeOn();
+            // shooterGoalPower = shooterIntakePower;
+            intake.intake();
         } 
         else if (this.currentMode == Mode.SHOOT_HIGH) {
             wristGoalPosition = ArmConstants.upperShootPosition;
-            shooterGoalPower = ArmConstants.highShootVoltage;
-            intake.intakeOff();
+            // shooterGoalPower = ArmConstants.highShootVoltage;
+            intake.shootHigh();
         } 
         else if (this.currentMode == Mode.SHOOT_MID) {
             wristGoalPosition = ArmConstants.upperShootPosition;
-            shooterGoalPower = ArmConstants.midShootVoltage;
-            intake.intakeOff();
+            // shooterGoalPower = ArmConstants.midShootVoltage;
+            intake.shootMid();
         } 
         else if (this.currentMode == Mode.SHOOT_LOW) {
             wristGoalPosition = ArmConstants.upperShootPosition;
-            shooterGoalPower = ArmConstants.lowShootVoltage;
-            intake.intakeOff();
+            // shooterGoalPower = ArmConstants.lowShootVoltage;
+            intake.shootLow();
         } 
         else if (this.currentMode == Mode.STOW) {
             wristGoalPosition = ArmConstants.stowShootPosition;
-            shooterGoalPower = 0.0;
-            intake.intakeOff();
+            // shooterGoalPower = 0.0;
+            intake.off();
         }
         else if (this.currentMode == Mode.SPIT){
             wristGoalPosition = ArmConstants.intakePosition;
             if (wristFinished()){
-                shooterGoalPower = -ArmConstants.spitVoltage;
+                // shooterGoalPower = -ArmConstants.spitVoltage;
+                intake.spit();
             }
             else{
-                shooterGoalPower = 0;
-                
+                intake.off();
             }
         }
         else {
