@@ -38,13 +38,9 @@ public class AutoRoutines extends SequentialCommandGroup {
         this.arm = arm;
         this.drive = drive;
         this.pathName = pathName;
-
-        PathConstraints constraints = new PathConstraints(5, 5);
+        PathConstraints constraints = new PathConstraints(5, 5); //TODO: get max values
         pathGroup = PathPlanner.loadPathGroup(pathName, constraints);
 
-
-        addRequirements(arm);
-        addRequirements(drive);
 
         addCommands(
             homeAutoOdometry(),
@@ -57,10 +53,12 @@ public class AutoRoutines extends SequentialCommandGroup {
                 drive(1),
                 balance()
             );
-        } else if (pathName.indexOf("1-2_Cube") != -1) {
+        } else if (pathName.indexOf("1-2_Cube") != -1 && pathName.indexOf("3-2_Cube") != -1) {
             addCommands(
-                drive(0),
-                pickUpCube(),
+                new ParallelRaceGroup(
+                    drive(0),
+                    new WaitCommand(2).andThen(pickUpCube())
+                ),
                 drive(1),
                 drive(2),
                 placeCube()
