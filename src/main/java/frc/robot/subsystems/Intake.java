@@ -5,7 +5,7 @@ import frc.robot.Constants.ArmConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.ArmSubsystem;
 
-public class Intake extends ArmSubsystem {
+public class Intake {
   private CANSparkMax leftMotor, rightMotor, topIntakeMotor;
   private double intakePower;
   private final double CURRENT_LIMIT = 25.0;
