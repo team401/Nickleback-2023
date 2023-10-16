@@ -1,6 +1,12 @@
 package frc.robot;
 
+<<<<<<< HEAD
 import edu.wpi.first.math.geometry.Rotation2d;
+=======
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+>>>>>>> 26a4ce0 (odometry start)
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 public class RobotState {
@@ -13,6 +19,7 @@ public class RobotState {
         return instance;
     }
 
+<<<<<<< HEAD
     public void setFieldToVehicle(){
 
     }
@@ -21,4 +28,22 @@ public class RobotState {
 
     }
     
+=======
+    SwerveDriveOdometry odometry;
+
+    public void initializeOdometry(Rotation2d rotation, SwerveModulePosition[] modulePositions, Pose2d initialPose) {
+        odometry = new SwerveDriveOdometry(null, rotation, modulePositions, initialPose);
+
+    }
+
+    public void updateOdometry(Rotation2d rotation, SwerveModulePosition[] modulePositions) {
+        odometry.update(rotation, modulePositions);
+    }
+
+    public Pose2d getOdometryFieldToRobot() {
+        return odometry.getPoseMeters();
+    }
+    
+    
+>>>>>>> 26a4ce0 (odometry start)
 }
