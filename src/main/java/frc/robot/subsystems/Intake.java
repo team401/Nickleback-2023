@@ -15,7 +15,7 @@ public class Intake {
     leftMotor = new CANSparkMax(ArmConstants.leftIntakeMotorID, MotorType.kBrushless);
     rightMotor = new CANSparkMax(ArmConstants.rightIntakeMotorID, MotorType.kBrushless);
     topIntakeMotor = new CANSparkMax(ArmConstants.topIntakeMotorID, MotorType.kBrushless);
-    leftMotor.follow(rightIntakeMotor, true);
+    leftMotor.follow(rightMotor, true);
     leftMotor.setSmartCurrentLimit(80);
     rightMotor.setSmartCurrentLimit(80);
     topIntakeMotor.setSmartCurrentLimit(80);
@@ -63,7 +63,7 @@ public class Intake {
     return rightMotor.getOutputCurrent();
   }
   private void checkIntakeAmps() {
-    if(getIntakeMotorAmps() > HARD_STOP) {
+    if(getIntakeMotorAmps() > CURRENT_LIMIT) {
       setIntakeMotorPower(0);
     }
   }
