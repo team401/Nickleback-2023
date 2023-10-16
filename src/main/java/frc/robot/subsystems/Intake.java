@@ -11,7 +11,7 @@ public class Intake {
   private final double CURRENT_LIMIT = 25.0;
   private boolean runTopIntakeMotor = false;
 
-  public IntakeSubsystem() {
+  public Intake() {
     leftMotor = new CANSparkMax(ArmConstants.leftIntakeMotorID, MotorType.kBrushless);
     rightMotor = new CANSparkMax(ArmConstants.rightIntakeMotorID, MotorType.kBrushless);
     topIntakeMotor = new CANSparkMax(ArmConstants.topIntakeMotorID, MotorType.kBrushless);
