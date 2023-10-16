@@ -33,6 +33,9 @@ public class RobotContainer {
     private ArmMove armShootLow = new ArmMove(arm, Mode.SHOOT_LOW);
     private ArmMove armSpit = new ArmMove(arm, Mode.SPIT);
 
+    Command activeAutoCommand;
+    String activeAutoName;
+
     SendableChooser<String> autoChooser = new SendableChooser<String>();
 
     Command activeAutoCommand;

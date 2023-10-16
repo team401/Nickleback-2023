@@ -62,6 +62,12 @@ public class AutoRoutines extends SequentialCommandGroup {
                 drive(2),
                 placeCube()
             );
+        } else if (pathName.indexOf("2-Balance") != 0) {
+            addCommands(
+                new ParallelRaceGroup(
+                    drive(0)
+                )
+            );
         }
 
         if (pathName.indexOf("Balance") != -1) {
