@@ -58,7 +58,7 @@ public class Balance extends CommandBase {
             double currentX = currentPose.getX();
             double calculate = driveController.calculate(currentX, targetStationX);
             //TODO: apply power to wheels 
-            if (Math.abs(pigeon.getRoll()) < 0.2) {
+            if (Math.abs(pigeon.getRoll()) > 0.2) {
                 balanceFound = true;
                 searchTimer.stop();
                 balanceTimer.reset();

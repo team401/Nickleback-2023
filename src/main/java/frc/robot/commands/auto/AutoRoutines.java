@@ -28,8 +28,9 @@ public class AutoRoutines extends SequentialCommandGroup {
 
     private String pathName;
 
-
     List<PathPlannerTrajectory> pathGroup;
+
+    private double shootLine = 0; //TODO: find position for shooting
 
     public AutoRoutines (String pathName, ArmSubsystem arm, DriveSubsystem drive) {
 
@@ -106,5 +107,6 @@ public class AutoRoutines extends SequentialCommandGroup {
             new Balance(drive);
         });
     }
+
 
 }
