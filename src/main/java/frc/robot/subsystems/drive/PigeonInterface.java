@@ -5,7 +5,7 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.DriveConstants;
 
-public class DriveAngle{
+public class PigeonInterface{
 
     private final PigeonIMU pigeon;
 
@@ -15,7 +15,7 @@ public class DriveAngle{
 
     private double degRollOffset = 0;
 
-    public DriveAngle() {
+    public PigeonInterface() {
         pigeon = new PigeonIMU(DriveConstants.pigeonIMU);
         degHeadingOffset = pigeon.getYaw();
         degPitchOffset = pigeon.getPitch();
@@ -49,6 +49,5 @@ public class DriveAngle{
     public void resetRoll() {
         degRollOffset = pigeon.getRoll();
     } 
-
     
 }

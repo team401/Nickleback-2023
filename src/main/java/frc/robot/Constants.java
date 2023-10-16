@@ -7,16 +7,6 @@ import edu.wpi.first.math.util.Units;
 
 public class Constants {
 
-    public enum DriveMode {
-        TANKDRIVE,
-        ARCADEDRIVE
-    }
-
-    public enum ChassisMode {
-        B_TEAM,
-        C_TEAM,
-    }
-    
     public final class ArmConstants {
 
         public static final int wristMotorID = 19;  //19?
@@ -39,8 +29,8 @@ public class Constants {
 
     public static final class DriveConstants {
 
-        public static final double trackWidth = Units.inchesToMeters(0); //need to measure
-        public static final double wheelBase = Units.inchesToMeters(0); //need to measure
+        public static final double trackWidth = Units.inchesToMeters(22.75); //need to measure
+        public static final double wheelBase = Units.inchesToMeters(20.75); //need to measure
 
         public static final int frontLeftID = 52;
 		public static final int backLeftID = 53;
@@ -83,11 +73,11 @@ public class Constants {
         public static final double maxDriveSpeed = 0; //placeholder
         public static final double maxTurnRate = 0; //placeholder
 
-        public static final double[] driveKps = {0.7, 0.4, 0.7, 0.7}; //placeholder
-        public static final double[] driveKds = {3.5, 2.5, 3.7, 3.5}; //placeholder
+        public static final double driveKps = 0.0; //placeholder
+        public static final double driveKds = 0.0; //placeholder
 
-        public static final double[] rotationKps = {7, 7, 7, 7}; //placeholder
-        public static final double[] rotationKds = {0, 0, 0, 0}; //placeholder
+        public static final double rotationKps = 0.0; //placeholder
+        public static final double rotationKds = 0.0; //placeholder
         
     }
 

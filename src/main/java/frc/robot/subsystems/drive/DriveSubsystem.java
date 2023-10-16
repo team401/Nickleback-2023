@@ -9,29 +9,15 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ChassisMode;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.DriveMode;
 import frc.robot.RobotState;
 
 public class DriveSubsystem extends SubsystemBase{
 
 
     private final SwerveModules[] driveModules = new SwerveModules[4];
-    private final DriveAngle driveAngle = new DriveAngle();
-    private SwerveModulePosition modulePositions[] = new SwerveModulePosition[4];
-    private SwerveModuleState[] goalModuleStates = new SwerveModuleState[4];
-    private PIDController[] rotationPIDs = new PIDController[4];
+    private final PigeonInterface pigeonInterface = new PigeonInterface(); 
 
-    private DriveMode mode;
-
-    private DriveHardware driveHardware;
-
-    private double leftTank = 0;
-    private double rightTank = 0;
-    private double arcadeForward = 0;
-    private double arcadeRotation = 0;
-    
     private boolean babyMode = false;
 
 
@@ -39,13 +25,7 @@ public class DriveSubsystem extends SubsystemBase{
      * @param chassisMode
      * @param driveMode
      */
-    public DriveSubsystem(ChassisMode chassisMode, DriveMode driveMode) {
-        if (chassisMode == ChassisMode.B_TEAM) {
-            driveHardware = new DriveSparkMAX(DriveConstants.frontLeftID, DriveConstants.frontRightID, DriveConstants.backLeftID, DriveConstants.backRightID);
-        } else {
-            driveHardware = new DriveVictor(DriveConstants.frontLeftID, DriveConstants.frontRightID, DriveConstants.backLeftID, DriveConstants.backRightID);
-        }
-        mode = driveMode;
+    public DriveSubsystem() {
 
         driveModules[0] = new SwerveModules(DriveConstants.frontLeftID, DriveConstants.frontLeftRotationMotorID,
         DriveConstants.frontLeftRotationEncoderID, DriveConstants.frontLeftAngleOffset, false, false);
@@ -58,15 +38,10 @@ public class DriveSubsystem extends SubsystemBase{
 
         for (int i = 0; i < 4; i++) {
             driveModules[i].zeroEncoders();
-            modulePositions[i] = new SwerveModulePosition();
-            goalModuleStates[i] = new SwerveModuleState();
 
-            rotationPIDs[i] = new PIDController(DriveConstants.rotationKps[i], 0, DriveConstants.rotationKds[i]);
-            rotationPIDs[i].enableContinuousInput(-Math.PI, Math.PI);
-            driveModules[i].setDrivePD(DriveConstants.driveKps[i], DriveConstants.driveKds[i]);
-
-            modulePositions[i].distanceMeters = driveModules[i].getDrivePosition() * DriveConstants.wheelRadiusM;
-            modulePositions[i].angle = new Rotation2d(driveModules[i].getRotationPosition());
+            driveModules[i].setDrivePD(DriveConstants.driveKps, DriveConstants.driveKds);
+            
+            driveModules[i].setModulePosition();
         }
 
         //TODO: add swerve drive odometry
@@ -75,66 +50,24 @@ public class DriveSubsystem extends SubsystemBase{
     }
 
     
-
-    public DriveSubsystem(ChassisMode chassisMode) {
-        this(chassisMode, DriveMode.TANKDRIVE);
-    }
-
-    public DriveSubsystem() {
-        this(ChassisMode.C_TEAM, DriveMode.TANKDRIVE);
-    }
-    
-
-    public void setArcadeDriveControls(double forward, double rotation) {
-        mode = DriveMode.ARCADEDRIVE;
-		arcadeForward = forward;
-        arcadeRotation = rotation;
-	}
-
-	public void setTankDriveControls(double left, double right) {
-        mode = DriveMode.TANKDRIVE;
-        leftTank = left;
-        rightTank = right;
-	}
-
-    public void swapMode() {
-        if(mode == DriveMode.TANKDRIVE) {
-            mode = DriveMode.ARCADEDRIVE;
-            setArcadeDriveControls(arcadeForward, arcadeRotation);
-        } else {
-            mode = DriveMode.TANKDRIVE;
-            setTankDriveControls(leftTank, rightTank);
-        }
-    }
-
-    public DriveMode getMode(){
-        return mode;
-    }
-
     @Override
     public void periodic(){
-        if (mode == DriveMode.TANKDRIVE){
-            driveHardware.tankDrive(leftTank, rightTank);
-        }
-        else {
-            driveHardware.arcadeDrive(arcadeForward, arcadeRotation);
-        }
-
         for (int i = 0; i < 4; i++) {
             //Get encoder value
             Rotation2d moduleRotation = new Rotation2d(driveModules[i].getRotationPosition());
 
             //Optimize each module state
-            SwerveModuleState optimizedState = SwerveModuleState.optimize(goalModuleStates[i], moduleRotation);
-            driveModules[i].moduleControl(optimizedState, moduleRotation);
+            SwerveModuleState optimizedState = SwerveModuleState.optimize(driveModules[i].getModuleState(), moduleRotation);
+            driveModules[i].moduleControl(optimizedState);
+
         }
 
         //estimation of position
         for (int i = 0; i < 4; i++) {
-            modulePositions[i].distanceMeters = driveModules[i].getDrivePosition() * DriveConstants.wheelRadiusM;
-            modulePositions[i].angle = new Rotation2d(driveModules[i].getRotationPosition());
+            driveModules[i].getModulePosition().distanceMeters = driveModules[i].getDrivePosition() * DriveConstants.wheelRadiusM;
+            driveModules[i].getModulePosition().angle = new Rotation2d(driveModules[i].getRotationPosition());
 
-            SmartDashboard.putNumber("Drive/modules/"+i+"/angle", modulePositions[i].angle.getRadians());
+            SmartDashboard.putNumber("Drive/modules/"+i+"/angle", driveModules[i].getModulePosition().angle.getRadians());
             SmartDashboard.putNumber("Drive/modules/"+i+"/drive stator current", driveModules[i].getDriveStatorCurrent());
             SmartDashboard.putNumber("Drive/modules/"+i+"/rotation stator current", driveModules[i].getRotationStatorCurrent());
         }
@@ -148,7 +81,7 @@ public class DriveSubsystem extends SubsystemBase{
 
     public void setGoalModuleStates(SwerveModuleState[] states) {
         for (int i = 0; i < 4; i++) {
-            goalModuleStates[i] = states[i];
+            driveModules[i].setModuleState(states[i]);
         }
     }
 
@@ -162,29 +95,29 @@ public class DriveSubsystem extends SubsystemBase{
         SwerveDriveKinematics.desaturateWheelSpeeds(goalModuleStates, DriveConstants.maxDriveSpeed);
         if (speeds.vxMetersPerSecond == 0 && speeds.vyMetersPerSecond == 0 && speeds.omegaRadiansPerSecond == 0) {
             goalModuleStates = new SwerveModuleState[] {
-                new SwerveModuleState(0, modulePositions[0].angle), 
-                new SwerveModuleState(0, modulePositions[1].angle),
-                new SwerveModuleState(0, modulePositions[2].angle),
-                new SwerveModuleState(0, modulePositions[3].angle)
+                new SwerveModuleState(0, driveModules[0].getModulePosition().angle), 
+                new SwerveModuleState(0, driveModules[1].getModulePosition().angle),
+                new SwerveModuleState(0, driveModules[2].getModulePosition().angle),
+                new SwerveModuleState(0, driveModules[3].getModulePosition().angle)
             };
         }
         setGoalModuleStates(goalModuleStates);
     }
 
     public Rotation2d getRotation() {
-        return new Rotation2d(MathUtil.angleModulus(driveAngle.getHeading()));
+        return new Rotation2d(MathUtil.angleModulus(pigeonInterface.getHeading()));
     }
 
         public void resetHeading() {
-        driveAngle.resetHeading();
+        pigeonInterface.resetHeading();
     }
 
     public void setHeading(double heading) {
-        driveAngle.setHeading(heading);
+        pigeonInterface.setHeading(heading);
     }
 
     public double getRoll() {
-        return driveAngle.getRoll();
+        return pigeonInterface.getRoll();
     }
 
     public void setBabyMode(boolean baby) {

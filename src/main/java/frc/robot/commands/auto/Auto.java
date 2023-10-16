@@ -23,10 +23,8 @@ public class Auto extends SequentialCommandGroup {
             new WaitCommand(1),
             new InstantCommand(() -> arm.setMode(Mode.IDLE)),
             new ParallelRaceGroup(
-                new WaitCommand(driveTime),
-                new InstantCommand(() -> drive.setTankDriveControls(1,1))
-            ),
-            new InstantCommand(() -> drive.setTankDriveControls(0, 0))
+                new WaitCommand(driveTime)
+            )
         );
 
     }
