@@ -41,7 +41,7 @@ public class DriveSubsystem extends SubsystemBase{
 
             driveModules[i].setDrivePD(DriveConstants.driveKps, DriveConstants.driveKds);
             
-            driveModules[i].setModulePosition();
+            driveModules[i].initModulePosition();
         }
 
         //TODO: add swerve drive odometry
@@ -81,7 +81,7 @@ public class DriveSubsystem extends SubsystemBase{
 
     public void setGoalModuleStates(SwerveModuleState[] states) {
         for (int i = 0; i < 4; i++) {
-            driveModules[i].setModuleState(states[i]);
+            driveModules[i].setGoalModuleState(states[i]);
         }
     }
 

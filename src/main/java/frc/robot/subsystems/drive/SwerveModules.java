@@ -135,11 +135,11 @@ public class SwerveModules extends SubsystemBase{
         return goalModuleState;
     }
 
-    public void setModuleState(SwerveModuleState state){
+    public void setGoalModuleState(SwerveModuleState state){
         goalModuleState = state;
     }
 
-    public void setModulePosition(){
+    public void initModulePosition(){
         modulePosition.distanceMeters = getDrivePosition() * DriveConstants.wheelRadiusM;
         modulePosition.angle = new Rotation2d(getRotationPosition());
 
