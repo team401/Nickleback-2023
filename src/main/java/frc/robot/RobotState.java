@@ -40,6 +40,10 @@ public class RobotState {
         odometry.update(rotation, modulePositions);
     }
 
+    public void resetOdometry(Rotation2d gyroAngle, SwerveModulePosition[] modulePositions, Pose2d pose) {
+        odometry.resetPosition(gyroAngle, modulePositions, pose);
+    }
+    
     public Pose2d getOdometryFieldToRobot() {
         return odometry.getPoseMeters();
     }
