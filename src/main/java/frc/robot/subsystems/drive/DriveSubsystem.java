@@ -46,7 +46,7 @@ public class DriveSubsystem extends SubsystemBase{
 
         //TODO: add swerve drive odometry
         setGoalChassisSpeeds(new ChassisSpeeds(0, 0, 0));
-        RobotState.getInstance();//.initializePoseEstimator(getRotation(), modulePositions);
+        RobotState.getInstance().initializeOdometry(getRotation(), getSwerveModulePositions());
     }
 
     
@@ -62,6 +62,8 @@ public class DriveSubsystem extends SubsystemBase{
 
         }
 
+        
+
         //estimation of position
         for (int i = 0; i < 4; i++) {
             driveModules[i].getModulePosition().distanceMeters = driveModules[i].getDrivePosition() * DriveConstants.wheelRadiusM;
@@ -72,8 +74,7 @@ public class DriveSubsystem extends SubsystemBase{
             SmartDashboard.putNumber("Drive/modules/"+i+"/rotation stator current", driveModules[i].getRotationStatorCurrent());
         }
 
-        //TODO: add swerve odometry
-        RobotState.getInstance().recordDriveObservations(/*getRotation(), modulePositions*/);
+        RobotState.getInstance().updateOdometry(getRotation(), getSwerveModulePositions());
 
         SmartDashboard.putNumber("Drive/velocity magnitude", getChassisSpeeds().vxMetersPerSecond);
     }
@@ -126,7 +127,7 @@ public class DriveSubsystem extends SubsystemBase{
 
     //TODO: odometry
     public void setFieldToVehicle(Pose2d fieldToVehicle) {
-        RobotState.getInstance().setFieldToVehicle(/*getRotation(), modulePositions, fieldToVehicle*/);
+        RobotState.getInstance().resetOdometry(getRotation(), getSwerveModulePositions(), fieldToVehicle);
     }
 
     public void setVolts(double v) {
@@ -142,6 +143,16 @@ public class DriveSubsystem extends SubsystemBase{
             states[i] = driveModules[i].getModuleState();
         }
         return states;
+    }
+
+    private SwerveModulePosition[] getSwerveModulePositions() {
+
+        SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[4];
+        for (int i = 0; i < 4; i++) {
+            swerveModulePositions[i] = driveModules[i].getModulePosition();
+        }
+        return swerveModulePositions;
+        
     }
 
     public ChassisSpeeds getChassisSpeeds() {
