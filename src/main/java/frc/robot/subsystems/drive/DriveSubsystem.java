@@ -77,6 +77,11 @@ public class DriveSubsystem extends SubsystemBase{
         RobotState.getInstance().updateOdometry(getRotation(), getSwerveModulePositions());
 
         SmartDashboard.putNumber("Drive/velocity magnitude", getChassisSpeeds().vxMetersPerSecond);
+
+        SmartDashboard.putNumber("Encoder Position 1", new Rotation2d(driveModules[0].getRotationPosition()).getRotations());
+        SmartDashboard.putNumber("Encoder Position 2", new Rotation2d(driveModules[1].getRotationPosition()).getRotations());
+        SmartDashboard.putNumber("Encoder Position 3", new Rotation2d(driveModules[2].getRotationPosition()).getRotations());
+        SmartDashboard.putNumber("Encoder Position 4", new Rotation2d(driveModules[3].getRotationPosition()).getRotations());
     }
 
 
@@ -164,6 +169,8 @@ public class DriveSubsystem extends SubsystemBase{
             driveModules[i].setBrake(braked);
         }
     }
+
+    
 } 
 
 

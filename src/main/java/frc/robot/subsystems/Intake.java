@@ -18,7 +18,7 @@ public class Intake {
     leftMotor.follow(rightMotor, true);
     leftMotor.setSmartCurrentLimit(80);
     rightMotor.setSmartCurrentLimit(80);
-    topIntakeMotor.setSmartCurrentLimit(80);
+    topIntakeMotor.setSmartCurrentLimit(10);
   }
 
   public void intake () {
@@ -54,7 +54,7 @@ public class Intake {
   public void setIntakeMotorPower(double percent) {
     rightMotor.set(percent);
     if(runTopIntakeMotor == true) {
-      topIntakeMotor.set(percent);
+      topIntakeMotor.set(0.5*percent);
     } else {
       topIntakeMotor.set(0);
     }
