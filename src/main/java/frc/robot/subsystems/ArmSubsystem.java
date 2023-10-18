@@ -28,6 +28,9 @@ public class ArmSubsystem extends SubsystemBase{
     private CANSparkMax leftIntakeMotor;
     private CANSparkMax rightIntakeMotor;
 
+    private CANSparkMax rollerMotor;
+    private double rollerOn;
+
     private double shooterGoalPower;
     //private double intakeGoalPower;
 
@@ -62,16 +65,19 @@ public class ArmSubsystem extends SubsystemBase{
         leftIntakeMotor = new CANSparkMax(ArmConstants.leftIntakeMotorID, MotorType.kBrushless);
         rightIntakeMotor = new CANSparkMax(ArmConstants.rightIntakeMotorID, MotorType.kBrushless);
 
+        rollerMotor = new CANSparkMax(ArmConstants.rollerMotorID, MotorType.kBrushless);
+
         leftIntakeMotor.setSmartCurrentLimit(80);
         rightIntakeMotor.setSmartCurrentLimit(80);
+
+        rollerMotor.setSmartCurrentLimit(10);
 
         wristMotor.setIdleMode(IdleMode.kCoast);
         wristMotor.getEncoder().setPosition(0);
 
         wristMotor.setInverted(false);
 
-        // I know, this looks bad
-        wristMotor.setSmartCurrentLimit(30);
+        wristMotor.setSmartCurrentLimit(40);
     }
     
     public void setMode(Mode mode) {
@@ -84,35 +90,42 @@ public class ArmSubsystem extends SubsystemBase{
         if (this.currentMode == Mode.INTAKE) {
             wristGoalPosition = ArmConstants.intakePosition;
             shooterGoalPower = shooterIntakePower;
+            rollerOn = -1;
             //intakeGoalPower = intakeOn;
         } 
         else if (this.currentMode == Mode.SHOOT_HIGH) {
             wristGoalPosition = ArmConstants.upperShootPosition;
             shooterGoalPower = ArmConstants.highShootVoltage;
+            rollerOn = 1;
             //intakeGoalPower = intakeOff;
         } 
         else if (this.currentMode == Mode.SHOOT_MID) {
             wristGoalPosition = ArmConstants.upperShootPosition;
             shooterGoalPower = ArmConstants.midShootVoltage;
+            rollerOn = 1;
             //intakeGoalPower = intakeOff;
         } 
         else if (this.currentMode == Mode.SHOOT_LOW) {
             wristGoalPosition = ArmConstants.upperShootPosition;
             shooterGoalPower = ArmConstants.lowShootVoltage;
+            rollerOn = 1;
             //intakeGoalPower = intakeOff;
         } 
         else if (this.currentMode == Mode.STOW) {
             wristGoalPosition = ArmConstants.stowShootPosition;
             shooterGoalPower = 0.0;
+            rollerOn = 0;
             //intakeGoalPower = intakeOff;
         }
         else if (this.currentMode == Mode.SPIT){
             wristGoalPosition = ArmConstants.intakePosition;
             if (wristFinished()){
                 shooterGoalPower = -ArmConstants.spitVoltage;
+                rollerOn = 1;
             }
             else{
                 shooterGoalPower = 0;
+                rollerOn = 0;
                 
             }
         }
@@ -151,10 +164,14 @@ public class ArmSubsystem extends SubsystemBase{
     public boolean wristFinished() {
         return Math.abs(getWristPosition()-wristGoalPosition) < wristTolerance;
     }
+
+    public void setRollerPower(double percent) {
+        rollerMotor.set(0.5*percent);
+    }
    
     public void setIntakeMotorPower(double percent) {
         leftIntakeMotor.set(percent);
-        rightIntakeMotor.set(percent);
+        rightIntakeMotor.set(-percent);
     }
 
     public double getIntakeMotorAmps() {
@@ -171,6 +188,7 @@ public class ArmSubsystem extends SubsystemBase{
     public void periodic() {
         getSetpointFromMode();
         setIntakeMotorPower(shooterGoalPower);
+        setRollerPower(rollerOn);
         wristControl();
 
         SmartDashboard.putNumber("wrist position", getWristPosition());

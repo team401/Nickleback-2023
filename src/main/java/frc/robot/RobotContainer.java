@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class RobotContainer {
 
-    private final BasicDriveSubsystem drive = new BasicDriveSubsystem();
+    // private final BasicDriveSubsystem drive = new BasicDriveSubsystem();
     // private final DriveSubsystem drive = new DriveSubsystem(ChassisMode.B_TEAM, DriveMode.ARCADEDRIVE);
     private ArmSubsystem arm = new ArmSubsystem();
 
@@ -37,17 +37,17 @@ public class RobotContainer {
     private ArmMove armSpit = new ArmMove(arm, Mode.SPIT);
 
     SendableChooser<String> autoChooser = new SendableChooser<String>();
-    private Command activeAutoCommand = new Auto(arm, drive, 4.0);
+    // private Command activeAutoCommand = new Auto(arm, drive, 4.0);
     private String activeAutoName = null;
 
     public RobotContainer() {
-        drive.setDefaultCommand(
-            new InstantCommand(
-                () -> drive.arcadeDrive(
-                        leftJoystick.getY(),
-                        rightJoystick.getX() / 2),
-                drive)
-        );
+        // drive.setDefaultCommand(
+        //     new InstantCommand(
+        //         () -> drive.arcadeDrive(
+        //                 leftJoystick.getY(),
+        //                 rightJoystick.getX() / 2),
+        //         drive)
+        // );
         configureButtonBindings();
         
     }
@@ -68,7 +68,8 @@ public class RobotContainer {
 
 
     public Command getAutoCommand() {
-        return activeAutoCommand;
+        // return activeAutoCommand;
+        return null;
     }
 
 
