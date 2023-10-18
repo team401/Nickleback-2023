@@ -4,6 +4,9 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import frc.robot.Constants.DriveConstants;
 
 public class RobotState {
@@ -17,6 +20,7 @@ public class RobotState {
     }
 
     private SwerveDriveOdometry odometry;
+    private Field2d field = new Field2d();
 
     public void initializeOdometry(Rotation2d rotation, SwerveModulePosition[] modulePositions) {
         odometry = new SwerveDriveOdometry(DriveConstants.kinematics, rotation, modulePositions);
@@ -36,6 +40,9 @@ public class RobotState {
     }
     
     public Pose2d getOdometryFieldToRobot() {
+        field.setRobotPose(odometry.getPoseMeters());
+        SmartDashboard.putData("Odometry Pose", field);
+
         return odometry.getPoseMeters();
     }
     
