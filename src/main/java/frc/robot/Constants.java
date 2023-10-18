@@ -10,9 +10,9 @@ public class Constants {
     public final class ArmConstants {
 
         public static final int wristMotorID = 19;  //19?
-        public static final int leftIntakeMotorID = 29;
-        public static final int rightIntakeMotorID = 50;
-        public static final int topIntakeMotorID = 3; //?
+        public static final int leftIntakeMotorID = 11;
+        public static final int rightIntakeMotorID = 10;
+        public static final int topIntakeMotorID = 9;
 
         public static final double wristkP = 0.1;
         public static final double wristkD = 0.0;
