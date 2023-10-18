@@ -152,7 +152,6 @@ public class DriveSubsystem extends SubsystemBase{
         babyMode = baby;
     }
 
-    //TODO: odometry
     public void setFieldToVehicle(Pose2d fieldToVehicle) {
         RobotState.getInstance().resetOdometry(getRotation(), getSwerveModulePositions(), fieldToVehicle);
     }

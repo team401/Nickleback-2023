@@ -5,15 +5,18 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotState;
 import frc.robot.subsystems.drive.DriveSubsystem;
+import frc.robot.subsystems.drive.PigeonInterface;
 
 public class Balance extends CommandBase {
 
     private DriveSubsystem drive;
-    private PigeonIMU pigeon = new PigeonIMU(0); //TODO: get pigeon
+    private PigeonInterface pigeon = new PigeonInterface();
 
     private PIDController driveController, balanceController;
 
@@ -54,10 +57,10 @@ public class Balance extends CommandBase {
     @Override
     public void execute() {
         if (!balanceFound) {
-            Pose2d currentPose = new Pose2d(); //TODO: get current pos
+            Pose2d currentPose = RobotState.getInstance().getOdometryFieldToRobot();
             double currentX = currentPose.getX();
             double calculate = driveController.calculate(currentX, targetStationX);
-            //TODO: apply power to wheels 
+            drive.setGoalChassisSpeeds(new ChassisSpeeds(0, calculate, 0));
             if (Math.abs(pigeon.getRoll()) > 0.2) {
                 balanceFound = true;
                 searchTimer.stop();
@@ -67,7 +70,7 @@ public class Balance extends CommandBase {
         } else {
             double pitch = pigeon.getRoll();
             double dir = balanceController.calculate(pitch, 0);
-            //TODO: apply dir to swerve
+            drive.setGoalChassisSpeeds(new ChassisSpeeds(0, dir, 0));
         }
 
 
@@ -87,10 +90,10 @@ public class Balance extends CommandBase {
         return (searchTimer.get() > 10 && balanceTimer.get() > 10);
     }
 
-    /*@Override
-    public void end() {
-        //TODO: stop drivetrain
-    }*/
+    @Override
+    public void end(boolean interupted) {
+        drive.setGoalChassisSpeeds(new ChassisSpeeds(0, 0, 0));
+    }
 
 }
 

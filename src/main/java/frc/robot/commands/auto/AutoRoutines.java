@@ -6,6 +6,8 @@ import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.RobotState;
 import frc.robot.commands.ArmMove;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ArmSubsystem.Mode;
@@ -30,7 +33,7 @@ public class AutoRoutines extends SequentialCommandGroup {
 
     List<PathPlannerTrajectory> pathGroup;
 
-    private double shootLine = 0; //TODO: find position for shooting
+    //private double shootLine = 0; find position for shooting(?)
 
     public AutoRoutines (String pathName, ArmSubsystem arm, DriveSubsystem drive) {
 
@@ -82,7 +85,7 @@ public class AutoRoutines extends SequentialCommandGroup {
     private Command homeAutoOdometry() {
         return new InstantCommand(() -> {
             Trajectory.State start = pathGroup.get(0).sample(0);
-            //TODO: set odometry to start
+            drive.setFieldToVehicle(new Pose2d(start.poseMeters.getTranslation(), Rotation2d.fromRadians(start.curvatureRadPerMeter)));
         });
     }
 

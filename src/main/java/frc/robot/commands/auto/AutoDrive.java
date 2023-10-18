@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
+import frc.robot.RobotState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -69,8 +70,7 @@ public class AutoDrive extends CommandBase {
     public void execute() {
 
         PathPlannerTrajectory.PathPlannerState goal = ((PathPlannerTrajectory.PathPlannerState) path.sample(time.get()));
-        Pose2d currentRobotPose = new Pose2d(); 
-        //TODO: get from odometry
+        Pose2d currentRobotPose = RobotState.getInstance().getOdometryFieldToRobot();
         
         ChassisSpeeds adjustedSpeeds = controller.calculate(currentRobotPose, goal);
 
@@ -86,7 +86,7 @@ public class AutoDrive extends CommandBase {
         SmartDashboard.getNumber("kI Theta", kITheta);
         SmartDashboard.getNumber("kD Theta", kDTheta);
 
-        //TODO: return to drive???
+        drive.setGoalChassisSpeeds(adjustedSpeeds);
     }
 
     @Override
