@@ -15,7 +15,7 @@ import frc.robot.RobotState;
 public class DriveSubsystem extends SubsystemBase{
 
 
-    private final SwerveModules[] driveModules = new SwerveModules[4];
+    private final SwerveModules[] driveModules = new SwerveModules[4]; // FR, RL, BR, BL
     private final PigeonInterface pigeonInterface = new PigeonInterface(); 
 
     private boolean babyMode = false;
@@ -27,19 +27,19 @@ public class DriveSubsystem extends SubsystemBase{
      */
     public DriveSubsystem() {
 
-        driveModules[0] = new SwerveModules(DriveConstants.frontLeftID, DriveConstants.frontLeftRotationMotorID,
+        driveModules[0] = new SwerveModules(DriveConstants.frontLeftDriveID, DriveConstants.frontLeftRotationMotorID,
         DriveConstants.frontLeftRotationEncoderID, DriveConstants.frontLeftAngleOffset, false, false);
-        driveModules[1] = new SwerveModules(DriveConstants.frontRightID, DriveConstants.frontRightRotationMotorID,
+        driveModules[1] = new SwerveModules(DriveConstants.frontRightDriveID, DriveConstants.frontRightRotationMotorID,
         DriveConstants.frontRightRotationEncoderID, DriveConstants.frontRightAngleOffset, true, false);
-        driveModules[2] = new SwerveModules(DriveConstants.backLeftID, DriveConstants.backLeftRotationMotorID,
+        driveModules[2] = new SwerveModules(DriveConstants.backLeftDriveID, DriveConstants.backLeftRotationMotorID,
         DriveConstants.backLeftRotationEncoderID, DriveConstants.backLeftAngleOffset, false, false);
-        driveModules[3] = new SwerveModules(DriveConstants.backRightID, DriveConstants.backRightRotationMotorID,
+        driveModules[3] = new SwerveModules(DriveConstants.backRightDriveID, DriveConstants.backRightRotationMotorID,
         DriveConstants.backRightRotationEncoderID, DriveConstants.backRightAngleOffset, true, false);
 
         for (int i = 0; i < 4; i++) {
             driveModules[i].zeroEncoders();
 
-            driveModules[i].setDrivePD(DriveConstants.driveKps, DriveConstants.driveKds);
+            driveModules[i].setDrivePD(DriveConstants.driveKp, DriveConstants.driveKd);
             
             driveModules[i].initModulePosition();
         }
@@ -114,7 +114,7 @@ public class DriveSubsystem extends SubsystemBase{
         return new Rotation2d(MathUtil.angleModulus(pigeonInterface.getHeading()));
     }
 
-        public void resetHeading() {
+    public void resetHeading() {
         pigeonInterface.resetHeading();
     }
 

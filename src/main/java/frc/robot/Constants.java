@@ -33,29 +33,29 @@ public class Constants {
         public static final double trackWidth = Units.inchesToMeters(22.75); //need to measure
         public static final double wheelBase = Units.inchesToMeters(20.75); //need to measure
 
-        public static final int frontLeftID = 52;
-		public static final int backLeftID = 53;
-		public static final int frontRightID = 14;
-		public static final int backRightID = 16;
+        public static final int frontLeftDriveID = 1;
+		public static final int backLeftDriveID = 3;
+		public static final int frontRightDriveID = 7;
+		public static final int backRightDriveID = 5;
 
-        public static final int frontLeftRotationMotorID = 0; //placeholder
-        public static final int frontRightRotationMotorID = 0; //placeholder
-        public static final int backLeftRotationMotorID = 0; //placeholder
-        public static final int backRightRotationMotorID = 0; //placeholder
+        public static final int frontLeftRotationMotorID = 2; 
+        public static final int frontRightRotationMotorID = 4; 
+        public static final int backLeftRotationMotorID = 8; 
+        public static final int backRightRotationMotorID = 6; 
 
-        public static final int frontLeftRotationEncoderID = 0; //placeholder
-        public static final int frontRightRotationEncoderID = 0; //placeholder
-        public static final int backLeftRotationEncoderID = 0; //placeholder
-        public static final int backRightRotationEncoderID = 0; //placeholder
+        public static final int frontLeftRotationEncoderID = 1; 
+        public static final int frontRightRotationEncoderID = 2; 
+        public static final int backLeftRotationEncoderID = 4; 
+        public static final int backRightRotationEncoderID = 3; 
 
-        public static final double frontLeftAngleOffset = 0.0; //placeholder
-        public static final double frontRightAngleOffset = 0.0; //placeholder
-        public static final double backLeftAngleOffset = 0.0; //placeholder
-        public static final double backRightAngleOffset = 0.0; //placeholder
+        public static final double frontLeftAngleOffset = 0.7470; 
+        public static final double frontRightAngleOffset = 5.6972; 
+        public static final double backLeftAngleOffset = 5.6143; 
+        public static final double backRightAngleOffset = 2.3991; 
 
 		public static final double autoDrivePercent = 0.6;
-        public static final int driveWheelGearReduction = 0;
-        public static final int wheelRadiusM = 0;
+        public static final double driveWheelGearReduction = 0; // placeholder
+        public static final double wheelRadiusM = Units.inchesToMeters(2);
 
         public static final SwerveDriveKinematics kinematics = 
             new SwerveDriveKinematics(
@@ -65,7 +65,7 @@ public class Constants {
                 new Translation2d(-trackWidth / 2.0, -wheelBase / 2.0) //rear right placeholder
         );
 
-        public static final SimpleMotorFeedforward driveFF = new SimpleMotorFeedforward(0.24, 2.185); //placeholder 
+        public static final SimpleMotorFeedforward driveFF = new SimpleMotorFeedforward(0.0, 0.0); //placeholder 
 
         public static final int pigeonIMU = 0; //placeholder
         
@@ -74,11 +74,11 @@ public class Constants {
         public static final double maxDriveSpeed = 0; //placeholder
         public static final double maxTurnRate = 0; //placeholder
 
-        public static final double driveKps = 0.0; //placeholder
-        public static final double driveKds = 0.0; //placeholder
+        public static final double driveKp = 0.0; //placeholder
+        public static final double driveKd = 0.0; //placeholder
 
-        public static final double rotationKps = 0.0; //placeholder
-        public static final double rotationKds = 0.0; //placeholder
+        public static final double rotationKp = 0.0; //placeholder
+        public static final double rotationKd = 0.0; //placeholder
         
     }
 
