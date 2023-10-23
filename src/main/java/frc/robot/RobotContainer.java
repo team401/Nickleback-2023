@@ -38,6 +38,7 @@ public class RobotContainer {
 
     SendableChooser<String> autoChooser = new SendableChooser<String>();
 
+    //TODO: rebase with proper drive bindings
     public RobotContainer() {
         
         drive.setDefaultCommand(new DriveWithJoysticks(
@@ -69,6 +70,7 @@ public class RobotContainer {
             
     }
 
+    //position + cube scoring + endgame action
     private void autoConfig() {
         autoChooser.setDefaultOption("1- 1 Cube + Balance", "1-1_Cube_Balance");
         autoChooser.addOption("1- 2 cube", "1-2_Cube_Balance");
@@ -84,7 +86,6 @@ public class RobotContainer {
         }
         return activeAutoCommand;
     }
-
 
 
 

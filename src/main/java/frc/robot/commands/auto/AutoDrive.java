@@ -30,17 +30,8 @@ public class AutoDrive extends CommandBase {
 
     private DriveSubsystem drive;
     private PathPlannerTrajectory path;
-
-    private PIDController xController, yController;
-    private PIDController thetaController;
-
-    //TODO: get pid values
-    private double kPX = 0, kIX = 0, kDX = 0, kPY = 0, kIY = 0, kDY = 0, kPTheta = 0, kITheta = 0, kDTheta = 0;
-
-    private PPHolonomicDriveController controller;
+    
     private DriverStation.Alliance alliance;
-
-    private Timer time = new Timer();
 
     public AutoDrive(DriveSubsystem drive, PathPlannerTrajectory path) {
 
@@ -49,61 +40,23 @@ public class AutoDrive extends CommandBase {
         this.drive = drive;
         this.path = PathPlannerTrajectory.transformTrajectoryForAlliance(path, alliance);
 
-        xController = new PIDController(kPX, kIX, kPX);
-        yController = new PIDController(kPY, kIY, kDY);
-        thetaController = new PIDController(kPTheta, kITheta, kDTheta);
-        thetaController.enableContinuousInput(0, 2*Math.PI);
-
-        controller = new PPHolonomicDriveController(xController, yController, thetaController);
-
         addRequirements(drive);
 
     }
 
-    @Override
-    public void initialize() {
-        time.reset();
-        time.start();  
-
-        SmartDashboard.putNumber("kP X", kPX);
-        SmartDashboard.putNumber("kI X", kIX);
-        SmartDashboard.putNumber("kD X", kDX);
-
-        SmartDashboard.putNumber("kP Y", kPY);
-        SmartDashboard.putNumber("kI Y", kIY);
-        SmartDashboard.putNumber("kD Y", kDY);
-
-        SmartDashboard.putNumber("kP Theta", kPTheta);
-        SmartDashboard.putNumber("kI Theta", kITheta);
-        SmartDashboard.putNumber("kD Theta", kDTheta);
-    }
-
     @Override 
-    public void execute() {
-
-        PathPlannerTrajectory.PathPlannerState goal = ((PathPlannerTrajectory.PathPlannerState) path.sample(time.get()));
-        Pose2d currentRobotPose = RobotState.getInstance().getOdometryFieldToRobot();
-        
-        ChassisSpeeds adjustedSpeeds = controller.calculate(currentRobotPose, goal);
-
-        SmartDashboard.getNumber("kP X", kPX);
-        SmartDashboard.getNumber("kI X", kIX);
-        SmartDashboard.getNumber("kD X", kDX);
-
-        SmartDashboard.getNumber("kP Y", kPY);
-        SmartDashboard.getNumber("kI Y", kIY);
-        SmartDashboard.getNumber("kD Y", kDY);
-
-        SmartDashboard.getNumber("kP Theta", kPTheta);
-        SmartDashboard.getNumber("kI Theta", kITheta);
-        SmartDashboard.getNumber("kD Theta", kDTheta);
-
-        drive.setGoalChassisSpeeds(adjustedSpeeds);
+    public void initialize() {
+        drive.driveByPath(path);
     }
 
     @Override
     public boolean isFinished() {
-        return time.get() > path.getTotalTimeSeconds();
+        return drive.pathIsFinished();
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        drive.setGoalChassisSpeeds(new ChassisSpeeds(0, 0, 0));
     }
 
     
