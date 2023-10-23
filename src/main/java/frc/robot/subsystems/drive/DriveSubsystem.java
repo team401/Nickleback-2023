@@ -349,6 +349,7 @@ public class DriveSubsystem extends SubsystemBase{
         this.path = path;
     }
 
+    //BALANCE: initializes balance
     public void driveByBalance() {
 
         mode = Control.BALANCE;
@@ -380,7 +381,10 @@ public class DriveSubsystem extends SubsystemBase{
 
     //BALANCE: checks for finished balance, resets conditions if true
     public boolean balanceIsFinished() {
-        if ((searchTimer.get() > 10 && balanceTimer.get() > 10) || (levelTime.get() > 3)) {
+        if (((searchTimer.get() > 10 && balanceTimer.get() > 10) || (levelTime.get() > 3)) && mode == Control.BALANCE) {
+
+            mode = Control.PLAYER;
+
             balanceFound = false;
 
             balanceTimer.stop();
@@ -391,6 +395,20 @@ public class DriveSubsystem extends SubsystemBase{
             searchTimer.reset();
 
             return true;
+        } 
+        if (mode != Control.BALANCE) {
+
+            balanceFound = false;
+
+            balanceTimer.stop();
+            balanceTimer.reset();
+            levelTime.stop();
+            levelTime.reset();
+            searchTimer.stop();
+            searchTimer.reset();
+
+            return true;
+        } 
         }
         return false;
     }
