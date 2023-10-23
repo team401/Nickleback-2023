@@ -9,6 +9,7 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -28,6 +29,7 @@ public class AutoRoutines extends SequentialCommandGroup {
 
     private ArmSubsystem arm;
     private DriveSubsystem drive;
+    private DriverStation.Alliance alliance;
 
     private String pathName;
 
@@ -40,6 +42,7 @@ public class AutoRoutines extends SequentialCommandGroup {
         this.arm = arm;
         this.drive = drive;
         this.pathName = pathName;
+        this.alliance = DriverStation.getAlliance();
         PathConstraints constraints = new PathConstraints(5, 5); //TODO: get max values
         pathGroup = PathPlanner.loadPathGroup(pathName, constraints);
 
@@ -106,14 +109,17 @@ public class AutoRoutines extends SequentialCommandGroup {
     }
 
     private Command drive(int pathNum) {
+        
+        PathPlannerTrajectory path = PathPlannerTrajectory.transformTrajectoryForAlliance(pathGroup.get(pathNum), alliance);
+        
         return new InstantCommand(() -> {
-            new AutoDrive(drive, pathGroup.get(pathNum));
+            drive.driveByPath(path);
         });
     }
 
     private Command balance() {
         return new InstantCommand(() -> {
-            new Balance(drive);
+            drive.driveByBalance();
         });
     }
 

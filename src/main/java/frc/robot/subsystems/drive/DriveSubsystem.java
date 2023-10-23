@@ -368,12 +368,15 @@ public class DriveSubsystem extends SubsystemBase{
             pathTime.stop();
             pathTime.reset();
             path = null;
+            setGoalChassisSpeeds(new ChassisSpeeds(0, 0, 0));
             return true;
+            
         } 
         if (mode != Control.PATH) {
             pathTime.stop();
             pathTime.reset();
             path = null;
+            setGoalChassisSpeeds(new ChassisSpeeds(0, 0, 0));
             return true;
         }
         return false;
@@ -393,7 +396,7 @@ public class DriveSubsystem extends SubsystemBase{
             levelTime.reset();
             searchTimer.stop();
             searchTimer.reset();
-
+            setGoalChassisSpeeds(new ChassisSpeeds(0, 0, 0));
             return true;
         } 
         if (mode != Control.BALANCE) {
@@ -406,7 +409,7 @@ public class DriveSubsystem extends SubsystemBase{
             levelTime.reset();
             searchTimer.stop();
             searchTimer.reset();
-
+            setGoalChassisSpeeds(new ChassisSpeeds(0, 0, 0));
             return true;
         } 
         return false;
