@@ -71,6 +71,8 @@ public class AutoRoutines extends SequentialCommandGroup {
                     drive(0)
                 )
             );
+        } else if (pathName.indexOf("2-0_Cube") != 0) {
+            //does nothing
         }
 
         if (pathName.indexOf("Balance") != -1) {
