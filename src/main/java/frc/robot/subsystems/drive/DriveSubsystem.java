@@ -34,7 +34,7 @@ public class DriveSubsystem extends SubsystemBase{
         driveModules[2] = new SwerveModules(DriveConstants.backLeftDriveID, DriveConstants.backLeftRotationMotorID,
         DriveConstants.backLeftRotationEncoderID, DriveConstants.backLeftAngleOffset, false, false);
         driveModules[3] = new SwerveModules(DriveConstants.backRightDriveID, DriveConstants.backRightRotationMotorID,
-        DriveConstants.backRightRotationEncoderID, DriveConstants.backRightAngleOffset, true, false);
+        DriveConstants.backRightRotationEncoderID, DriveConstants.backRightAngleOffset, false, false);
 
         for (int i = 0; i < 4; i++) {
             driveModules[i].zeroEncoders();
@@ -86,9 +86,13 @@ public class DriveSubsystem extends SubsystemBase{
 
 
     public void setGoalModuleStates(SwerveModuleState[] states) {
+        double[] array = new double[8];
         for (int i = 0; i < 4; i++) {
             driveModules[i].setGoalModuleState(states[i]);
+            array[i*2] = driveModules[i].getRotationPosition();
+            array[i*2+1] = driveModules[i].getDrivePosition();
         }
+        SmartDashboard.putNumberArray("Drive Goal States", array);
     }
 
     /**

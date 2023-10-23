@@ -30,8 +30,8 @@ public class Constants {
 
     public static final class DriveConstants {
 
-        public static final double trackWidth = Units.inchesToMeters(22.75); //need to measure
-        public static final double wheelBase = Units.inchesToMeters(20.75); //need to measure
+        public static final double trackWidth = Units.inchesToMeters(22.75);
+        public static final double wheelBase = Units.inchesToMeters(20.75);
 
         public static final int frontLeftDriveID = 1;
 		public static final int backLeftDriveID = 3;
@@ -48,13 +48,13 @@ public class Constants {
         public static final int backLeftRotationEncoderID = 4; 
         public static final int backRightRotationEncoderID = 3; 
 
-        public static final double frontLeftAngleOffset = 0.7470; 
-        public static final double frontRightAngleOffset = 5.6972; 
-        public static final double backLeftAngleOffset = 5.6143; 
-        public static final double backRightAngleOffset = 2.3991; 
+        public static final double frontLeftAngleOffset = 0.739378739760879;
+        public static final double frontRightAngleOffset = 2.555611992617478; 
+        public static final double backLeftAngleOffset = 2.551010050253821;
+        public static final double backRightAngleOffset = 5.533068701903508;
 
 		public static final double autoDrivePercent = 0.6;
-        public static final double driveWheelGearReduction = 0; // placeholder
+        public static final double driveWheelGearReduction = 6.12; // placeholder
         public static final double wheelRadiusM = Units.inchesToMeters(2);
 
         public static final SwerveDriveKinematics kinematics = 
@@ -65,21 +65,20 @@ public class Constants {
                 new Translation2d(-trackWidth / 2.0, -wheelBase / 2.0) //rear right placeholder
         );
 
-        public static final SimpleMotorFeedforward driveFF = new SimpleMotorFeedforward(0.0, 0.0); //placeholder 
+        public static final SimpleMotorFeedforward driveFF = new SimpleMotorFeedforward(0.2, 0.3); //placeholder 
 
         public static final int pigeonIMU = 0; //placeholder
         
-        public static final double driveJoystickDeadbandPercent = 0; //placeholder
+        public static final double driveJoystickDeadbandPercent = 0.05; //placeholder
 
-        public static final double maxDriveSpeed = 0; //placeholder
-        public static final double maxTurnRate = 0; //placeholder
+        public static final double maxDriveSpeed = 14; //placeholder
+        public static final double maxTurnRate = 2 * Math.PI; //placeholder
 
-        public static final double driveKp = 0.0; //placeholder
+        public static final double driveKp = 0.01; //placeholder
         public static final double driveKd = 0.0; //placeholder
 
-        public static final double rotationKp = 0.0; //placeholder
-        public static final double rotationKd = 0.0; //placeholder
-        
+        public static final double rotationKp = 7.0;
+        public static final double rotationKd = 0.0;
     }
 
 

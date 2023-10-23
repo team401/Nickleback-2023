@@ -3,6 +3,7 @@ package frc.robot.subsystems.drive;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -37,7 +38,7 @@ public class SwerveModules extends SubsystemBase{
 
         driveMotor = new CANSparkMax(driveMotorID, MotorType.kBrushless);
         rotationMotor = new CANSparkMax(rotationMotorID, MotorType.kBrushless);
-        rotationEncoder = new CANCoder(cancoderID);
+        rotationEncoder = new CANCoder(cancoderID);    
 
         driveMotor.setIdleMode(IdleMode.kCoast);
         rotationMotor.setIdleMode(IdleMode.kCoast);
@@ -87,7 +88,7 @@ public class SwerveModules extends SubsystemBase{
     }       
 
     public double getDriveVelocityRadPerS() {
-        return driveMotor.getEncoder().getVelocity() * 2 * Math.PI; 
+        return driveMotor.getEncoder().getVelocity() * 2 * Math.PI / 60; 
     }
 
     public void setRotationVoltage(double volts) {
