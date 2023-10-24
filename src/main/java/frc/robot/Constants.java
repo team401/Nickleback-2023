@@ -30,8 +30,8 @@ public class Constants {
 
     public static final class DriveConstants {
 
-        public static final double trackWidth = Units.inchesToMeters(22.75);
-        public static final double wheelBase = Units.inchesToMeters(20.75);
+        public static final double trackWidth = Units.inchesToMeters(20.4); // TODO: Might have to change
+        public static final double wheelBase = Units.inchesToMeters(22.4); // TODO: Might have to change
 
         public static final int frontLeftDriveID = 1;
 		public static final int backLeftDriveID = 3;
