@@ -15,7 +15,7 @@ import frc.robot.RobotState;
 public class DriveSubsystem extends SubsystemBase{
 
 
-    private final SwerveModules[] driveModules = new SwerveModules[4]; // TODO: This will be the future format: FR, RL, BR, BL
+    private final SwerveModules[] driveModules = new SwerveModules[4]; // TODO: This will be the future format: FL, FR, BR, BL
     private final PigeonInterface pigeonInterface = new PigeonInterface();
 
     private boolean babyMode = false;
@@ -32,7 +32,7 @@ public class DriveSubsystem extends SubsystemBase{
         driveModules[1] = new SwerveModules(DriveConstants.frontRightDriveID, DriveConstants.frontRightRotationMotorID,
         DriveConstants.frontRightRotationEncoderID, DriveConstants.frontRightAngleOffset, true, false);
         driveModules[2] = new SwerveModules(DriveConstants.backRightDriveID, DriveConstants.backRightRotationMotorID,
-        DriveConstants.backRightRotationEncoderID, DriveConstants.backRightAngleOffset, false, true);
+        DriveConstants.backRightRotationEncoderID, DriveConstants.backRightAngleOffset, true, false);
         driveModules[3] = new SwerveModules(DriveConstants.backLeftDriveID, DriveConstants.backLeftRotationMotorID,
         DriveConstants.backLeftRotationEncoderID, DriveConstants.backLeftAngleOffset, false, false);
 
