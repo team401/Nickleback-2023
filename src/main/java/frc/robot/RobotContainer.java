@@ -1,9 +1,11 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmMove;
 import frc.robot.commands.DriveWithJoysticks;
@@ -55,6 +57,10 @@ public class RobotContainer {
             .whileTrue(armShootLow);
         new Trigger(() -> gamepad.getLeftY() < -0.7)
             .whileTrue(armSpit);
+        new JoystickButton(rightJoystick, 1)
+            .whileTrue(new InstantCommand(
+                () -> {drive.resetHeading();
+                }));
             
     }
 

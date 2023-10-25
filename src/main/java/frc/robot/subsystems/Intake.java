@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
+
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants.ArmConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,55 +21,61 @@ public class Intake {
     leftMotor.setSmartCurrentLimit(80);
     rightMotor.setSmartCurrentLimit(80);
     topIntakeMotor.setSmartCurrentLimit(10);
+
+    rightMotor.setIdleMode(IdleMode.kCoast);
+    leftMotor.setIdleMode(IdleMode.kCoast);
+    topIntakeMotor.setIdleMode(IdleMode.kCoast);
   }
 
-  public void intake () {
+  public void intake() {
     intakePower = ArmConstants.intakeVoltage;
     runTopIntakeMotor = true;
   }
 
-  public void shootLow () {
+  public void shootLow() {
     intakePower = ArmConstants.lowShootVoltage;
     runTopIntakeMotor = false;
   }
 
-  public void shootMid () {
+  public void shootMid() {
     intakePower = ArmConstants.midShootVoltage;
     runTopIntakeMotor = false;
   }
 
-  public void shootHigh () {
+  public void shootHigh() {
     intakePower = ArmConstants.highShootVoltage;
     runTopIntakeMotor = false;
   }
 
-  public void spit () {
+  public void spit() {
     intakePower = -ArmConstants.spitVoltage;
     runTopIntakeMotor = true;
   }
 
-  public void off () {
+  public void off() {
     intakePower = 0;
     runTopIntakeMotor = true;
   }
 
   public void setIntakeMotorPower(double percent) {
-    rightMotor.set(percent);
-    if(runTopIntakeMotor == true) {
-      topIntakeMotor.set(0.5*percent);
+    rightMotor.set(-percent);
+    if (runTopIntakeMotor == true) {
+      topIntakeMotor.set(-0.5 * percent);
     } else {
       topIntakeMotor.set(0);
     }
   }
+
   public double getIntakeMotorAmps() {
     return rightMotor.getOutputCurrent();
   }
+
   private void checkIntakeAmps() {
-    if(getIntakeMotorAmps() > CURRENT_LIMIT) {
+    if (getIntakeMotorAmps() > CURRENT_LIMIT) {
       setIntakeMotorPower(0);
     }
   }
-  
+
   public void run() {
     setIntakeMotorPower(intakePower);
     checkIntakeAmps();

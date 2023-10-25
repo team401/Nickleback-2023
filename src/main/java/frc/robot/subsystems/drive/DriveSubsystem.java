@@ -172,7 +172,7 @@ public class DriveSubsystem extends SubsystemBase{
         return states;
     }
 
-    private SwerveModulePosition[] getSwerveModulePositions() {
+    public SwerveModulePosition[] getSwerveModulePositions() {
 
         SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[4];
         for (int i = 0; i < 4; i++) {
