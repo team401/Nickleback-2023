@@ -26,6 +26,9 @@ public class Constants {
         public static final double intakeVoltage = 0.2;
         public static final double spitVoltage = 0.5;
 
+        public static final double topShootPower = 0.5;
+        public static final double topIntakePower = -0.5;
+
     }
 
     public static final class DriveConstants {

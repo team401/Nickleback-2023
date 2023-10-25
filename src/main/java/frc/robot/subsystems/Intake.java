@@ -11,7 +11,7 @@ public class Intake {
   private CANSparkMax leftMotor, rightMotor, topIntakeMotor;
   private double intakePower;
   private final double CURRENT_LIMIT = 25.0;
-  private boolean runTopIntakeMotor = false;
+  private double topIntakeMotorPower = 0;
 
   public Intake() {
     leftMotor = new CANSparkMax(ArmConstants.leftIntakeMotorID, MotorType.kBrushless);
@@ -29,41 +29,37 @@ public class Intake {
 
   public void intake() {
     intakePower = ArmConstants.intakeVoltage;
-    runTopIntakeMotor = true;
+    topIntakeMotorPower = ArmConstants.topIntakePower;
   }
 
   public void shootLow() {
     intakePower = ArmConstants.lowShootVoltage;
-    runTopIntakeMotor = false;
+    topIntakeMotorPower = ArmConstants.topShootPower;
   }
 
   public void shootMid() {
     intakePower = ArmConstants.midShootVoltage;
-    runTopIntakeMotor = false;
+    topIntakeMotorPower = ArmConstants.topShootPower;
   }
 
   public void shootHigh() {
     intakePower = ArmConstants.highShootVoltage;
-    runTopIntakeMotor = false;
+    topIntakeMotorPower = ArmConstants.topShootPower;
   }
 
   public void spit() {
     intakePower = -ArmConstants.spitVoltage;
-    runTopIntakeMotor = true;
+    topIntakeMotorPower = ArmConstants.topShootPower;
   }
 
   public void off() {
     intakePower = 0;
-    runTopIntakeMotor = true;
+    topIntakeMotorPower = 0;
   }
 
   public void setIntakeMotorPower(double percent) {
     rightMotor.set(-percent);
-    if (runTopIntakeMotor == true) {
-      topIntakeMotor.set(-0.5 * percent);
-    } else {
-      topIntakeMotor.set(0);
-    }
+    topIntakeMotor.set(topIntakeMotorPower);
   }
 
   public double getIntakeMotorAmps() {
