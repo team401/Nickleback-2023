@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
@@ -21,11 +22,13 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * the package after creating this project, you must also update the manifest file in the resource
  * directory.
  */
+
+
 public class Robot extends TimedRobot {
 
-  private final Timer m_timer = new Timer();
-
   private RobotContainer m_robotContainer;
+
+  private Command m_autonomousCommand;
   
   private final Timer loopTimer = new Timer();
 
@@ -43,6 +46,7 @@ public class Robot extends TimedRobot {
     // gearbox is constructed, you might have to invert the left side instead.
 
     m_robotContainer = new RobotContainer();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     
     pdh = new PowerDistribution(1, ModuleType.kRev);
     pdh.setSwitchableChannel(false);
@@ -53,10 +57,12 @@ public class Robot extends TimedRobot {
   /** This function is run once each time the robot enters autonomous mode. */
   @Override
   public void autonomousInit() {
-    m_timer.reset();
-    m_timer.start();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    
+    // schedule the autonomous command (example)
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.schedule();
+    }
   }
 
   @Override
@@ -78,7 +84,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters teleoperated mode. */
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+    m_autonomousCommand.cancel();
+  }
 
   /** This function is called periodically during teleoperated mode. */
   @Override

@@ -3,12 +3,14 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmMove;
 import frc.robot.commands.DriveWithJoysticks;
+import frc.robot.commands.auto.AutoRoutines;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ArmSubsystem.Mode;
 import frc.robot.subsystems.drive.DriveSubsystem;
@@ -31,8 +33,12 @@ public class RobotContainer {
     private ArmMove armShootLow = new ArmMove(arm, Mode.SHOOT_LOW);
     private ArmMove armSpit = new ArmMove(arm, Mode.SPIT);
 
+    Command activeAutoCommand;
+    String activeAutoName;
+
     SendableChooser<String> autoChooser = new SendableChooser<String>();
 
+    //TODO: rebase with proper drive bindings
     public RobotContainer() {
         
         drive.setDefaultCommand(new DriveWithJoysticks(
@@ -43,7 +49,7 @@ public class RobotContainer {
             true
         ));
         configureButtonBindings();
-        
+        autoConfig();
     }
 
     private void configureButtonBindings() {
@@ -63,6 +69,26 @@ public class RobotContainer {
                 }));
             
     }
+
+    //position + cube scoring + endgame action
+    private void autoConfig() {
+        autoChooser.setDefaultOption("1- 1 Cube + Balance", "1-1_Cube_Balance");
+        autoChooser.addOption("1- 2 cube", "1-2_Cube_Balance");
+        autoChooser.addOption("3- 1 Cube + Balance", "3-1_Cube_Balance");
+        autoChooser.addOption("3- 2 Cube", "3-2_Cube");
+        SmartDashboard.putData("Auto Mode", autoChooser);
+
+    }
+
+    public Command getAutonomousCommand() {
+        /*if (activeAutoCommand == null || !activeAutoName.equals(autoChooser.getSelected())) {
+            activeAutoCommand = new AutoRoutines(autoChooser.getSelected(), arm, drive); 
+        }
+        return activeAutoCommand;*/
+        return new AutoRoutines("1-2_Cube", arm, drive);
+    }
+
+
 
 
 }
