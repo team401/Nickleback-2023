@@ -82,7 +82,7 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         if (activeAutoCommand == null || !activeAutoName.equals(autoChooser.getSelected())) {
-            activeAutoCommand = new AutoRoutines(autoChooser.getSelected(), arm, drive); //TODO: switch to actual drive subystem
+            activeAutoCommand = new AutoRoutines(autoChooser.getSelected(), arm, drive); 
         }
         return activeAutoCommand;
     }

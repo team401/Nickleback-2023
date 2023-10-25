@@ -335,9 +335,6 @@ public class DriveSubsystem extends SubsystemBase{
         }
     }
 
-<<<<<<< HEAD
-    
-=======
     //AUTO: initializes auto
     public void driveByPath(PathPlannerTrajectory path) {
 
@@ -349,7 +346,6 @@ public class DriveSubsystem extends SubsystemBase{
         this.path = path;
     }
 
-    //BALANCE: initializes balance
     public void driveByBalance() {
 
         mode = Control.BALANCE;
@@ -368,15 +364,12 @@ public class DriveSubsystem extends SubsystemBase{
             pathTime.stop();
             pathTime.reset();
             path = null;
-            setGoalChassisSpeeds(new ChassisSpeeds(0, 0, 0));
             return true;
-            
         } 
         if (mode != Control.PATH) {
             pathTime.stop();
             pathTime.reset();
             path = null;
-            setGoalChassisSpeeds(new ChassisSpeeds(0, 0, 0));
             return true;
         }
         return false;
@@ -384,10 +377,7 @@ public class DriveSubsystem extends SubsystemBase{
 
     //BALANCE: checks for finished balance, resets conditions if true
     public boolean balanceIsFinished() {
-        if (((searchTimer.get() > 10 && balanceTimer.get() > 10) || (levelTime.get() > 3)) && mode == Control.BALANCE) {
-
-            mode = Control.PLAYER;
-
+        if ((searchTimer.get() > 10 && balanceTimer.get() > 10) || (levelTime.get() > 3)) {
             balanceFound = false;
 
             balanceTimer.stop();
@@ -396,26 +386,12 @@ public class DriveSubsystem extends SubsystemBase{
             levelTime.reset();
             searchTimer.stop();
             searchTimer.reset();
-            setGoalChassisSpeeds(new ChassisSpeeds(0, 0, 0));
-            return true;
-        } 
-        if (mode != Control.BALANCE) {
 
-            balanceFound = false;
-
-            balanceTimer.stop();
-            balanceTimer.reset();
-            levelTime.stop();
-            levelTime.reset();
-            searchTimer.stop();
-            searchTimer.reset();
-            setGoalChassisSpeeds(new ChassisSpeeds(0, 0, 0));
             return true;
-        } 
+        }
         return false;
     }
 
->>>>>>> 125845b (edits made!)
 } 
 
 
