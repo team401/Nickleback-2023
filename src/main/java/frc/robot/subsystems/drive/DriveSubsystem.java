@@ -27,7 +27,7 @@ public class DriveSubsystem extends SubsystemBase{
     private boolean babyMode = false;
 
     //TODO: get pid values
-    private double kPX = 0, kIX = 0, kDX = 0, kPY = 0, kIY = 0, kDY = 0, kPTheta = 0, kITheta = 0, kDTheta = 0;
+    private double kPX = 11, kIX = 0, kDX = 0, kPY = 8, kIY = 0, kDY = 0, kPTheta = 7, kITheta = 0, kDTheta = 0;
 
     private PIDController xController, yController;
     private PIDController thetaController;
@@ -54,7 +54,7 @@ public class DriveSubsystem extends SubsystemBase{
     //TODO: get location of targetStationX
 
     //TODO: get pid values
-    private double kPDrive = 0, kIDrive = 0, kDDrive = 0, kPBalance = 0, kIBalance = 0, kDBalance = 0;
+    private double kPDrive = 2, kIDrive = 0, kDDrive = 0, kPBalance = 0.4, kIBalance = 0.05, kDBalance = 0;
 
     private Timer searchTimer = new Timer();
     private Timer balanceTimer = new Timer();

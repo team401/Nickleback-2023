@@ -81,10 +81,11 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        if (activeAutoCommand == null || !activeAutoName.equals(autoChooser.getSelected())) {
+        /*if (activeAutoCommand == null || !activeAutoName.equals(autoChooser.getSelected())) {
             activeAutoCommand = new AutoRoutines(autoChooser.getSelected(), arm, drive); 
         }
-        return activeAutoCommand;
+        return activeAutoCommand;*/
+        return new AutoRoutines("1-2_Cube", arm, drive);
     }
 
 

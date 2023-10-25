@@ -1,5 +1,6 @@
 package frc.robot.commands.auto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.pathplanner.lib.PathConstraints;
@@ -33,8 +34,6 @@ public class AutoRoutines extends SequentialCommandGroup {
 
     private String pathName;
 
-    List<PathPlannerTrajectory> pathGroup;
-
     private double shootLine = 0; //TODO: find position for shooting
 
     public AutoRoutines (String pathName, ArmSubsystem arm, DriveSubsystem drive) {
@@ -44,35 +43,22 @@ public class AutoRoutines extends SequentialCommandGroup {
         this.pathName = pathName;
         this.alliance = DriverStation.getAlliance();
         PathConstraints constraints = new PathConstraints(5, 5); //TODO: get max values
-        pathGroup = PathPlanner.loadPathGroup(pathName, constraints);
+        List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup(pathName, constraints);
 
 
         addCommands(
-            homeAutoOdometry(),
+            homeAutoOdometry(pathGroup),
             placeCube()
         );
 
-        if (pathName.indexOf("1-1_Cube") != -1 && pathName.indexOf("3-1_Cube") != -1) {
-            addCommands(
-                drive(0),
-                drive(1),
-                balance()
-            );
-        } else if (pathName.indexOf("1-2_Cube") != -1 && pathName.indexOf("3-2_Cube") != -1) {
+       if (pathName.indexOf("1-2_Cube") != -1) {
             addCommands(
                 new ParallelRaceGroup(
-                    drive(0),
+                    drive(pathGroup.get(0)),
                     new WaitCommand(2).andThen(pickUpCube())
                 ),
-                drive(1),
-                drive(2),
+                drive(pathGroup.get(1)),
                 placeCube()
-            );
-        } else if (pathName.indexOf("2-Balance") != 0) {
-            addCommands(
-                new ParallelRaceGroup(
-                    drive(0)
-                )
             );
         } else if (pathName.indexOf("2-0_Cube") != 0) {
             //does nothing
@@ -86,16 +72,15 @@ public class AutoRoutines extends SequentialCommandGroup {
 
     }
 
-    private Command homeAutoOdometry() {
+    private Command homeAutoOdometry(List<PathPlannerTrajectory> pathGroup) {
         return new InstantCommand(() -> {
             Trajectory.State start = pathGroup.get(0).sample(0);
             //TODO: set odometry to start
         });
     }
     private Command placeCube() {
-        return new ParallelRaceGroup(
-            new ArmMove(arm, Mode.SHOOT_HIGH),
-            new WaitCommand(1),
+        return new SequentialCommandGroup(
+            new ArmMove(arm, Mode.SHOOT_HIGH).raceWith(new WaitCommand(1)),
             new ArmMove(arm, Mode.IDLE)
         );
     }
@@ -108,9 +93,9 @@ public class AutoRoutines extends SequentialCommandGroup {
         );
     }
 
-    private Command drive(int pathNum) {
+    private Command drive(PathPlannerTrajectory pathN) {
         
-        PathPlannerTrajectory path = PathPlannerTrajectory.transformTrajectoryForAlliance(pathGroup.get(pathNum), alliance);
+        PathPlannerTrajectory path = PathPlannerTrajectory.transformTrajectoryForAlliance(pathN, alliance);
         
         return new InstantCommand(() -> {
             drive.driveByPath(path);

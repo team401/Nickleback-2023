@@ -46,6 +46,7 @@ public class Robot extends TimedRobot {
     // gearbox is constructed, you might have to invert the left side instead.
 
     m_robotContainer = new RobotContainer();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     
     pdh = new PowerDistribution(1, ModuleType.kRev);
     pdh.setSwitchableChannel(false);
