@@ -50,7 +50,7 @@ public class Constants {
 
         public static final double frontLeftAngleOffset = 0.739378739760879;
         public static final double frontRightAngleOffset = 2.555611992617478; 
-        public static final double backRightAngleOffset = 5.533068701903508; // TODO: Might have to switch these
+        public static final double backRightAngleOffset = 5.533068701903508 - Math.PI; // TODO: Might have to switch these
         public static final double backLeftAngleOffset = 2.551010050253821; // TODO: Might have to switch these
 
 		public static final double autoDrivePercent = 0.6;
@@ -59,9 +59,9 @@ public class Constants {
 
         public static final SwerveDriveKinematics kinematics = 
             new SwerveDriveKinematics(
-                new Translation2d(-trackWidth / 2.0, wheelBase / 2.0), //TODO: Test
                 new Translation2d(trackWidth / 2.0, wheelBase / 2.0), //TODO: Test
                 new Translation2d(trackWidth / 2.0, -wheelBase / 2.0), //TODO: Test
+                new Translation2d(-trackWidth / 2.0, wheelBase / 2.0), //TODO: Test
                 new Translation2d(-trackWidth / 2.0, -wheelBase / 2.0) //TODO: Test
         );
 

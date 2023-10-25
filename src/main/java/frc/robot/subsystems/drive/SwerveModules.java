@@ -80,15 +80,12 @@ public class SwerveModules extends SubsystemBase{
         return Units.degreesToRadians(rotationEncoder.getVelocity());
     }
 
-    /* Velocity gives Rotations per minute, need to go to radians per seconds
-     * 
-    */
     public double getDriveVelocityMPerS() {
-        return driveMotor.getEncoder().getVelocity() * 2 * Math.PI * DriveConstants.wheelRadiusM / DriveConstants.driveWheelGearReduction;
+        return driveMotor.getEncoder().getVelocity() * 2 * Math.PI * DriveConstants.wheelRadiusM / 60 / DriveConstants.driveWheelGearReduction;
     }       
 
     public double getDriveVelocityRadPerS() {
-        return driveMotor.getEncoder().getVelocity() * 2 * Math.PI / 60; 
+        return driveMotor.getEncoder().getVelocity() * 2 * Math.PI / 60 / DriveConstants.driveWheelGearReduction; 
     }
 
     public void setRotationVoltage(double volts) {

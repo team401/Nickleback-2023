@@ -32,7 +32,7 @@ public class DriveSubsystem extends SubsystemBase{
         driveModules[1] = new SwerveModules(DriveConstants.frontRightDriveID, DriveConstants.frontRightRotationMotorID,
         DriveConstants.frontRightRotationEncoderID, DriveConstants.frontRightAngleOffset, true, false);
         driveModules[2] = new SwerveModules(DriveConstants.backRightDriveID, DriveConstants.backRightRotationMotorID,
-        DriveConstants.backRightRotationEncoderID, DriveConstants.backRightAngleOffset, false, false);
+        DriveConstants.backRightRotationEncoderID, DriveConstants.backRightAngleOffset, false, true);
         driveModules[3] = new SwerveModules(DriveConstants.backLeftDriveID, DriveConstants.backLeftRotationMotorID,
         DriveConstants.backLeftRotationEncoderID, DriveConstants.backLeftAngleOffset, false, false);
 
@@ -113,14 +113,14 @@ public class DriveSubsystem extends SubsystemBase{
             };
         }
         double[] moduleGoalStates = {
-            driveModules[0].getRotationPosition(),
-            driveModules[0].getDrivePosition(),
-            driveModules[1].getRotationPosition(),
-            driveModules[1].getDrivePosition(),
-            driveModules[2].getRotationPosition(),
-            driveModules[2].getDrivePosition(),
-            driveModules[3].getRotationPosition(),
-            driveModules[3].getDrivePosition()
+            driveModules[0].getRotationVelocity(),
+            driveModules[0].getDriveVelocityMPerS(),
+            driveModules[1].getRotationVelocity(),
+            driveModules[1].getDriveVelocityMPerS(),
+            driveModules[2].getRotationVelocity(),
+            driveModules[2].getDriveVelocityMPerS(),
+            driveModules[3].getRotationVelocity(),
+            driveModules[3].getDriveVelocityMPerS()
         };
         SmartDashboard.putNumberArray("Drive/moduleStates/Goal", moduleGoalStates);
         setGoalModuleStates(goalModuleStates);
