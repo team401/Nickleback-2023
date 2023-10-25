@@ -1,19 +1,23 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmMove;
+import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.BasicDriveSubsystem;
 import frc.robot.subsystems.ArmSubsystem.Mode;
+import frc.robot.subsystems.drive.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+
 
 public class RobotContainer {
 
-    private final BasicDriveSubsystem drive = new BasicDriveSubsystem();
+    private final DriveSubsystem drive = new DriveSubsystem();
     private ArmSubsystem arm = new ArmSubsystem();
 
     private Joystick leftJoystick = new Joystick(0);
@@ -30,13 +34,14 @@ public class RobotContainer {
     SendableChooser<String> autoChooser = new SendableChooser<String>();
 
     public RobotContainer() {
-        drive.setDefaultCommand(
-            new InstantCommand(
-                () -> drive.arcadeDrive(
-                        leftJoystick.getY(),
-                        rightJoystick.getX() / 2),
-                drive)
-        );
+        
+        drive.setDefaultCommand(new DriveWithJoysticks(
+            drive,
+            () -> -leftJoystick.getRawAxis(1),
+            () -> -leftJoystick.getRawAxis(0),
+            () -> -rightJoystick.getRawAxis(0),
+            true
+        ));
         configureButtonBindings();
         
     }
@@ -52,6 +57,10 @@ public class RobotContainer {
             .whileTrue(armShootLow);
         new Trigger(() -> gamepad.getLeftY() < -0.7)
             .whileTrue(armSpit);
+        new JoystickButton(rightJoystick, 1)
+            .whileTrue(new InstantCommand(
+                () -> {drive.resetHeading();
+                }));
             
     }
 

@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
+
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants.ArmConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -9,7 +11,7 @@ public class Intake {
   private CANSparkMax leftMotor, rightMotor, topIntakeMotor;
   private double intakePower;
   private final double CURRENT_LIMIT = 25.0;
-  private boolean runTopIntakeMotor = false;
+  private double topIntakeMotorPower = 0;
 
   public Intake() {
     leftMotor = new CANSparkMax(ArmConstants.leftIntakeMotorID, MotorType.kBrushless);
@@ -18,56 +20,58 @@ public class Intake {
     leftMotor.follow(rightMotor, true);
     leftMotor.setSmartCurrentLimit(80);
     rightMotor.setSmartCurrentLimit(80);
-    topIntakeMotor.setSmartCurrentLimit(80);
+    topIntakeMotor.setSmartCurrentLimit(10);
+
+    rightMotor.setIdleMode(IdleMode.kCoast);
+    leftMotor.setIdleMode(IdleMode.kCoast);
+    topIntakeMotor.setIdleMode(IdleMode.kCoast);
   }
 
-  public void intake () {
+  public void intake() {
     intakePower = ArmConstants.intakeVoltage;
-    runTopIntakeMotor = true;
+    topIntakeMotorPower = ArmConstants.topIntakePower;
   }
 
-  public void shootLow () {
+  public void shootLow() {
     intakePower = ArmConstants.lowShootVoltage;
-    runTopIntakeMotor = false;
+    topIntakeMotorPower = ArmConstants.topShootPower;
   }
 
-  public void shootMid () {
+  public void shootMid() {
     intakePower = ArmConstants.midShootVoltage;
-    runTopIntakeMotor = false;
+    topIntakeMotorPower = ArmConstants.topShootPower;
   }
 
-  public void shootHigh () {
+  public void shootHigh() {
     intakePower = ArmConstants.highShootVoltage;
-    runTopIntakeMotor = false;
+    topIntakeMotorPower = ArmConstants.topShootPower;
   }
 
-  public void spit () {
+  public void spit() {
     intakePower = -ArmConstants.spitVoltage;
-    runTopIntakeMotor = true;
+    topIntakeMotorPower = ArmConstants.topShootPower;
   }
 
-  public void off () {
+  public void off() {
     intakePower = 0;
-    runTopIntakeMotor = true;
+    topIntakeMotorPower = 0;
   }
 
   public void setIntakeMotorPower(double percent) {
-    rightMotor.set(percent);
-    if(runTopIntakeMotor == true) {
-      topIntakeMotor.set(percent);
-    } else {
-      topIntakeMotor.set(0);
-    }
+    rightMotor.set(-percent);
+    topIntakeMotor.set(topIntakeMotorPower);
   }
+
   public double getIntakeMotorAmps() {
     return rightMotor.getOutputCurrent();
   }
+
   private void checkIntakeAmps() {
-    if(getIntakeMotorAmps() > CURRENT_LIMIT) {
+    if (getIntakeMotorAmps() > CURRENT_LIMIT) {
       setIntakeMotorPower(0);
     }
   }
-  
+
   public void run() {
     setIntakeMotorPower(intakePower);
     checkIntakeAmps();

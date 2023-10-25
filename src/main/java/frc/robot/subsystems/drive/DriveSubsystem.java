@@ -15,8 +15,8 @@ import frc.robot.RobotState;
 public class DriveSubsystem extends SubsystemBase{
 
 
-    private final SwerveModules[] driveModules = new SwerveModules[4];
-    private final PigeonInterface pigeonInterface = new PigeonInterface(); 
+    private final SwerveModules[] driveModules = new SwerveModules[4]; // TODO: This will be the future format: FL, FR, BR, BL
+    private final PigeonInterface pigeonInterface = new PigeonInterface();
 
     private boolean babyMode = false;
 
@@ -27,19 +27,20 @@ public class DriveSubsystem extends SubsystemBase{
      */
     public DriveSubsystem() {
 
-        driveModules[0] = new SwerveModules(DriveConstants.frontLeftID, DriveConstants.frontLeftRotationMotorID,
+        driveModules[0] = new SwerveModules(DriveConstants.frontLeftDriveID, DriveConstants.frontLeftRotationMotorID,
         DriveConstants.frontLeftRotationEncoderID, DriveConstants.frontLeftAngleOffset, false, false);
-        driveModules[1] = new SwerveModules(DriveConstants.frontRightID, DriveConstants.frontRightRotationMotorID,
+        driveModules[1] = new SwerveModules(DriveConstants.frontRightDriveID, DriveConstants.frontRightRotationMotorID,
         DriveConstants.frontRightRotationEncoderID, DriveConstants.frontRightAngleOffset, true, false);
-        driveModules[2] = new SwerveModules(DriveConstants.backLeftID, DriveConstants.backLeftRotationMotorID,
+        driveModules[2] = new SwerveModules(DriveConstants.backRightDriveID, DriveConstants.backRightRotationMotorID,
+        DriveConstants.backRightRotationEncoderID, DriveConstants.backRightAngleOffset, false, false);
+        driveModules[3] = new SwerveModules(DriveConstants.backLeftDriveID, DriveConstants.backLeftRotationMotorID,
         DriveConstants.backLeftRotationEncoderID, DriveConstants.backLeftAngleOffset, false, false);
-        driveModules[3] = new SwerveModules(DriveConstants.backRightID, DriveConstants.backRightRotationMotorID,
-        DriveConstants.backRightRotationEncoderID, DriveConstants.backRightAngleOffset, true, false);
 
         for (int i = 0; i < 4; i++) {
+            // TODO: Maybe add specific PID values for each module
             driveModules[i].zeroEncoders();
 
-            driveModules[i].setDrivePD(DriveConstants.driveKps, DriveConstants.driveKds);
+            driveModules[i].setDrivePD(DriveConstants.driveKp, DriveConstants.driveKd);
             
             driveModules[i].initModulePosition();
         }
@@ -77,13 +78,22 @@ public class DriveSubsystem extends SubsystemBase{
         RobotState.getInstance().updateOdometry(getRotation(), getSwerveModulePositions());
 
         SmartDashboard.putNumber("Drive/velocity magnitude", getChassisSpeeds().vxMetersPerSecond);
+
+        SmartDashboard.putNumber("Encoder Position 1", new Rotation2d(driveModules[0].getRotationPosition()).getRotations());
+        SmartDashboard.putNumber("Encoder Position 2", new Rotation2d(driveModules[1].getRotationPosition()).getRotations());
+        SmartDashboard.putNumber("Encoder Position 3", new Rotation2d(driveModules[2].getRotationPosition()).getRotations());
+        SmartDashboard.putNumber("Encoder Position 4", new Rotation2d(driveModules[3].getRotationPosition()).getRotations());
     }
 
 
     public void setGoalModuleStates(SwerveModuleState[] states) {
+        double[] array = new double[8];
         for (int i = 0; i < 4; i++) {
             driveModules[i].setGoalModuleState(states[i]);
+            array[i*2] = driveModules[i].getRotationPosition();
+            array[i*2+1] = driveModules[i].getDrivePosition();
         }
+        SmartDashboard.putNumberArray("Drive/moduleStates/State", array);
     }
 
     /**
@@ -93,6 +103,12 @@ public class DriveSubsystem extends SubsystemBase{
     public void setGoalChassisSpeeds(ChassisSpeeds speeds) {
         speeds = new ChassisSpeeds(speeds.vxMetersPerSecond * (babyMode ? 0.2 : 1), speeds.vyMetersPerSecond * (babyMode ? 0.2 : 1), speeds.omegaRadiansPerSecond * (babyMode ? 0.1 : 1));
         SwerveModuleState[] goalModuleStates = DriveConstants.kinematics.toSwerveModuleStates(speeds);
+
+        // Convert back to spiral order.
+        SwerveModuleState tmp = goalModuleStates[2];
+        goalModuleStates[2] = goalModuleStates[3];
+        goalModuleStates[3] = tmp;
+
         SwerveDriveKinematics.desaturateWheelSpeeds(goalModuleStates, DriveConstants.maxDriveSpeed);
         if (speeds.vxMetersPerSecond == 0 && speeds.vyMetersPerSecond == 0 && speeds.omegaRadiansPerSecond == 0) {
             goalModuleStates = new SwerveModuleState[] {
@@ -102,6 +118,17 @@ public class DriveSubsystem extends SubsystemBase{
                 new SwerveModuleState(0, driveModules[3].getModulePosition().angle)
             };
         }
+        double[] moduleGoalStates = {
+            driveModules[0].getRotationVelocity(),
+            driveModules[0].getDriveVelocityMPerS(),
+            driveModules[1].getRotationVelocity(),
+            driveModules[1].getDriveVelocityMPerS(),
+            driveModules[2].getRotationVelocity(),
+            driveModules[2].getDriveVelocityMPerS(),
+            driveModules[3].getRotationVelocity(),
+            driveModules[3].getDriveVelocityMPerS()
+        };
+        SmartDashboard.putNumberArray("Drive/moduleStates/Goal", moduleGoalStates);
         setGoalModuleStates(goalModuleStates);
     }
 
@@ -109,7 +136,7 @@ public class DriveSubsystem extends SubsystemBase{
         return new Rotation2d(MathUtil.angleModulus(pigeonInterface.getHeading()));
     }
 
-        public void resetHeading() {
+    public void resetHeading() {
         pigeonInterface.resetHeading();
     }
 
@@ -145,7 +172,7 @@ public class DriveSubsystem extends SubsystemBase{
         return states;
     }
 
-    private SwerveModulePosition[] getSwerveModulePositions() {
+    public SwerveModulePosition[] getSwerveModulePositions() {
 
         SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[4];
         for (int i = 0; i < 4; i++) {
@@ -164,6 +191,8 @@ public class DriveSubsystem extends SubsystemBase{
             driveModules[i].setBrake(braked);
         }
     }
+
+    
 } 
 
 
