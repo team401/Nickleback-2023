@@ -101,19 +101,7 @@ public class DriveSubsystem extends SubsystemBase{
         SmartDashboard.putNumber("kP Theta", kPTheta);
         SmartDashboard.putNumber("kI Theta", kITheta);
         SmartDashboard.putNumber("kD Theta", kDTheta);
-
-        SmartDashboard.getNumber("kP X", kPX);
-        SmartDashboard.getNumber("kI X", kIX);
-        SmartDashboard.getNumber("kD X", kDX);
-
-        SmartDashboard.getNumber("kP Y", kPY);
-        SmartDashboard.getNumber("kI Y", kIY);
-        SmartDashboard.getNumber("kD Y", kDY);
-
-        SmartDashboard.getNumber("kP Theta", kPTheta);
-        SmartDashboard.getNumber("kI Theta", kITheta);
-        SmartDashboard.getNumber("kD Theta", kDTheta);
-
+        
         SmartDashboard.putNumber("kP Drive", kPDrive);
         SmartDashboard.putNumber("kI Drive", kIDrive);
         SmartDashboard.putNumber("kD Drive", kDDrive);
@@ -121,14 +109,6 @@ public class DriveSubsystem extends SubsystemBase{
         SmartDashboard.putNumber("kP Balance", kPBalance);
         SmartDashboard.putNumber("kI Balance", kIBalance);
         SmartDashboard.putNumber("kD Balance", kDBalance);
-            
-        SmartDashboard.getNumber("kP Drive", kPDrive);
-        SmartDashboard.getNumber("kI Drive", kIDrive);
-        SmartDashboard.getNumber("kD Drive", kDDrive);
-
-        SmartDashboard.getNumber("kP Balance", kPBalance);
-        SmartDashboard.getNumber("kI Balance", kIBalance);
-        SmartDashboard.getNumber("kD Balance", kDBalance);
 
 
         xController = new PIDController(kPX, kIX, kPX);
@@ -160,6 +140,36 @@ public class DriveSubsystem extends SubsystemBase{
     @Override
     public void periodic(){
 
+
+        SmartDashboard.getNumber("kP X", kPX);
+        SmartDashboard.getNumber("kI X", kIX);
+        SmartDashboard.getNumber("kD X", kDX);
+
+        SmartDashboard.getNumber("kP Y", kPY);
+        SmartDashboard.getNumber("kI Y", kIY);
+        SmartDashboard.getNumber("kD Y", kDY);
+
+        SmartDashboard.getNumber("kP Theta", kPTheta);
+        SmartDashboard.getNumber("kI Theta", kITheta);
+        SmartDashboard.getNumber("kD Theta", kDTheta);
+
+            
+        SmartDashboard.getNumber("kP Drive", kPDrive);
+        SmartDashboard.getNumber("kI Drive", kIDrive);
+        SmartDashboard.getNumber("kD Drive", kDDrive);
+
+        SmartDashboard.getNumber("kP Balance", kPBalance);
+        SmartDashboard.getNumber("kI Balance", kIBalance);
+        SmartDashboard.getNumber("kD Balance", kDBalance);
+
+        xController.setP(kPX); xController.setI(kIX); xController.setD(kDX);
+        yController.setP(kPY); yController.setI(kIY); yController.setD(kDY);
+        thetaController.setP(kPTheta); thetaController.setI(kITheta); thetaController.setD(kDTheta);
+        driveController.setP(kPDrive); driveController.setI(kIDrive); driveController.setD(kDDrive);
+        balanceController.setP(kPBalance); balanceController.setI(kIBalance); balanceController.setD(kDBalance);
+
+
+
         //AUTO: takes sample of path per second and adjusts robot to match path
         if (mode == Control.PATH && path != null) {
             PathPlannerTrajectory.PathPlannerState goal = ((PathPlannerTrajectory.PathPlannerState) path.sample(pathTime.get()));
@@ -170,9 +180,7 @@ public class DriveSubsystem extends SubsystemBase{
             setGoalChassisSpeeds(adjustedSpeeds);
 
             pathIsFinished();
-        }
-
-        if (mode == Control.BALANCE) {
+        } else if (mode == Control.BALANCE) {
             if (!balanceFound) {
                 Pose2d currentPose = RobotState.getInstance().getOdometryFieldToRobot();
                 double currentX = currentPose.getX();
@@ -196,6 +204,8 @@ public class DriveSubsystem extends SubsystemBase{
             }
 
             balanceIsFinished();
+        } else {
+            // JOYSTICK COMMANDS
         }
 
         for (int i = 0; i < 4; i++) {
