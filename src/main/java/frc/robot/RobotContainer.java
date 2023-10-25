@@ -37,8 +37,8 @@ public class RobotContainer {
             drive,
             () -> -leftJoystick.getRawAxis(1),
             () -> -leftJoystick.getRawAxis(0),
-            () -> rightJoystick.getRawAxis(0),
-            false
+            () -> -rightJoystick.getRawAxis(0),
+            true
         ));
         configureButtonBindings();
         

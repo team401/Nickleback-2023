@@ -3,6 +3,7 @@ package frc.robot.subsystems.drive;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 
 public class PigeonInterface{
@@ -23,6 +24,7 @@ public class PigeonInterface{
     }
 
     public double getHeading() {
+        SmartDashboard.putNumber("heading", pigeon.getYaw() - degHeadingOffset);
         return Units.degreesToRadians(pigeon.getYaw() - degHeadingOffset);
     }
 

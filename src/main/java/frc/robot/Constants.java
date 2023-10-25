@@ -34,10 +34,10 @@ public class Constants {
         public static final double wheelBase = Units.inchesToMeters(22.4); // TODO: Might have to change
 
         public static final int frontLeftDriveID = 1;
-		public static final int backLeftDriveID = 3;
+        public static final int frontRightDriveID = 3;
 		public static final int backRightDriveID = 5;
-		public static final int frontRightDriveID = 7;
-
+		public static final int backLeftDriveID = 7;
+		
         public static final int frontLeftRotationMotorID = 2;
         public static final int frontRightRotationMotorID = 4;
         public static final int backRightRotationMotorID = 6;
@@ -48,10 +48,10 @@ public class Constants {
         public static final int backRightRotationEncoderID = 3;
         public static final int backLeftRotationEncoderID = 4; 
 
-        public static final double frontLeftAngleOffset = 0.739378739760879;
-        public static final double frontRightAngleOffset = 2.555611992617478; 
-        public static final double backRightAngleOffset = 5.533068701903508 - Math.PI; // TODO: Might have to switch these
-        public static final double backLeftAngleOffset = 2.551010050253821; // TODO: Might have to switch these
+        public static final double frontLeftAngleOffset = -2.3930100291016;
+        public static final double frontRightAngleOffset = 2.560213934981135; 
+        public static final double backRightAngleOffset = 2.389942067525829; // TODO: Might have to switch these
+        public static final double backLeftAngleOffset = -0.582912699396544; // TODO: Might have to switch these
 
 		public static final double autoDrivePercent = 0.6;
         public static final double driveWheelGearReduction = 6.12; // placeholder
@@ -67,7 +67,7 @@ public class Constants {
 
         public static final SimpleMotorFeedforward driveFF = new SimpleMotorFeedforward(0.2, 0.3); // TODO: Not used
 
-        public static final int pigeonIMU = 0;
+        public static final int pigeonIMU = 5;
         
         public static final double driveJoystickDeadbandPercent = 0.12;
 

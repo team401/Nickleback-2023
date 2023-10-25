@@ -32,7 +32,7 @@ public class DriveSubsystem extends SubsystemBase{
         driveModules[1] = new SwerveModules(DriveConstants.frontRightDriveID, DriveConstants.frontRightRotationMotorID,
         DriveConstants.frontRightRotationEncoderID, DriveConstants.frontRightAngleOffset, true, false);
         driveModules[2] = new SwerveModules(DriveConstants.backRightDriveID, DriveConstants.backRightRotationMotorID,
-        DriveConstants.backRightRotationEncoderID, DriveConstants.backRightAngleOffset, true, false);
+        DriveConstants.backRightRotationEncoderID, DriveConstants.backRightAngleOffset, false, false);
         driveModules[3] = new SwerveModules(DriveConstants.backLeftDriveID, DriveConstants.backLeftRotationMotorID,
         DriveConstants.backLeftRotationEncoderID, DriveConstants.backLeftAngleOffset, false, false);
 
@@ -103,6 +103,12 @@ public class DriveSubsystem extends SubsystemBase{
     public void setGoalChassisSpeeds(ChassisSpeeds speeds) {
         speeds = new ChassisSpeeds(speeds.vxMetersPerSecond * (babyMode ? 0.2 : 1), speeds.vyMetersPerSecond * (babyMode ? 0.2 : 1), speeds.omegaRadiansPerSecond * (babyMode ? 0.1 : 1));
         SwerveModuleState[] goalModuleStates = DriveConstants.kinematics.toSwerveModuleStates(speeds);
+
+        // Convert back to spiral order.
+        SwerveModuleState tmp = goalModuleStates[2];
+        goalModuleStates[2] = goalModuleStates[3];
+        goalModuleStates[3] = tmp;
+
         SwerveDriveKinematics.desaturateWheelSpeeds(goalModuleStates, DriveConstants.maxDriveSpeed);
         if (speeds.vxMetersPerSecond == 0 && speeds.vyMetersPerSecond == 0 && speeds.omegaRadiansPerSecond == 0) {
             goalModuleStates = new SwerveModuleState[] {
