@@ -22,12 +22,12 @@ public class Constants {
         public static final double stowShootPosition = 0;
         public static final double lowShootVoltage = -0.1;
         public static final double midShootVoltage = -0.2;
-        public static final double highShootVoltage = -0.5;
+        public static final double highShootVoltage = -0.75;
         public static final double intakeVoltage = 0.2;
         public static final double spitVoltage = 0.5;
 
         public static final double topShootPower = 0.5;
-        public static final double topIntakePower = -0.5;
+        public static final double topIntakePower = -0.75;
 
     }
 
