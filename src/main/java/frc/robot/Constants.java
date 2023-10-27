@@ -7,6 +7,8 @@ import edu.wpi.first.math.util.Units;
 
 public class Constants {
 
+    public static final double autoDriveTime = 5;
+
     public final class ArmConstants {
 
         public static final int wristMotorID = 19;  //19?
