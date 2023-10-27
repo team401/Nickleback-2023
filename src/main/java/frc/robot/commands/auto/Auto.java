@@ -31,7 +31,8 @@ public class Auto extends SequentialCommandGroup {
                 new WaitCommand(driveTime)
             ),
             new InstantCommand(() -> SmartDashboard.putBoolean("drive finished", true)),
-            new InstantCommand(() -> drive.setGoalChassisSpeeds(new ChassisSpeeds(0, 0, 0)))
+            new InstantCommand(() -> drive.setGoalChassisSpeeds(new ChassisSpeeds(0, 0, 0))),
+            new ArmMove(arm, Mode.STOW)
         );  
     }
 }
