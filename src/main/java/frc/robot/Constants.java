@@ -51,18 +51,18 @@ public class Constants {
         public static final double frontLeftAngleOffset = 0.739378739760879;
         public static final double frontRightAngleOffset = 2.555611992617478; 
         public static final double backLeftAngleOffset = 2.551010050253821;
-        public static final double backRightAngleOffset = 5.533068701903508;
+        public static final double backRightAngleOffset = 2.39147604831;
 
 		public static final double autoDrivePercent = 0.6;
-        public static final double driveWheelGearReduction = 6.12; // placeholder
+        public static final double driveWheelGearReduction = 6.12;
         public static final double wheelRadiusM = Units.inchesToMeters(2);
 
         public static final SwerveDriveKinematics kinematics = 
             new SwerveDriveKinematics(
-                new Translation2d(trackWidth / 2.0, wheelBase / 2.0), //front left placeholder
-                new Translation2d(trackWidth / 2.0, -wheelBase / 2.0), //front right placeholder
-                new Translation2d(-trackWidth / 2.0, wheelBase / 2.0), //rear left placeholder
-                new Translation2d(-trackWidth / 2.0, -wheelBase / 2.0) //rear right placeholder
+                new Translation2d(trackWidth / 2.0, wheelBase / 2.0), //front left 
+                new Translation2d(trackWidth / 2.0, -wheelBase / 2.0), //front right 
+                new Translation2d(-trackWidth / 2.0, wheelBase / 2.0), //rear left 
+                new Translation2d(-trackWidth / 2.0, -wheelBase / 2.0) //rear right
         );
 
         public static final SimpleMotorFeedforward driveFF = new SimpleMotorFeedforward(0.2, 0.3); //placeholder 
@@ -71,7 +71,7 @@ public class Constants {
         
         public static final double driveJoystickDeadbandPercent = 0.05; //placeholder
 
-        public static final double maxDriveSpeed = 14; //placeholder
+        public static final double maxDriveSpeed = 5; //placeholder
         public static final double maxTurnRate = 2 * Math.PI; //placeholder
 
         public static final double driveKp = 0.01; //placeholder

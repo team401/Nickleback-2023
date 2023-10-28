@@ -34,7 +34,7 @@ public class DriveSubsystem extends SubsystemBase{
         driveModules[2] = new SwerveModules(DriveConstants.backLeftDriveID, DriveConstants.backLeftRotationMotorID,
         DriveConstants.backLeftRotationEncoderID, DriveConstants.backLeftAngleOffset, false, false);
         driveModules[3] = new SwerveModules(DriveConstants.backRightDriveID, DriveConstants.backRightRotationMotorID,
-        DriveConstants.backRightRotationEncoderID, DriveConstants.backRightAngleOffset, false, false);
+        DriveConstants.backRightRotationEncoderID, DriveConstants.backRightAngleOffset, true, false);
 
         for (int i = 0; i < 4; i++) {
             driveModules[i].zeroEncoders();
