@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.auto.Auto;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,8 +23,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * directory.
  */
 public class Robot extends TimedRobot {
-
-  private final Timer m_timer = new Timer();
 
   private RobotContainer m_robotContainer;
   
@@ -53,9 +52,7 @@ public class Robot extends TimedRobot {
   /** This function is run once each time the robot enters autonomous mode. */
   @Override
   public void autonomousInit() {
-    m_timer.reset();
-    m_timer.start();
-
+    m_robotContainer.getAutonomous().schedule();
     
   }
 

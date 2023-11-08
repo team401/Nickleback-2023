@@ -1,21 +1,23 @@
-package frc.robot.commands.drive;
-
+package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import frc.robot.Constants.DriveConstants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.drive.DriveSubsystem;
 
-public class SwerveDriveCommand extends CommandBase{
+
+public class DriveWithJoysticks extends CommandBase{
     private final DriveSubsystem drive;
     private final DoubleSupplier xPercent;
     private final DoubleSupplier yPercent;
     private final DoubleSupplier omegaPercent;
     private final boolean fieldRelative;
 
-    public SwerveDriveCommand(DriveSubsystem drive, DoubleSupplier xPercent, DoubleSupplier yPercent, DoubleSupplier omegaPercent, boolean fieldRelative) {
+    public DriveWithJoysticks(DriveSubsystem drive, DoubleSupplier xPercent, DoubleSupplier yPercent, DoubleSupplier omegaPercent, 
+            boolean fieldRelative){
         this.drive = drive;
         this.xPercent = xPercent;
         this.yPercent = yPercent;
@@ -25,12 +27,10 @@ public class SwerveDriveCommand extends CommandBase{
         addRequirements(drive);
     }
 
-    // Called when the command is initially scheduled.
     @Override
     public void initialize() {
     }
 
-    // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
         double xMPerS = processJoystickInputs(xPercent.getAsDouble(), false) * DriveConstants.maxDriveSpeed;
@@ -43,16 +43,6 @@ public class SwerveDriveCommand extends CommandBase{
             : new ChassisSpeeds(xMPerS, yMPerS, omegaRadPerS);
 
         drive.setGoalChassisSpeeds(targetSpeeds);
-    }
-
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {}
-
-    // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-        return false;
     }
 
     private double processJoystickInputs(double value, boolean square) {
@@ -68,4 +58,11 @@ public class SwerveDriveCommand extends CommandBase{
         }
         return scaledValue;
     }
+
+    @Override
+    public void end(boolean interrupted) {
+    }
+
+
+
 }
