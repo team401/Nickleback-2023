@@ -3,7 +3,10 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
 
-
+/*
+    simulates swerve module state and positions
+    based on YAGSL-Example repository (https://github.com/BroncBotz3481/YAGSL-Example/)
+*/
 public class SwerveModuleSim {
     private final Timer time;
     private double timeSinceUpdate;
