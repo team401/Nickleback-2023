@@ -21,6 +21,9 @@ public class SwerveModuleSim {
         simulatedStateSpeed = 0;
         timeSinceUpdate = 0;
     }
+    /*
+        @param desiredState - state swerve module should be set to
+    */
     public void updateStateAndPosition(SwerveModuleState desiredState) {
         timeSinceUpdate = timer.get() - lastTime;
         lastTime = timer.get();
@@ -29,9 +32,15 @@ public class SwerveModuleSim {
         simulatedStateSpeed = simulatedState.speedMetersPerSecond;
         simulatedPosition += (simulatedStateSpeed * timeSinceUpdate);
     }
+    /*
+        @return SwerveModulePosition of simulatedState
+    */
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(simulatedPosition, simulatedState.angle);
     }
+    /*
+        @return the simulated state
+    */
     public SwerveModuleState getState() {
         return simulatedState;
     }

@@ -15,6 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.subsystems.drive.SwerveModuleSim;
 
 
 public class SwerveModules extends SubsystemBase{
@@ -27,6 +28,7 @@ public class SwerveModules extends SubsystemBase{
 
     private SwerveModulePosition modulePosition = new SwerveModulePosition();
     private SwerveModuleState goalModuleState =  new SwerveModuleState();
+    private SwerveModuleSim simulationModule;
 
     //private final CANCoder driveEncoder;  it is built in
     private final CANCoder rotationEncoder;
@@ -64,8 +66,10 @@ public class SwerveModules extends SubsystemBase{
         //drivePidController.setOutputRange(0, 100);
 
         rotationPID.enableContinuousInput(-Math.PI, Math.PI);
-        
-    
+
+        if(RobotBase.isReal()) {
+            simulationModule = new SwerveModuleSim();
+        }
     }
 
     public double getDrivePosition() {
@@ -126,15 +130,18 @@ public class SwerveModules extends SubsystemBase{
     }
 
     public SwerveModulePosition getModulePosition(){
-        return modulePosition;
+        return RobotBase.isReal() ? modulePosition: simulationModule.getPosition();
     } 
 
     public SwerveModuleState getModuleState(){
-        return goalModuleState;
+        return RobotBase.isReal() ? goalModuleState : simulationModule.getState();
     }
 
     public void setGoalModuleState(SwerveModuleState state){
         goalModuleState = state;
+        if (RobotBase.isReal()) {
+            simulationModule.updateStateAndPosition(state);
+        }
     }
 
     public void initModulePosition(){
