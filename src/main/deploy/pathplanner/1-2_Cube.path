@@ -16,9 +16,7 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [
-          "ShootCube"
-        ],
+        "names": [],
         "executionBehavior": "parallel",
         "waitBehavior": "before",
         "waitTime": 0
@@ -26,16 +24,16 @@
     },
     {
       "anchorPoint": {
-        "x": 7.026599797880447,
-        "y": 4.5766568128880944
+        "x": 7.040813017796249,
+        "y": 4.590870032803896
       },
       "prevControl": {
-        "x": 5.463145607142279,
-        "y": 4.555336983014392
+        "x": 5.47735882705808,
+        "y": 4.569550202930194
       },
       "nextControl": {
-        "x": 5.463145607142279,
-        "y": 4.555336983014392
+        "x": 5.47735882705808,
+        "y": 4.569550202930194
       },
       "holonomicAngle": 0,
       "isReversal": true,
@@ -43,9 +41,7 @@
       "isLocked": false,
       "isStopPoint": true,
       "stopEvent": {
-        "names": [
-          "IntakeCube"
-        ],
+        "names": [],
         "executionBehavior": "parallel",
         "waitBehavior": "before",
         "waitTime": 0
@@ -67,14 +63,19 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [
-          "ShootCube"
-        ],
+        "names": [],
         "executionBehavior": "parallel",
         "waitBehavior": "before",
         "waitTime": 0
       }
     }
   ],
-  "markers": []
+  "markers": [
+    {
+      "position": 1.0,
+      "names": [
+        "IntakeCube"
+      ]
+    }
+  ]
 }
