@@ -12,10 +12,12 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.util.ReplanningConfig;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathHolonomic;
 import com.pathplanner.lib.commands.FollowPathWithEvents;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -48,18 +50,21 @@ public class Auto extends SequentialCommandGroup {
         
         PathPlannerPath pathGroup = PathPlannerPath.fromPathFile(pathName);
 
+        List<Pair<String, Command>> commands = new ArrayList<Pair<String, Command>>();
+        commands.add(new Pair<String, Command> ("intakeCube", new InstantCommand(() -> arm.setMode(Mode.SHOOT_HIGH))));
+        commands.add(new Pair<String, Command> ("shootCube", new InstantCommand(() -> arm.setMode(Mode.INTAKE))));
+    
+        NamedCommands.registerCommands(commands);
+
         addCommands(followPath());
 
     }
 
 
+    //
 
     public FollowPathWithEvents followPath() {
         PathPlannerPath pathGroup = PathPlannerPath.fromPathFile(pathName);
-
-        HashMap<String, Command> eventMap = new HashMap<>();
-        eventMap.put("ShootCube", new InstantCommand(() -> arm.setMode(Mode.SHOOT_HIGH)));
-        eventMap.put("IntakeCube", new InstantCommand(() -> arm.setMode(Mode.INTAKE)));
 
         Supplier<Pose2d> poseSupplier = () -> RobotState.getInstance().getOdometryFieldToRobot(); 
         Supplier<ChassisSpeeds> speedsSupplier = () -> drive.getChassisSpeeds();
