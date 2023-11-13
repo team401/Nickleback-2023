@@ -25,7 +25,9 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotState;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ArmSubsystem.Mode;
@@ -51,11 +53,26 @@ public class Auto extends SequentialCommandGroup {
 
         
         PathPlannerPath pathGroup = PathPlannerPath.fromPathFile(pathName);
+        
 
+        //TODO: will events wait until the command is finished to continue or will the robot continue running while the command runs?
+        
         List<Pair<String, Command>> commands = new ArrayList<Pair<String, Command>>();
-        commands.add(new Pair<String, Command> ("intakeCube", new InstantCommand(() -> arm.setMode(Mode.SHOOT_HIGH))));
+        commands.add(new Pair<String, Command> ("shootCube", 
+            new SequentialCommandGroup(
+                new RunCommand(() -> arm.setMode(Mode.SHOOT_HIGH)),
+                new WaitCommand(0.1),
+                new RunCommand(() -> arm.setMode(Mode.STOW))
+            )));
+
+        commands.add(new Pair<String, Command> ("intakeCube", 
+            new SequentialCommandGroup(
+                new RunCommand(() -> arm.setMode(Mode.INTAKE)),
+                new WaitCommand(1),
+                new RunCommand(() -> arm.setMode(Mode.STOW))
+            )));
+
         commands.add(new Pair<String, Command> ("shootCube", new InstantCommand(() -> arm.setMode(Mode.INTAKE))));
-        commands.add(new Pair<String, Command> ("stow", new InstantCommand(() -> arm.setMode(Mode.STOW))));
     
         NamedCommands.registerCommands(commands);
 
