@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmMove;
 import frc.robot.commands.DriveWithJoysticks;
+import frc.robot.commands.auto.Auto;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ArmSubsystem.Mode;
 import frc.robot.subsystems.drive.DriveSubsystem;
@@ -33,6 +34,7 @@ public class RobotContainer {
     private ArmMove armSpit = new ArmMove(arm, Mode.SPIT);
 
     SendableChooser<String> autoChooser = new SendableChooser<String>();
+    
 
     public RobotContainer() {
         
@@ -45,7 +47,10 @@ public class RobotContainer {
         ));
         configureButtonBindings();
         
-        SmartDashboard.putNumber("Auto Drive Time", 5);
+        autoChooser.setDefaultOption("Position 1, 2 Ball, No Balance", "1-2_Cube");
+        autoChooser.addOption("Position 1, 1 Ball, Balance", "1-1_Cube_Balance");
+
+        SmartDashboard.putData("Auto Mode", autoChooser);
     }
 
     private void configureButtonBindings() {
@@ -64,6 +69,10 @@ public class RobotContainer {
                 () -> {drive.resetHeading();
                 }));
             
+    }
+
+    public Command getAutonomous() {
+        return new Auto(autoChooser.getSelected(), arm, drive);
     }
 
 
