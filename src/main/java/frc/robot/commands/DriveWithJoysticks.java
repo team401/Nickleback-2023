@@ -9,7 +9,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.drive.DriveSubsystem;
 
 
-public class DriveWithJoysticks extends Command{
+public class DriveWithJoysticks extends Command {
     private final DriveSubsystem drive;
     private final DoubleSupplier xPercent;
     private final DoubleSupplier yPercent;

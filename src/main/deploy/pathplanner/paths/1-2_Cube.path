@@ -45,8 +45,8 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.0,
+      "name": "intakeCube",
+      "waypointRelativePos": 0.95,
       "command": {
         "type": "parallel",
         "data": {
@@ -55,6 +55,40 @@
               "type": "named",
               "data": {
                 "name": "intakeCube"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "atStart",
+      "waypointRelativePos": 0.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shootCube"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "atEnd",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shootCube"
               }
             }
           ]

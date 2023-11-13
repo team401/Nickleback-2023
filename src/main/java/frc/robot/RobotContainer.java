@@ -67,9 +67,6 @@ public class RobotContainer {
             
     }
 
-    public Command getAutonomous() {
-        return new Auto(arm, drive, Constants.autoDriveTime);
-    }
 
 
 }
