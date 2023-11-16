@@ -1,10 +1,13 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.arm;
+
+import java.beans.Encoder;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -13,7 +16,7 @@ import frc.robot.subsystems.Intake;
 
 
 
-public class ArmSubsystem extends SubsystemBase{
+public class ArmSubsystemHardware implements ArmSubsystemIO {
     
     private CANSparkMax wristMotor;
     private double wristTolerance = 1;
@@ -36,22 +39,10 @@ public class ArmSubsystem extends SubsystemBase{
     private double shooterShootPower = -1;
     private double shooterWarmup = 0;
 
-
-
-    public static enum Mode {
-        IDLE,
-        INTAKE,
-        STOW,
-        SHOOT_HIGH,
-        SHOOT_MID,
-        SHOOT_LOW,
-        SPIT;
-    }
-
     private Mode currentMode = Mode.IDLE;
     private double wristGoalPosition = 0.0;
 
-    public ArmSubsystem() {
+    public ArmSubsystemHardware () {
         wristMotor = new CANSparkMax(Constants.ArmConstants.wristMotorID, MotorType.kBrushless);
     
         intake = new Intake();
@@ -127,7 +118,7 @@ public class ArmSubsystem extends SubsystemBase{
     }
 
 
-    public void wristControl() {
+    private void wristControl() {
         double output = wristController.calculate(getWristPosition(), wristGoalPosition);
         setWristMotorPower(output);
         // checkWristAmps();

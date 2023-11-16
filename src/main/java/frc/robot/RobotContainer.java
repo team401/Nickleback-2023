@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmMove;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.auto.Auto;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.ArmSubsystem.Mode;
+import frc.robot.subsystems.arm.ArmSubsystemHardware;
+import frc.robot.subsystems.arm.ArmSubsystemHardware.Mode;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 public class RobotContainer {
 
     private final DriveSubsystem drive = new DriveSubsystem();
-    private ArmSubsystem arm = new ArmSubsystem();
+    private ArmSubsystemHardware arm = new ArmSubsystemHardware();
 
     private Joystick leftJoystick = new Joystick(0);
     private Joystick rightJoystick = new Joystick(1);

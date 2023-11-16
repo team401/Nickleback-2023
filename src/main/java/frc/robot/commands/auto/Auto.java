@@ -12,14 +12,14 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ArmMove;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.ArmSubsystem.Mode;
+import frc.robot.subsystems.arm.ArmSubsystemHardware;
+import frc.robot.subsystems.arm.ArmSubsystemHardware.Mode;
 import frc.robot.subsystems.drive.DriveSubsystem;
 
 public class Auto extends SequentialCommandGroup {
 
 
-    public Auto(ArmSubsystem arm, DriveSubsystem drive, double driveTime) {
+    public Auto(ArmSubsystemHardware arm, DriveSubsystem drive, double driveTime) {
         addRequirements(arm);
         addRequirements(drive);
 
