@@ -4,8 +4,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.subsystems.arm.ArmSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.ArmSubsystem;
 
 public class Intake {
   private CANSparkMax leftMotor, rightMotor, topIntakeMotor;
