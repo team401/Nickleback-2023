@@ -1,11 +1,10 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ArmSubsystem.Mode;
 
-public class ArmMove extends CommandBase {
+public class ArmMove extends Command {
 
     private ArmSubsystem arm;
     private Mode mode;

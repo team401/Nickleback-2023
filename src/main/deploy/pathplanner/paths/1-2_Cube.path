@@ -1,0 +1,112 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.5545101302968576,
+        "y": 4.669042742340804
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.3149173957922393,
+        "y": 4.619296472635499
+      },
+      "isLocked": false
+    },
+    {
+      "anchor": {
+        "x": 7.019493187922547,
+        "y": 4.669042742340804
+      },
+      "prevControl": {
+        "x": 7.019493187922547,
+        "y": 4.748497057118018
+      },
+      "nextControl": {
+        "x": 7.019493187922547,
+        "y": 4.647722912467102
+      },
+      "isLocked": false
+    },
+    {
+      "anchor": {
+        "x": 1.5545101302968576,
+        "y": 4.669042742340804
+      },
+      "prevControl": {
+        "x": 2.22963807629743,
+        "y": 4.619296472635498
+      },
+      "nextControl": null,
+      "isLocked": false
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "intakeCube",
+      "waypointRelativePos": 0.95,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "intakeCube"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "atStart",
+      "waypointRelativePos": 0.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shootCube"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "atEnd",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "shootCube"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3,
+    "maxAcceleration": 3,
+    "maxAngularVelocity": 540,
+    "maxAngularAcceleration": 720
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0
+  },
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": null
+}
