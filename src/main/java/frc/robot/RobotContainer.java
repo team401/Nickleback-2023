@@ -20,18 +20,18 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 public class RobotContainer {
 
     private final DriveSubsystem drive = new DriveSubsystem();
-    private ArmSubsystem arm = new ArmSubsystem();
+    //private ArmSubsystem arm = new ArmSubsystem();
 
     private Joystick leftJoystick = new Joystick(0);
     private Joystick rightJoystick = new Joystick(1);
 
     private CommandXboxController gamepad = new CommandXboxController(2);
 
-    private ArmMove armIntake = new ArmMove(arm, Mode.INTAKE);
+    /*private ArmMove armIntake = new ArmMove(arm, Mode.INTAKE);
     private ArmMove armShootHigh = new ArmMove(arm, Mode.SHOOT_HIGH);
     private ArmMove armShootMid = new ArmMove(arm, Mode.SHOOT_MID);
     private ArmMove armShootLow = new ArmMove(arm, Mode.SHOOT_LOW);
-    private ArmMove armSpit = new ArmMove(arm, Mode.SPIT);
+    private ArmMove armSpit = new ArmMove(arm, Mode.SPIT);*/
 
     SendableChooser<String> autoChooser = new SendableChooser<String>();
     
@@ -54,7 +54,7 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        gamepad.a()
+        /*gamepad.a()
             .whileTrue(armIntake);
         gamepad.y()
             .whileTrue(armShootHigh);
@@ -63,7 +63,7 @@ public class RobotContainer {
         gamepad.x()
             .whileTrue(armShootLow);
         new Trigger(() -> gamepad.getLeftY() < -0.7)
-            .whileTrue(armSpit);
+            .whileTrue(armSpit);*/
         new JoystickButton(rightJoystick, 1)
             .whileTrue(new InstantCommand(
                 () -> {drive.resetHeading();
@@ -72,7 +72,8 @@ public class RobotContainer {
     }
 
     public Command getAutonomous() {
-        return new Auto(autoChooser.getSelected(), arm, drive);
+        //return new Auto(autoChooser.getSelected(), arm, drive);
+        return new Auto("1-1_Cube_Balance", null, drive);
     }
 
 

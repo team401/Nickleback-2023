@@ -58,7 +58,7 @@ public class Auto extends SequentialCommandGroup {
         //TODO: will events wait until the command is finished to continue or will the robot continue running while the command runs?
         
         List<Pair<String, Command>> commands = new ArrayList<Pair<String, Command>>();
-        commands.add(new Pair<String, Command> ("shootCube", 
+        /*commands.add(new Pair<String, Command> ("shootCube", 
             new SequentialCommandGroup(
                 new RunCommand(() -> arm.setMode(Mode.SHOOT_HIGH)),
                 new WaitCommand(0.1),
@@ -73,6 +73,7 @@ public class Auto extends SequentialCommandGroup {
             )));
 
         commands.add(new Pair<String, Command> ("shootCube", new InstantCommand(() -> arm.setMode(Mode.INTAKE))));
+        */
     
         NamedCommands.registerCommands(commands);
 
