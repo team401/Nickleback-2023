@@ -6,7 +6,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 
-public class PigeonInterface{
+public class PigeonInterface extends AngleIO {
 
     private final PigeonIMU pigeon;
 

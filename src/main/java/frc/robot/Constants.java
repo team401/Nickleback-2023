@@ -7,6 +7,9 @@ import edu.wpi.first.math.util.Units;
 
 public class Constants {
 
+    // Is robot real
+    public static final boolean isReal = Robot.isReal();
+
     public static final double autoDriveTime = 5;
 
     public final class ArmConstants {
