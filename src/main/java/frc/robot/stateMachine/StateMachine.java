@@ -1,45 +1,44 @@
 package frc.robot.stateMachine;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 
 public class StateMachine {
-    private ArrayList<Path> paths;
-    private String desiredState;
     private String currentState;
-    private int desiredPathIndex = -1;
-    public StateMachine(String c) {
-        currentState = c;
-        desiredState = "";
+    private String initialState;
+    private HashMap<String, ArrayList<Edge>> edges;
+
+    public StateMachine(String init) {
+        initialState = init;
+        currentState = init;
+        edges = new HashMap<>();
+        edges.put(init, new ArrayList<Edge>());
     }
-    public StateMachine(String c, String d, ArrayList<Path> p) {
-        currentState = c;
-        desiredState = d;
-        paths = p;
+    public String getCurrentState() {
+        return currentState;
     }
-    public void setCurrentState(String c) {
-        currentState = c;
-        setPathIndex();
+    public void setInitialState(String state) {
+        initialState = state;
     }
-    private void setPathIndex () {
-        for(int i = 0; i < paths.size(); i++) {
-            if(paths.get(i).checkForValidPath(currentState, desiredState)) {
-                desiredPathIndex = i;
+    public void addEdge(Edge edge) {
+       if(edges.containsKey(edge.getBaseState())) { // modify existing arraylist
+            ArrayList<Edge> currentEdges = edges.get(edge.getBaseState());
+            currentEdges.add(edge);
+            edges.put(edge.getBaseState(), currentEdges);
+       } else { // create new key-value
+            ArrayList<Edge> newEdges = new ArrayList<Edge>();
+            newEdges.add(edge);
+            edges.put(edge.getBaseState(), newEdges);
+       }
+    }
+    public void command(String edge) {
+        ArrayList<Edge> edgesFromCurrentState = edges.get(currentState);
+        for (Edge e : edgesFromCurrentState) {
+            if(e.getEdgeName() == edge) {
+                // switch state to next edge
+                currentState = e.getEndState();
             }
-       }
-       if(desiredPathIndex == -1) {
-            // no path possible
-       }
-    }
-    public void setDesiredState(String desired) {
-        desiredState = desired;
-        setPathIndex();
-    }
-    public String getNextState() {
-        return paths.get(desiredPathIndex).nextEdge();
-    }
-    public void addPath(String base, String[] p) {
-        Path temp = new Path(base, p);
-        paths.add(temp);
+            // currentState won't change otherwise
+        }
     }
 }
