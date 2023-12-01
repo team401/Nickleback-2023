@@ -5,11 +5,9 @@ import java.util.HashMap;
 
 public class StateMachine {
     private String currentState;
-    private String initialState;
     private HashMap<String, ArrayList<Edge>> edges;
 
     public StateMachine(String init) {
-        initialState = init;
         currentState = init;
         edges = new HashMap<>();
         edges.put(init, new ArrayList<Edge>());
