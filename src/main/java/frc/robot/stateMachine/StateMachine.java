@@ -17,9 +17,6 @@ public class StateMachine {
     public String getCurrentState() {
         return currentState;
     }
-    public void setInitialState(String state) {
-        initialState = state;
-    }
     public void addEdge(Edge edge) {
        if(edges.containsKey(edge.getBaseState())) { // modify existing arraylist
             ArrayList<Edge> currentEdges = edges.get(edge.getBaseState());
@@ -37,6 +34,7 @@ public class StateMachine {
             if(e.getEdgeName() == edge) {
                 // switch state to next edge
                 currentState = e.getEndState();
+                break;
             }
             // currentState won't change otherwise
         }
