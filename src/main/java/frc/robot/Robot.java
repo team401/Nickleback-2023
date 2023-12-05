@@ -60,6 +60,8 @@ public class Robot extends TimedRobot {
 
     CommandScheduler.getInstance().run();
 
+    RobotState.getInstance().getOdometryFieldToRobot();
+
     SmartDashboard.putNumber("Loop Time", loopTimer.get() * 1000);
     loopTimer.reset();
     loopTimer.start();

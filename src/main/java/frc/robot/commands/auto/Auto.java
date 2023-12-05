@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import javax.management.InstanceNotFoundException;
+
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerTrajectory;
 import com.pathplanner.lib.util.PIDConstants;
@@ -23,6 +25,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -72,10 +75,18 @@ public class Auto extends SequentialCommandGroup {
                 new RunCommand(() -> arm.setMode(Mode.STOW))
             )));
 
-        commands.add(new Pair<String, Command> ("shootCube", new InstantCommand(() -> arm.setMode(Mode.INTAKE))));
         */
+
+        commands.add(new Pair<String, Command> ("shootCube", 
+            new InstantCommand(() -> SmartDashboard.putString("armState", "shootCube"))));
+
+            commands.add(new Pair<String, Command> ("intakeCube", 
+            new InstantCommand(() -> SmartDashboard.putString("armState", "intakeCube"))));
+        
     
         NamedCommands.registerCommands(commands);
+
+        //addCommands(new InstantCommand(() -> drive.setGoalChassisSpeeds(new ChassisSpeeds(1, 1, 0))));
 
         addCommands(followPath());
 
@@ -85,6 +96,8 @@ public class Auto extends SequentialCommandGroup {
     //
 
     public FollowPathWithEvents followPath() {
+
+
         PathPlannerPath pathGroup = PathPlannerPath.fromPathFile(pathName);
 
         Supplier<Pose2d> poseSupplier = () -> RobotState.getInstance().getOdometryFieldToRobot(); 

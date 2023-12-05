@@ -37,6 +37,7 @@ public class RobotContainer {
     
 
     public RobotContainer() {
+        SmartDashboard.putNumber("running", 0);
         
         drive.setDefaultCommand(new DriveWithJoysticks(
             drive,
@@ -72,8 +73,12 @@ public class RobotContainer {
     }
 
     public Command getAutonomous() {
-        //return new Auto(autoChooser.getSelected(), arm, drive);
-        return new Auto("1-1_Cube_Balance", null, drive);
+        
+        //return new Auto("1-1_Cube_Balance", arm, drive);
+        SmartDashboard.putNumber("running", 5);
+        //return new Auto("1-1_Cube_Balance", null, drive);
+        return new Auto(autoChooser.getSelected(), null, drive);
+        
     }
 
 
