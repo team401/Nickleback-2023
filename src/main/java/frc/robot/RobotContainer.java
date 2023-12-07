@@ -77,7 +77,7 @@ public class RobotContainer {
         //return new Auto("1-1_Cube_Balance", arm, drive);
         SmartDashboard.putNumber("running", 5);
         //return new Auto("1-1_Cube_Balance", null, drive);
-        return new Auto(autoChooser.getSelected(), null, drive);
+        return new Auto("Testing Path", null, drive);
         
     }
 

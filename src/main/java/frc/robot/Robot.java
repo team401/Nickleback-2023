@@ -40,6 +40,8 @@ public class Robot extends TimedRobot {
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
 
+    SmartDashboard.putBoolean("SmartDashboard Receiving", true);
+
     m_robotContainer = new RobotContainer();
     
     pdh = new PowerDistribution(1, ModuleType.kRev);

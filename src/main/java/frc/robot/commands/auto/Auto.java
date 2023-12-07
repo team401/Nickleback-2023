@@ -22,6 +22,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -78,16 +79,18 @@ public class Auto extends SequentialCommandGroup {
         */
 
         commands.add(new Pair<String, Command> ("shootCube", 
-            new InstantCommand(() -> SmartDashboard.putString("armState", "shootCube"))));
+            new InstantCommand(() -> {
+                SmartDashboard.putBoolean("shootTime", true);
+                SmartDashboard.putBoolean("intakeTime", false);})));
 
-            commands.add(new Pair<String, Command> ("intakeCube", 
-            new InstantCommand(() -> SmartDashboard.putString("armState", "intakeCube"))));
-        
+       commands.add(new Pair<String, Command> ("intakeCube", 
+            new InstantCommand(() -> {
+                SmartDashboard.putBoolean("intakeTime", true);
+                SmartDashboard.putBoolean("shootTime", false);})));
     
         NamedCommands.registerCommands(commands);
 
         //addCommands(new InstantCommand(() -> drive.setGoalChassisSpeeds(new ChassisSpeeds(1, 1, 0))));
-
         addCommands(followPath());
 
     }
@@ -104,16 +107,17 @@ public class Auto extends SequentialCommandGroup {
         Supplier<ChassisSpeeds> speedsSupplier = () -> drive.getChassisSpeeds();
         Consumer<ChassisSpeeds> outputRobotRelative = chassisSpeeds -> drive.setGoalChassisSpeeds(chassisSpeeds);
 
+        RobotState.getInstance().resetOdometry(new Rotation2d(0), drive.getSwerveModulePositions(), pathGroup.getStartingDifferentialPose());
 
         Command followPathHolonomic = new FollowPathHolonomic(
             pathGroup, 
             poseSupplier, 
             speedsSupplier, 
             outputRobotRelative,
-            new PIDConstants(0, 0, 0), 
-            new PIDConstants(0, 0, 0),
-            5.0,
-            0.1,
+            new PIDConstants(1, 0, 0), 
+            new PIDConstants(1, 0, 0),
+            1.0,
+            40,
             0.02,
             new ReplanningConfig(),
             drive

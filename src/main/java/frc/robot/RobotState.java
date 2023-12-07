@@ -42,6 +42,8 @@ public class RobotState {
     public Pose2d getOdometryFieldToRobot() {
         field.setRobotPose(odometry.getPoseMeters());
         SmartDashboard.putData("Odometry Pose", field);
+        SmartDashboard.putNumber("Odometry X", field.getRobotPose().getX());
+        SmartDashboard.putNumber("Odometry Y", field.getRobotPose().getY());
 
         return odometry.getPoseMeters();
     }
