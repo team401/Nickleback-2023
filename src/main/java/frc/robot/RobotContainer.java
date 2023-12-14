@@ -1,5 +1,12 @@
 package frc.robot;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
+import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -10,7 +17,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmMove;
 import frc.robot.commands.DriveWithJoysticks;
-import frc.robot.commands.auto.Auto;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ArmSubsystem.Mode;
 import frc.robot.subsystems.drive.DriveSubsystem;
@@ -48,10 +54,9 @@ public class RobotContainer {
         ));
         configureButtonBindings();
         
-        autoChooser.setDefaultOption("Position 1, 2 Ball, No Balance", "1-2_Cube");
-        autoChooser.addOption("Position 1, 1 Ball, Balance", "1-1_Cube_Balance");
+        configAuto();
 
-        SmartDashboard.putData("Auto Mode", autoChooser);
+        
     }
 
     private void configureButtonBindings() {
@@ -73,12 +78,53 @@ public class RobotContainer {
     }
 
     public Command getAutonomous() {
+
+        //return new PathPlannerAuto("Testing Auto");
+        return new PathPlannerAuto(autoChooser.getSelected());
         
-        //return new Auto("1-1_Cube_Balance", arm, drive);
-        SmartDashboard.putNumber("running", 5);
-        //return new Auto("1-1_Cube_Balance", null, drive);
-        return new Auto("Testing Path", null, drive);
+    }
+
+    private void configAuto() {
+
+        autoChooser.setDefaultOption("Position 1, 2 Ball, No Balance", "1-2_Cube");
+        autoChooser.addOption("Position 1, 1 Ball, Balance", "1-1_Cube_Balance");
+        autoChooser.addOption("Testing Path", "Testing Auto");
+
+        SmartDashboard.putData("Auto Mode", autoChooser);
+
+
         
+        List<Pair<String, Command>> commands = new ArrayList<Pair<String, Command>>();
+        /*commands.add(new Pair<String, Command> ("shootCube", 
+            new SequentialCommandGroup(
+                new RunCommand(() -> arm.setMode(Mode.SHOOT_HIGH)),
+                new WaitCommand(0.1),
+                new RunCommand(() -> arm.setMode(Mode.STOW))
+            )));
+
+        commands.add(new Pair<String, Command> ("intakeCube", 
+            new SequentialCommandGroup(
+                new RunCommand(() -> arm.setMode(Mode.INTAKE)),
+                new WaitCommand(1),
+                new RunCommand(() -> arm.setMode(Mode.STOW))
+            )));
+
+        */
+
+        SmartDashboard.putBoolean("shootTime", false);
+        SmartDashboard.putBoolean("intakeTime", false);
+
+        commands.add(new Pair<String, Command> ("shootCube", 
+            new InstantCommand(() -> {
+                SmartDashboard.putBoolean("shootTime", true);
+                SmartDashboard.putBoolean("intakeTime", false);})));
+
+       commands.add(new Pair<String, Command> ("intakeCube", 
+            new InstantCommand(() -> {
+                SmartDashboard.putBoolean("intakeTime", true);
+                SmartDashboard.putBoolean("shootTime", false);})));
+    
+        NamedCommands.registerCommands(commands);
     }
 
 
