@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
   /** This function is run once each time the robot enters autonomous mode. */
   @Override
   public void autonomousInit() {
-    m_robotContainer.getAutonomous().schedule();
+    //m_robotContainer.getAutonomous().schedule();
     
   }
 
