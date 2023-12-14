@@ -1,0 +1,48 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.4278094270474257,
+      "y": 4.5520882470336375
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "shootCube"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Testing Path 1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "intakeCube"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Testing Path 2"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null
+}

@@ -1,0 +1,30 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.5687233502126592,
+      "y": 4.704575792130308
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "shootCube"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1_Balance"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null
+}

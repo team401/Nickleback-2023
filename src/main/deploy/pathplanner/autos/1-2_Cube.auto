@@ -1,0 +1,42 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.5545101302968576,
+      "y": 4.669042742340804
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "shootCube"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1_Collect First Cube"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "intakeCube"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1_Return First Cube"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null
+}

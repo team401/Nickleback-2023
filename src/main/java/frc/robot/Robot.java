@@ -40,6 +40,8 @@ public class Robot extends TimedRobot {
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
 
+    SmartDashboard.putBoolean("SmartDashboard Receiving", true);
+
     m_robotContainer = new RobotContainer();
     
     pdh = new PowerDistribution(1, ModuleType.kRev);
@@ -59,6 +61,8 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
 
     CommandScheduler.getInstance().run();
+
+    RobotState.getInstance().getOdometryFieldToRobot();
 
     SmartDashboard.putNumber("Loop Time", loopTimer.get() * 1000);
     loopTimer.reset();
